@@ -38,7 +38,7 @@ function calcularMediaViewCount(pais) {
 }
 
 // País para el que se desea calcular la media
-const paisBuscado = 'Spain';
+const paisBuscado = 'Slovenia';
 
 // Calcular la media de view_count para el país deseado
 const mediaViewCountPaisBuscado = calcularMediaViewCount(paisBuscado);
