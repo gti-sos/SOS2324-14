@@ -1,9 +1,6 @@
 const fs = require('fs');
 
-// Ruta del archivo CSV
 const filePath = 'youtube_dataset.csv';
-
-// Leer el archivo CSV de forma sincrónica
 const fileData = fs.readFileSync(filePath, 'utf-8');
 
 // Dividir el contenido del archivo en filas
