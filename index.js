@@ -12,6 +12,10 @@ app.get("/cool", (req,res)=>{
     res.send(`<html><body><h1>${cool()}</h1></body></html>`);
 });
 
+app.get("/samples/EGO", (req, res) => {
+    res.send("<html><body><h1>Resultado de los datos de Enrique</h1></body></html>")
+    res.send(`<script src="/Enrique/index-EGO.js" type=module></script>`)
+})
 
 app.listen(PORT,()=>{
     console.log(`Server listening on port ${PORT}.`);
