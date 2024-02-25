@@ -244,6 +244,8 @@ const movies_data = [
   }
 ]
 
+console.log(movies_data.slice(0, 3))
+
 // Lee el archivo CSV
 // let csvData = fs.readFileSync('./Enrique/movies_dataset.csv', 'utf8');
 

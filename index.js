@@ -3,16 +3,16 @@ let express = require("express");
 
 let data_VEG = require('./index-VEG');
 let calcularMediaTiempoPelea = require('./Nico/index-NRM');
-//let presupuestoMedio = require("./Enrique/index-EGO")
-//let movies = require("./Enrique/index-EGO");
 const movies_data = require("./Enrique/index-EGO");
-
-
 
 let app = express();
 const PORT = (process.env.PORT || 10002);
 
 app.use("/",express.static("./public"));
+
+app.listen(PORT,()=>{
+    console.log(`Server listening on port ${PORT}.`);
+});
 
 app.get("/cool", (req,res)=>{
     res.send(`<html><body><h1>${cool()}</h1></body></html>`);
@@ -30,10 +30,6 @@ app.get("/samples/NRM", (req, res) => {
             </body>
         </html>`;
     res.send(htmlResponse);
-});
-
-app.listen(PORT,()=>{
-    console.log(`Server listening on port ${PORT}.`);
 });
 
 //Enrique Garcia Olivares
