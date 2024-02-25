@@ -23,7 +23,9 @@ Papa.parse(csvData, {
   }
 });
 
-function presupuestoMedio() {
+module.exports = movies.slice(0,11)
+
+function presupuestoMedio(movies) {
   // Creo el array presupuestos donde estarán el budget de cada pelicula 
   let presupuestos = new Array();
   for (let i = 0; i < movies.length; i++){
@@ -37,6 +39,8 @@ function presupuestoMedio() {
   return sumaPresupuestos/totalPeliculas
 }
 
-let averageBudget = presupuestoMedio();
+let averageBudget = presupuestoMedio(movies);
 
 console.log(`El presupuesto medio es ${Math.round(averageBudget)}€`);
+ 
+//module.exports = movies;
