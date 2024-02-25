@@ -2,7 +2,7 @@ let cool = require("cool-ascii-faces");
 let express = require("express");
 
 let data_VEG = require('./index-VEG');
-let calcularMediaTiempoPelea = require("./Nico/index-NRM");
+let calcularMediaTiempoPelea = require('./Nico/index-NRM');
 
 
 let app = express();
@@ -17,7 +17,7 @@ app.get("/cool", (req,res)=>{
 app.get("/samples/EGO", (req, res) => {
     res.send("<html><body><h1>Resultado de los datos de Enrique</h1></body></html>")
     res.send(`<script src="/Enrique/index-EGO.js" type=module></script>`)
-})
+});
 
 app.get("/samples/NRM", (req, res) => {
     const {mediaMinu, mediaSeg}  = calcularMediaTiempoPelea();
@@ -31,7 +31,8 @@ app.get("/samples/NRM", (req, res) => {
             </body>
         </html>`;
     res.send(htmlResponse);
-})
+});
+
 app.listen(PORT,()=>{
     console.log(`Server listening on port ${PORT}.`);
 });
