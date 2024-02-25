@@ -1,25 +1,20 @@
 let cool = require("cool-ascii-faces");
 let express = require("express");
 
-let movies = require('./Enrique/index-EGO.js')
-
 let data_VEG = require('./index-VEG');
 let calcularMediaTiempoPelea = require("./Nico/index-NRM");
-
+//let presupuestoMedio = require("./Enrique/index-EGO")
+//let movies = require("./Enrique/index-EGO");
+const movies_data = require("./Enrique/index-EGO");
 
 let app = express();
-const PORT = (process.env.PORT || 10000);
+const PORT = (process.env.PORT || 10002);
 
 app.use("/",express.static("./public"));
 
 app.get("/cool", (req,res)=>{
     res.send(`<html><body><h1>${cool()}</h1></body></html>`);
 });
-
-app.get("/samples/EGO", (req, res) => {
-    res.send("<html><body><h1>Resultado de los datos de Enrique</h1></body></html>")
-    res.send(`<script src="/Enrique/index-EGO.js" type=module></script>`)
-})
 
 app.get("/samples/NRM", (req, res) => {
     const {mediaMinu, mediaSeg}  = calcularMediaTiempoPelea();
@@ -39,19 +34,20 @@ app.listen(PORT,()=>{
 });
 
 //Enrique Garcia Olivares
-function presupuestoMedio(movies) {
+function presupuestoMedio() {
     let presupuestos = new Array();
-    for (let i = 0; i < movies.length; i++){
-      presupuestos.push(parseInt(movies[i].budget))
+    for (let i = 0; i < movies_data.length; i++){
+      presupuestos.push(parseInt(movies_data[i].budget))
     }
     let sumaPresupuestos = presupuestos.reduce((a,b) => a + b, 0)
     let totalPeliculas = presupuestos.length
     
     return sumaPresupuestos/totalPeliculas
-}
+  }
 
 app.get("/samples/EGO", (req, res) => {
-    res.send(`<html><body><h1>${presupuestoMedio(movies)}</h1></body></html>`)
+    let presupuesto = presupuestoMedio()
+    res.send(`<html><body><h2>El presupuesto medio de las primeras peliculas es de ${Math.round(presupuesto)}€</h2></body></html>`)
 })
 
 //Víctor Escalera García
