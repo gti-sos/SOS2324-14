@@ -11,7 +11,7 @@ const data = [
 ];
 
 // Función para calcular la media de view_count para un país específico
-function calcularMediaViewCount(pais) {
+function calcularMediaViewCount(data, pais) {
     const filasPais = data.filter(item => item.country === pais);
     const valoresViewCount = filasPais.map(item => item.view_count);
     const sumaViewCount = valoresViewCount.reduce((acumulador, valorActual) => acumulador + valorActual, 0);
@@ -23,7 +23,9 @@ function calcularMediaViewCount(pais) {
 const paisDeseado = 'Albania';
 
 // Calcular la media de view_count para el país deseado
-const mediaViewCountPaisDeseado = calcularMediaViewCount(paisDeseado);
+const mediaViewCountPaisDeseado = calcularMediaViewCount(data, paisDeseado);
 
 console.log(`La media de view_count para ${paisDeseado} es: ${mediaViewCountPaisDeseado}`);
+
+module.exports = data;
 
