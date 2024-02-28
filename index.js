@@ -1,12 +1,16 @@
 let cool = require("cool-ascii-faces");
 let express = require("express");
+let bodyParser = require("body-parser")
 
 let data_VEG = require('./index-VEG');
 let calcularMediaTiempoPelea = require('./Nico/index-NRM');
 const movies_data = require("./Enrique/index-EGO");
+let enriqueAPI = require("./Enrique/index")
 
 let app = express();
 const PORT = (process.env.PORT || 10002);
+
+app.use(bodyParser.json());
 
 app.use("/",express.static("./public"));
 
@@ -48,6 +52,8 @@ app.get("/samples/EGO", (req, res) => {
     let presupuesto = presupuestoMedio()
     res.send(`<html><body><h2>El presupuesto medio de las primeras peliculas es de ${Math.round(presupuesto)}€</h2></body></html>`)
 })
+
+enriqueAPI(app);
 
 //Víctor Escalera García
 function calcularMediaViewCount(data, pais) {
