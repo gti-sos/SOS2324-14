@@ -1,11 +1,15 @@
 let cool = require("cool-ascii-faces");
 let express = require("express");
-let bodyParser = require("body-parser")
+let bodyParser = require("body-parser");
 
 let data_VEG = require('./index-VEG');
 let calcularMediaTiempoPelea = require('./Nico/index-NRM');
 const movies_data = require("./Enrique/index-EGO");
-let enriqueAPI = require("./Enrique/index")
+
+//APIs
+let enriqueAPI = require("./Enrique/index");
+let api_VEG = require('./api-VEG');
+
 
 let app = express();
 const PORT = (process.env.PORT || 10002);
@@ -69,3 +73,5 @@ app.get("/samples/VEG", (req, res) => {
     const mediaViewCountPaisDeseado = calcularMediaViewCount(data_VEG, paisDeseado);
     res.send(`<html><body><h1>La media de view_count para ${paisDeseado} es: ${mediaViewCountPaisDeseado}</h1></body></html>`);
 });
+
+api_VEG(app);
