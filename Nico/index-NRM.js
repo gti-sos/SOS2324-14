@@ -4,7 +4,7 @@ const fs = require('fs');
 
 function calcularMediaTiempoPelea(){
 
-    const data = [
+    const ufc_data = [
         "Austin Texas USA\tArman Tsarukyan\tBeneil Dariush\t1.0\t0.0\t8.0\t2.0\t0.0\t0.0\t0.0\t0.0\tLightweight\tKO/TKO Punch\t1.0\t1:04\tUFC Fight Night\t2-Dec-23\tArman Tsarukyan",
         "Austin Texas USA\tJalin Turner\tBobby Green\t1.0\t0.0\t33.0\t15.0\t0.0\t0.0\t0.0\t0.0\tLightweight\tKO/TKO Punches\t1.0\t2:49\tUFC Fight Night\t2-Dec-23\tJalin Turner",
         "Austin Texas USA\tDeiveson Figueiredo\tRob Font\t0.0\t0.0\t45.0\t46.0\t4.0\t0.0\t0.0\t0.0\tBantamweight\tU-DEC\t3.0\t5:00\tUFC Fight Night\t2-Dec-23\tDeiveson Figueiredo",
@@ -21,7 +21,7 @@ function calcularMediaTiempoPelea(){
 
     let totalSegundos = 0;
 
-    data.forEach(linea => {
+    ufc_data.forEach(linea => {
         const tiempo = linea.split('\t')[14].split(':'); // Obtiene el tiempo de la columna 15 (índice 14)
         const minutos = parseInt(tiempo[0], 10);
         const segundos = parseInt(tiempo[1], 10);
@@ -40,3 +40,4 @@ function calcularMediaTiempoPelea(){
 }
 
 module.exports = calcularMediaTiempoPelea;
+module.exports = ufc_data;
