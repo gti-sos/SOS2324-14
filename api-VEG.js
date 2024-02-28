@@ -77,26 +77,7 @@ function api_VEG(app) {
         }
     });
 
-    // Middleware de autenticación
-    function autenticar(req, res, next) {
-        // Lógica de autenticación aquí
-        const usuarioAutenticado = true; // Supongamos que el usuario está autenticado
-        if (usuarioAutenticado) {
-            next(); // El usuario está autenticado, pasa al siguiente middleware o ruta
-        } else {
-            res.status(401).json({ error: "No autorizado. Debes iniciar sesión." });
-        }
-    }
-
-    // Aplicar middleware de autenticación a rutas protegidas
-    app.get(API_BASE + "/ruta-protegida", autenticar, (req, res) => {
-        // Código para manejar la ruta protegida aquí
-    });
-
-    // Middleware para manejar errores 405 (Método no permitido)
-    app.use((req, res, next) => {
-        res.status(405).json({ error: 'Method Not Allowed' });
-    });
+    
 }
 
 module.exports = api_VEG;
