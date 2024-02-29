@@ -13,14 +13,75 @@ module.exports = (app) => {
             }
             res.sendStatus(201, "Created");
         } else {
-            res.sendStatus(201, "Created");
-            //res.send("<html><body><h1>Data has been already loaded.</h1></body></html>");
+            // 16.2 POST A recurso existente
+            res.sendStatus(409, "Conflict");
         }
     });
-    
-    
+    // GET Base
     app.get(API_BASE+"/movies-dataset", (req, res) => {
-            res.send(JSON.stringify(dataset));
+        res.send(JSON.stringify(dataset));
+        res.sendStatus(200, "OK");
     });
-
+    // POST Nueva pelicula
+    app.post(API_BASE+"/movies-dataset", (req, res) => {
+        // Lista de boleanos para comprobar
+        let comprueba = [];
+        let movie = req.body;
+        // Lista con los campos a cumplir
+        let camposOriginal = Object.keys(dataset[0]);
+        for(let i=0; i<Object.keys(movie).length;i++) {
+            // Para cada campo dentro de cada nueva pelicula añadida en el post, comprueba si todos los campos son correctos
+            comprueba.push(camposOriginal.includes(Object.keys(movie)[i]));
+        }
+        if (comprueba.reduce((a,b) => a && b)) {
+            dataset.push(movie);
+            res.sendStatus(200, "OK");
+        } else {
+            // 16.3 BAD REQUEST POST
+            res.sendStatus(400, "Bad Request");
+        }
+    });
+    // DELETE Del recurso
+    app.delete(API_BASE+"/movies-dataset", (req, res) => {
+        while(dataset.length > 0) {
+            dataset.pop();
+        }
+        res.sendStatus(200, "OK");
+    });
+    // 16.4 GET Un recurso inexistente
+    app.get(API_BASE+"/datos-peliculas", (req, res) => {
+        res.sendStatus(404, "Not Found");
+    });
+    // 16.5 PUT No permitido
+    app.put(API_BASE+"/movies-dataset", (req, res) => {
+        res.sendStatus(405, "Method Not Allowed");
+    });
+    // GET Del recurso Avatar
+    app.get(API_BASE+"/movies-dataset/Avatar", (req, res) => {
+        if (dataset.filter(objeto => objeto.original_title === "Avatar")) {
+            res.send(JSON.stringify(dataset.filter(objeto => objeto.original_title === "Avatar")));
+            res.sendStatus(200, "OK");
+        } else {
+            res.sendStatus(404, "Not Found");
+        }
+    });
+    //16.1 PUT Con el mismo id
+    app.put(API_BASE+"/movies-dataset/Avatar", (req,res) => {
+        let cambio = req.body;
+        if (cambio.original_title === "Avatar"){
+            dataset[dataset.findIndex(objeto => objeto.original_title === "Avatar")] = cambio;
+            res.sendStatus(200, "OK");
+        } else {
+            res.sendStatus(400, "Bad Request");
+        }
+    })
+    // DELETE El recurso Avatar
+    app.delete(API_BASE+"/movies-dataset/Avatar", (req, res) => {
+        if (dataset.find(objeto => objeto.original_title === "Avatar")) {
+            dataset = dataset.filter(objeto => objeto.original_title !== "Avatar");
+            res.sendStatus(200, "OK");
+        } else {
+            res.sendStatus(404, "Not Found");
+        }
+    })
 }
