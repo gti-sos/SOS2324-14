@@ -95,6 +95,7 @@ function api_VEG(app) {
         res.status(405).json({ error: "Método no permitido" });
     });
 
+
     //DELETE para eliminar un dato existente
     app.delete(API_BASE + "/youtube-trends/:id", (req, res) => {
         const id = req.params.id.toString(); // Convertir el ID de la solicitud a cadena
@@ -105,6 +106,14 @@ function api_VEG(app) {
         } else {
             res.status(404).json({ error: "No se encontró el dato para eliminar." });
         }
+    });
+
+    app.delete(API_BASE + "/youtube-trends", (req, res) => {
+        // Eliminar todos los recursos
+        while (data_VEG.length > 0) {
+            data_VEG.pop();
+        }
+        res.status(200).json({ success: "Todos los recursos han sido eliminados." });
     });
 
 
