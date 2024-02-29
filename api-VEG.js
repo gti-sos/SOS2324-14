@@ -13,7 +13,8 @@ function api_VEG(app) {
     app.get(API_BASE + "/youtube-trends/loadInitialData", (req, res) => {
         if (data_VEG.length === 0) {
             for (let i = 0; i < 10; i++) {
-                data_VEG.push({
+                const nuevoDato = {
+                    id: i + 1,
                     country: 'Ejemplo',
                     title: `Título ${i+1}`,
                     published_at: new Date().toISOString(),
@@ -22,23 +23,22 @@ function api_VEG(app) {
                     trending_date: 'Ejemplo',
                     view_count: Math.floor(Math.random() * 1000000),
                     comment_count: Math.floor(Math.random() * 1000)
-                });
+                };
+                data_VEG.push(nuevoDato);
             }
             res.status(200).send("Se han creado 10 datos o más en el array de NodeJS.");
         } else {
-            res.status(200).send("El array de NodeJS ya contiene datos. No se han creado nuevos datos.");
+            res.status(409).send("El array de NodeJS ya contiene datos. No se han creado nuevos datos.");
         }
     });
 
     //POST para crear un nuevo dato
     app.post(API_BASE + "/youtube-trends", (req, res) => {
         const nuevoDato = req.body;
-        //Verificar si el dato existe
-        const datoExistente = data_VEG.find(item => item.id === nuevoDato.id);
-        if (datoExistente) {
-            res.status(409).json({ error: "Conflicto. El dato ya existe en la base de datos."});
+        const idExistente = data_VEG.some(item => item.id === nuevoDato.id);
+        if (idExistente) {
+            res.status(409).json({ error: "Conflicto. El ID ya existe en la base de datos." });
         } else {
-            // Agregar dato si no existe
             data_VEG.push(nuevoDato);
             res.status(201).json({ success: "Nuevo dato creado exitosamente." });
         }
@@ -48,32 +48,25 @@ function api_VEG(app) {
     app.put(API_BASE + "/youtube-trends/:id", (req, res) => {
         const id = req.params.id;
         const nuevoDato = req.body;
-        if (id && nuevoDato) {
-            const index = data_VEG.findIndex(item => item.id === id);
-            if (index !== -1) {
-                data_VEG[index] = nuevoDato;
-                res.status(200).json({ success: "Dato actualizado exitosamente." });
-            } else {
-                res.status(404).json({ error: "No se encontró el dato para actualizar." });
-            }
+        const index = data_VEG.findIndex(item => item.id === parseInt(id));
+        if (index !== -1) {
+            // Actualizar solo las propiedades proporcionadas en el cuerpo de la solicitud
+            Object.assign(data_VEG[index], nuevoDato);
+            res.status(200).json({ success: "Dato actualizado exitosamente." });
         } else {
-            res.status(400).json({ error: "La solicitud no contiene datos válidos." });
+            res.status(404).json({ error: "No se encontró el dato para actualizar." });
         }
     });
 
     //DELETE para eliminar un dato existente
     app.delete(API_BASE + "/youtube-trends/:id", (req, res) => {
-        const id = req.params.id;
-        if (id) {
-            const index = data_VEG.findIndex(item => item.id === id);
-            if (index !== -1) {
-                data_VEG.splice(index, 1);
-                res.status(200).json({ success: "Dato eliminado exitosamente." });
-            } else {
-                res.status(404).json({ error: "No se encontró el dato para eliminar." });
-            }
+        const id = req.params.id.toString(); // Convertir el ID de la solicitud a cadena
+        const index = data_VEG.findIndex(item => item.id.toString() === id); // Convertir el ID del objeto a cadena para comparar
+        if (index !== -1) {
+            data_VEG.splice(index, 1);
+            res.status(200).json({ success: "Dato eliminado exitosamente." });
         } else {
-            res.status(400).json({ error: "La solicitud no contiene datos válidos." });
+            res.status(404).json({ error: "No se encontró el dato para eliminar." });
         }
     });
 
