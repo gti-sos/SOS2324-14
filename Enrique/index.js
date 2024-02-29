@@ -34,8 +34,12 @@ module.exports = (app) => {
             comprueba.push(camposOriginal.includes(Object.keys(movie)[i]));
         }
         if (comprueba.reduce((a,b) => a && b)) {
-            dataset.push(movie);
-            res.sendStatus(200, "OK");
+            if (dataset.find(objeto => objeto.original_title === movie.original_title)) {
+                res.sendStatus(409, "Conflict")
+            } else {
+                dataset.push(movie);
+                res.sendStatus(200, "OK");
+            }
         } else {
             // 16.3 BAD REQUEST POST
             res.sendStatus(400, "Bad Request");
@@ -65,6 +69,11 @@ module.exports = (app) => {
             res.sendStatus(404, "Not Found");
         }
     });
+    // POST No permitido en un recurso
+    app.post(API_BASE+"/movies-dataset/Avatar", (req, res) => {
+        res.sendStatus(405, "Method Not Allowed");
+    });
+
     //16.1 PUT Con el mismo id
     app.put(API_BASE+"/movies-dataset/Avatar", (req,res) => {
         let cambio = req.body;
