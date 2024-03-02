@@ -38,7 +38,7 @@ function api_VEG(app) {
     });
 
     // GET para obtener los datos relacionados con el país "Albania"
-    app.get(API_BASE + "/youtube-trends/Albania", (req, res) => {
+    app.get(API_BASE + "/youtube-trends?country=Albania", (req, res) => {
         const datosAlbania = data_VEG.filter(item => item.country === "Albania");
 
         // Verificar si se encontraron datos para el país "Albania"
