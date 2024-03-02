@@ -81,18 +81,14 @@ function api_VEG(app) {
         const idFromUrl = req.params.id;
         const newDato = req.body;
     
-        // Convertir idFromUrl a cadena si es necesario para asegurar la comparación correcta
+        // Convertir idFromUrl a cadena y que así se compare bien la id de url la id del nuevo dato
         const idFromUrlString = idFromUrl.toString();
     
-        // Verificar si las IDs coinciden
         if (idFromUrlString !== newDato.id.toString()) {
-            // Si las IDs son diferentes, responder con el error 400
             res.sendStatus(400, "Bad Request");
         } else {
-            // Si las IDs coinciden, proceder con la actualización
             const index = data_VEG.findIndex(item => item.id === parseInt(idFromUrl));
             if (index !== -1) {
-                // Actualizar solo las propiedades proporcionadas en el cuerpo de la solicitud
                 Object.assign(data_VEG[index], newDato);
                 res.sendStatus(200, "OK");
             } else {
@@ -109,8 +105,8 @@ function api_VEG(app) {
 
     //DELETE para eliminar un dato existente
     app.delete(API_BASE + "/youtube-trends/:id", (req, res) => {
-        const id = req.params.id.toString(); // Convertir el ID de la solicitud a cadena
-        const index = data_VEG.findIndex(item => item.id.toString() === id); // Convertir el ID del objeto a cadena para comparar
+        const id = req.params.id.toString();
+        const index = data_VEG.findIndex(item => item.id.toString() === id);
         if (index !== -1) {
             data_VEG.splice(index, 1);
             res.sendStatus(200, "OK");
