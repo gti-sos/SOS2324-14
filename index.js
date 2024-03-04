@@ -9,6 +9,7 @@ const movies_data = require("./Enrique/index-EGO");
 //APIs
 let enriqueAPI = require("./Enrique/index");
 let api_VEG = require('./api-VEG');
+let api_NRM = require('./Nico/index-api');
 
 
 let app = express();
@@ -26,6 +27,7 @@ app.get("/cool", (req,res)=>{
     res.send(`<html><body><h1>${cool()}</h1></body></html>`);
 });
 
+// Nicolas Redondo Moreno
 app.get("/samples/NRM", (req, res) => {
     const {mediaMinu, mediaSeg}  = calcularMediaTiempoPelea();
     console.log("mediaMinu:", mediaMinu);
@@ -39,6 +41,8 @@ app.get("/samples/NRM", (req, res) => {
         </html>`;
     res.send(htmlResponse);
 });
+
+api_NRM(app);
 
 //Enrique Garcia Olivares
 function presupuestoMedio() {
@@ -75,3 +79,5 @@ app.get("/samples/VEG", (req, res) => {
 });
 
 api_VEG(app);
+
+

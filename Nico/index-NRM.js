@@ -38,5 +38,7 @@ function calcularMediaTiempoPelea(){
     };
 }
 
-module.exports = calcularMediaTiempoPelea;
-module.exports = ufc_data;
+module.exports = {
+    calcularMediaTiempoPelea: calcularMediaTiempoPelea,
+    ufc_data: ufc_data
+};
