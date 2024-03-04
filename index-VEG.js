@@ -7,7 +7,8 @@ const data = [
     { id: 5, country: 'Albania', title: 'GJIKO x FIFI - DJEGI KREJT', published_at: '2022-07-07T17:45:11Z', channel_title: 'REDBOX Entertainment', category_id: 10, trending_date: '22.11.07', view_count: 1695364, comment_count: 1961 },
     { id: 6, country: 'Albania', title: 'Ardian Bujupi x Ledri Vula - GELATO (prod. by Bled)', published_at: '2022-06-30T22:00:11Z', channel_title: 'OfficialArdianBujupi', category_id: 10, trending_date: '22.11.07', view_count: 3316092, comment_count: 1391 },
     { id: 7, country: 'Albania', title: 'Capital T - Dukat (prod. Panda Music)', published_at: '2022-06-29T16:00:03Z', channel_title: 'Capital T', category_id: 10, trending_date: '22.11.07', view_count: 7110466, comment_count: 1230 },
-    { id: 8, country: 'Albania', title: 'MatoLale x Jongmen KOKAINA', published_at: '2022-07-05T16:30:27Z', channel_title: 'MATOLALE', category_id: 10, trending_date: '22.11.07', view_count: 1157204, comment_count: 929 }
+    { id: 8, country: 'Albania', title: 'MatoLale x Jongmen KOKAINA', published_at: '2022-07-05T16:30:27Z', channel_title: 'MATOLALE', category_id: 10, trending_date: '22.11.07', view_count: 1157204, comment_count: 929 },
+    { id: 9, country: 'Albania', title: 'MatoLale x Jongmen KOKAINA', published_at: '2022-07-05T16:30:27Z', channel_title: 'MATOLALE', category_id: 10, trending_date: '22.11.07', view_count: 1157204, comment_count: 929 }
 ];
 
 // Función para calcular la media de view_count para un país específico
