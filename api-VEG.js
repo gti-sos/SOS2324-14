@@ -37,17 +37,19 @@ function api_VEG(app) {
         res.sendStatus(404, "Not Found");
     });
 
-    // GET para obtener los datos relacionados con el país "Albania"
-    app.get(API_BASE + "/youtube-trends/Albania", (req, res) => {
-        const datosAlbania = data_VEG.filter(item => item.country === "Albania");
+    // GET para obtener los datos relacionados con un país específico
+    app.get(API_BASE + "/youtube-trends/:country", (req, res) => {
+    const country = req.params.country;
+    const filteredData = data_VEG.filter(item => item.country === country);
 
-        if (datosAlbania && datosAlbania.length > 0) {
-            res.send(JSON.stringify(datosAlbania));
-            res.sendStatus(200, "OK");
-        } else {
-            res.sendStatus(404, "Not Found");
-        }
-    });
+    // Verificar si se encontraron datos para el país especificado
+    if (filteredData && filteredData.length > 0) {
+        res.send(JSON.stringify(filteredData));
+        res.sendStatus(200, "OK");
+    } else {
+        res.sendStatus(404, "Not Found");
+    }
+});
 
     //POST para crear un nuevo dato
     app.post(API_BASE + "/youtube-trends", (req, res) => {
