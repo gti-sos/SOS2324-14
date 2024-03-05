@@ -48,28 +48,35 @@ function api_NRM(app) {
     
     // POST Nuevo evento
     app.post(API_BASE+"/ufc-events-data", (req, res) => {
+        const requiredFields = ['location', 'fighter1', 'fighter2', 'fighter_1_kd', 'fighter_2_kd', 'fighter_1_str', 'fighter_2_str', 'fighter_1_td', 'fighter_2_td', 'fighter_1_sub', 'fighter_2_sub', 'weight_class', 'method', 'round', 'time', 'event_name', 'date', 'winner'];
 
-        let comp = [];
-        let fight = req.body;
-
-        let camposData = Object.keys(dataset[0]);
-        for(let i=0; i<Object.keys(fight).length;i++){
-            comp.push(camposData.includes(Object.keys(fight)[i]));
+    // Verificar si el tipo de contenido es JSON
+        if (req.headers['content-type'] !== 'application/json') {
+            res.sendStatus(400, 'Content not application/JSON')
         }
-        if (comp.reduce((a,b) => a && b)) {
-            if (dataset.find(obj => obj.fighter1 === fight.fighter1 && 
-                obj.fighter2 === fight.fighter2 && 
-                obj.date === fight.date)) {
-                
-                    res.sendStatus(409, "Conflict")
-            } else {
-                dataset.push(fight);
-                res.sendStatus(200, "OK");
+
+    // Intentar analizar el cuerpo de la solicitud como JSON
+        try {
+            const fight = req.body;
+
+            const isValid = requiredFields.every(field => field in fight && fight[field] !== null && fight[field] !== undefined);
+
+            if (!isValid) {
+                res.sendStatus(400, 'incorrect JSON');
             }
-        } else {
-            res.sendStatus(400, "Bad Request");
+
+            const exists = dataset.some(obj => obj.fighter1 === fight.fighter1 && obj.fighter2 === fight.fighter2 && obj.date === fight.date);
+            if (exists) {
+                res.sendStatus(409, 'Conflict');
+            }
+
+            dataset.push(fight);
+            res.sendStatus(200, 'OK')
+        } catch (error) {
+            res.sendStatus(400, 'incorrect JSON')
         }
     });
+
 
     // DELETE del recurso
     app.delete(API_BASE+"/ufc-events-data", (req, res) => {
@@ -80,7 +87,7 @@ function api_NRM(app) {
     });
 
     // 16.4 GET Rec inexistente
-    app.get(API_BASE+"/dataset_ufc", (req, res) =>{
+    app.get(API_BASE+"/ufc-events", (req, res) =>{
         res.sendStatus(404, "Not Found");
     });
 
@@ -121,7 +128,7 @@ function api_NRM(app) {
         }
     });
 
-    // DELETE El recurso Avatar
+    // DELETE El recurso 
     app.delete(API_BASE+"/ufc-events-data/Welterweight", (req, res) => {
         if (dataset.find(obj => obj.weight_class === "Welterweight")) {
             dataset = dataset.filter(obj => obj.weight_class !== "Welterweight");
