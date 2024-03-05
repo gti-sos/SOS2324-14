@@ -4,7 +4,7 @@ let bodyParser = require("body-parser");
 
 let data_VEG = require('./index-VEG');
 let calcularMediaTiempoPelea = require('./Nico/index-NRM');
-const movies_data = require("./Enrique/index-EGO");
+let presupuesto = require("./Enrique/index-EGO");
 
 //APIs
 let enriqueAPI = require("./Enrique/index");
@@ -45,20 +45,30 @@ app.get("/samples/NRM", (req, res) => {
 api_NRM(app);
 
 //Enrique Garcia Olivares
-function presupuestoMedio() {
-    let presupuestos = new Array();
-    for (let i = 0; i < movies_data.length; i++){
-      presupuestos.push(parseInt(movies_data[i].budget))
-    }
-    let sumaPresupuestos = presupuestos.reduce((a,b) => a + b, 0)
-    let totalPeliculas = presupuestos.length
+// function presupuestoMedioPais(pais) {
+//     // Creo el array presupuestos donde estarán el budget de cada pelicula 
+//     let presupuestos = new Array();
+//     for (let i = 0; i < movies_data.length; i++){
+//         let paises_movie = []
+//         paises_movie.push(movies_data[i].production_countries.map(country => country.name))
+//         if (paises_movie.includes(pais)) {
+//             presupuestos.push(movies_data[i].budget)
+//         }
+//     }
+//     // Calculamos la suma de los presupuestos con reduce
+//     let sumaPresupuestos = presupuestos.reduce((a,b) => a + b, 0)
+//     // Obtenemos el total de peliculas para hacer la media
+//     let totalPeliculas = presupuestos.length
     
-    return sumaPresupuestos/totalPeliculas
-  }
+//     return (sumaPresupuestos/totalPeliculas)
+// }
+// let paisFiltro = "United States of America"
 
+// let averageBudget = presupuestoMedioPais(paisFiltro);
 app.get("/samples/EGO", (req, res) => {
-    let presupuesto = presupuestoMedio()
-    res.send(`<html><body><h2>El presupuesto medio de las primeras peliculas es de ${Math.round(presupuesto)}€</h2></body></html>`)
+    let paisFiltro = "United States of America"
+    let presupuestoMedioPais = presupuesto(paisFiltro)
+    res.send(`<html><body><h2>El presupuesto medio de las peliculas producidas en ${paisFiltro} es de ${presupuestoMedioPais}€</h2></body></html>`)
 })
 
 enriqueAPI(app);

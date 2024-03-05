@@ -33,10 +33,13 @@ module.exports = (app) => {
             // Para cada campo dentro de cada nueva pelicula añadida en el post, comprueba si todos los campos son correctos
             comprueba.push(camposOriginal.includes(Object.keys(movie)[i]));
         }
+        // Comprueba si el resultado de hacer una operacion AND a toda la lista es true o false
         if (comprueba.reduce((a,b) => a && b)) {
             if (dataset.find(objeto => objeto.original_title === movie.original_title)) {
+                // En caso de que haya un objeto con el titulo original repetido no se podrá añadir
                 res.sendStatus(409, "Conflict")
             } else {
+                // Si todos los campos estan correctos, se añade el recurso
                 dataset.push(movie);
                 res.sendStatus(200, "OK");
             }

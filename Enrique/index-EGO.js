@@ -446,12 +446,15 @@ console.log(movies_data.slice(0, 3))
 // let movies_reduce = []
 // movies_reduce.push(movies.splice(0,11))
 
-function presupuestoMedio() {
+function presupuestoMedioPais(pais) {
   // Creo el array presupuestos donde estarán el budget de cada pelicula 
   let presupuestos = new Array();
   for (let i = 0; i < movies_data.length; i++){
     //presupuestos.push(parseInt(movies[i].budget))
-    presupuestos.push(movies_data[i].budget)
+    let paises_movie = movies_data[i].production_countries.map(country => country.name)
+    if (paises_movie.includes(pais)) {
+      presupuestos.push(movies_data[i].budget)
+    }
   }
   // Calculamos la suma de los presupuestos con reduce
   let sumaPresupuestos = presupuestos.reduce((a,b) => a + b, 0)
@@ -461,75 +464,12 @@ function presupuestoMedio() {
   return sumaPresupuestos/totalPeliculas
 }
 
-let averageBudget = presupuestoMedio();
-let movie = {
-  "index": 10,
-  "badget": 237050000,
-  "genres": "Action Adventure Fantasy Science Fiction",
-  "id": 199969,
-  "keywords": "culture clash future space war space colony society",
-  "original_language": "es",
-  "original_title": "Avator",
-  "overview": "When you dont expected came the new mdfk hero, its a blue thor? No its the supreme thor.",
-  "popularity": 0.000,
-  "production_companies": [
-    {
-      "name": "Ingenious Film Partners",
-      "id": 289
-    },
-    {
-      "name": "Twentieth Century Fox Film Corporation",
-      "id": 306
-    },
-    {
-      "name": "Dune Entertainment",
-      "id": 444
-    }
-  ],
-  "production_countries": [
-    {
-      "iso_3166_1": "US",
-      "name": "United States of America"
-    },
-    {
-      "iso_3166_1": "GB",
-      "name": "United Kingdom"
-    }
-  ],
-  "release_date": "2010-12-10",
-  "revenue": 100,
-  "runtime": 30,
-  "status": "Released",
-  "tagline": "Enter the World of Pedrolas.",
-  "title": "Antavor",
-  "vote_average": 2.2,
-  "vote_count": 5,
-  "director": "Joma Cameron"
-}
-console.log(`El presupuesto medio es ${Math.round(averageBudget)}€`);
+let paisFiltro = "United States of America"
+
+let averageBudget = presupuestoMedioPais(paisFiltro);
+console.log(averageBudget)
+console.log(`El presupuesto medio de las peliculas producidas en ${paisFiltro} es de ${Math.round(averageBudget)}€`);
  
 //module.exports = presupuestoMedio
-module.exports = movies_data
-let comprueba = []
-console.log(Object.keys(movies_data)[7])
-console.log(Object.keys(movie)[0])
-console.log(Object(movies_data[0]).budget)
-console.log(movies_data[0].budget)
-movies_data[0].budget = 100
-console.log(movies_data[0].budget)
-console.log(movies_data.find(objeto => objeto.original_title === "Avatar"))
-if (movies_data.find(objeto => objeto.original_title === "Avatar")) {
-  console.log("Lo tenemos")
-} else {
-  console.log("No tenemos")
-}
-
-let camposOriginal = Object.keys(movies_data[0]);
-//console.log(camposOriginal.length)
-for(let i=0; i<Object.keys(movie).length;i++) { //(let campo in Object.keys(movie)){
-  // Para cada campo dentro de cada nueva pelicula añadida en el post, comprueba si todos los campos son correctos
-  //console.log(Object.keys(movie)[i])
-  comprueba.push(camposOriginal.includes(Object.keys(movie)[i]));
-}
-//console.log(comprueba)
-//console.log(comprueba.reduce((a,b) => a && b))
+//movies_data, 
+module.exports = presupuestoMedioPais
