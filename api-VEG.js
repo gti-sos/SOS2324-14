@@ -4,47 +4,39 @@ const API_BASE = "/api/v1";
 
 function api_VEG(app) {
 
-    //GET inicial
-    app.get(API_BASE + "/youtube-trends", (req, res) => {
-        res.status(200).json(data_VEG);
-    });
+    let dataset = new Array();
 
     //GET Punto 13: Crear datos si no hay
-    app.get(API_BASE + "/youtube-trends/loadInitialData", (req, res) => {
-        if (data_VEG.length === 0) {
-            for (let i = 0; i < 10; i++) {
-                const nuevoDato = {
-                    id: i + 1,
-                    country: 'Ejemplo',
-                    title: `Título ${i + 1}`,
-                    published_at: new Date().toISOString(),
-                    channel_title: 'Canal Ejemplo',
-                    category_id: Math.floor(Math.random() * 100),
-                    trending_date: 'Ejemplo',
-                    view_count: Math.floor(Math.random() * 1000000),
-                    comment_count: Math.floor(Math.random() * 1000)
-                };
-                data_VEG.push(nuevoDato);
+    app.get(API_BASE+"/youtube-trends/loadInitialData", (req, res) => {
+        if (dataset.length === 0) {
+            for(let i=0; i < data_VEG.length; i++){
+                dataset.push(data_VEG[i]);
             }
             res.sendStatus(201, "Created");
         } else {
+            // 16.2 POST A recurso existente
             res.sendStatus(409, "Conflict");
         }
     });
 
+    //GET inicial
+    app.get(API_BASE + "/youtube-trends", (req, res) => {
+        res.status(200).json(dataset);
+    });
+
     // GET para obtener los datos relacionados con un país específico
     app.get(API_BASE + "/youtube-trends/:country", (req, res) => {
-    const country = req.params.country;
-    const filteredData = data_VEG.filter(item => item.country === country);
+        const country = req.params.country;
+        const filteredData = dataset.filter(item => item.country === country);
 
-    // Verificar si se encontraron datos para el país especificado
-    if (filteredData && filteredData.length > 0) {
-        res.send(JSON.stringify(filteredData));
-        res.sendStatus(200, "OK");
-    } else {
-        res.sendStatus(404, "Not Found");
-    }
-});
+        // Verificar si se encontraron datos para el país especificado
+        if (filteredData && filteredData.length > 0) {
+            res.send(JSON.stringify(filteredData));
+            res.sendStatus(200, "OK");
+        } else {
+            res.sendStatus(404, "Not Found");
+        }
+    });
 
     //POST para crear un nuevo dato
     app.post(API_BASE + "/youtube-trends", (req, res) => {
@@ -57,11 +49,11 @@ function api_VEG(app) {
         }
 
         // Verificar si el ID ya existe en la base de datos
-        const idExistente = data_VEG.some(item => item.id === nuevoDato.id);
+        const idExistente = dataset.some(item => item.id === nuevoDato.id);
         if (idExistente) {
             res.sendStatus(409, "Conflict");
         } else {
-            data_VEG.push(nuevoDato);
+            dataset.push(nuevoDato);
             res.sendStatus(201, "Created");
         }
     });
@@ -84,9 +76,9 @@ function api_VEG(app) {
         if (idFromUrlString !== newDato.id.toString()) {
             res.sendStatus(400, "Bad Request");
         } else {
-            const index = data_VEG.findIndex(item => item.id === parseInt(idFromUrl));
+            const index = dataset.findIndex(item => item.id === parseInt(idFromUrl));
             if (index !== -1) {
-                Object.assign(data_VEG[index], newDato);
+                Object.assign(dataset[index], newDato);
                 res.sendStatus(200, "OK");
             } else {
                 res.sendStatus(404, "Not Found");
@@ -103,9 +95,9 @@ function api_VEG(app) {
     //DELETE para eliminar un dato existente
     app.delete(API_BASE + "/youtube-trends/:id", (req, res) => {
         const id = req.params.id.toString();
-        const index = data_VEG.findIndex(item => item.id.toString() === id);
+        const index = dataset.findIndex(item => item.id.toString() === id);
         if (index !== -1) {
-            data_VEG.splice(index, 1);
+            dataset.splice(index, 1);
             res.sendStatus(200, "OK");
         } else {
             res.sendStatus(404, "Not Found");
@@ -114,8 +106,8 @@ function api_VEG(app) {
 
     app.delete(API_BASE + "/youtube-trends", (req, res) => {
         // Eliminar todos los recursos
-        while (data_VEG.length > 0) {
-            data_VEG.pop();
+        while (dataset.length > 0) {
+            dataset.pop();
         }
         res.sendStatus(200, "OK");
     });
