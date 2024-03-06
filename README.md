@@ -12,6 +12,6 @@
 **URL:** [SOS2324-14.appspot.com](https://sos2324-14.appspot.com/)
 
 **APIs:** 
-- http://sos2324-XX.appspot.com/api/v1/movies-dataset/docs (developed by Enrique García Olivares)
-- http://sos2324-XX.appspot.com/api/v1/ufc-events-data/docs (developed by Nicolas Redondo Moreno)
-- http://sos2324-XX.appspot.com/api/v1/youtube-trends/docs (developed by Víctor Escalera García)
+- http://sos2324-14.appspot.com/api/v1/movies-dataset/docs (developed by Enrique García Olivares)
+- http://sos2324-14.appspot.com/api/v1/ufc-events-data/docs (developed by Nicolas Redondo Moreno)
+- http://sos2324-14.appspot.com/api/v1/youtube-trends/docs (developed by Víctor Escalera García)
