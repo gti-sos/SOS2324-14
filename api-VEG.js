@@ -32,11 +32,6 @@ function api_VEG(app) {
         }
     });
 
-    //GET Un recurso inexistente
-    app.get(API_BASE + "/datos-youtube", (req, res) => {
-        res.sendStatus(404, "Not Found");
-    });
-
     // GET para obtener los datos relacionados con un país específico
     app.get(API_BASE + "/youtube-trends/:country", (req, res) => {
     const country = req.params.country;
@@ -123,6 +118,11 @@ function api_VEG(app) {
             data_VEG.pop();
         }
         res.sendStatus(200, "OK");
+    });
+
+    //GET Un recurso inexistente
+    app.get(API_BASE + "/*", (req, res) => {
+        res.sendStatus(404, "Not Found");
     });
 
 
