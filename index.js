@@ -45,26 +45,6 @@ app.get("/samples/NRM", (req, res) => {
 api_NRM(app);
 
 //Enrique Garcia Olivares
-// function presupuestoMedioPais(pais) {
-//     // Creo el array presupuestos donde estarán el budget de cada pelicula 
-//     let presupuestos = new Array();
-//     for (let i = 0; i < movies_data.length; i++){
-//         let paises_movie = []
-//         paises_movie.push(movies_data[i].production_countries.map(country => country.name))
-//         if (paises_movie.includes(pais)) {
-//             presupuestos.push(movies_data[i].budget)
-//         }
-//     }
-//     // Calculamos la suma de los presupuestos con reduce
-//     let sumaPresupuestos = presupuestos.reduce((a,b) => a + b, 0)
-//     // Obtenemos el total de peliculas para hacer la media
-//     let totalPeliculas = presupuestos.length
-    
-//     return (sumaPresupuestos/totalPeliculas)
-// }
-// let paisFiltro = "United States of America"
-
-// let averageBudget = presupuestoMedioPais(paisFiltro);
 app.get("/samples/EGO", (req, res) => {
     let paisFiltro = "United States of America"
     let presupuestoMedioPais = presupuesto(paisFiltro)

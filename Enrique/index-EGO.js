@@ -469,7 +469,5 @@ let paisFiltro = "United States of America"
 let averageBudget = presupuestoMedioPais(paisFiltro);
 console.log(averageBudget)
 console.log(`El presupuesto medio de las peliculas producidas en ${paisFiltro} es de ${Math.round(averageBudget)}€`);
- 
-//module.exports = presupuestoMedio
-//movies_data, 
+
 module.exports = presupuestoMedioPais
