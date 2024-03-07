@@ -1,6 +1,7 @@
 let cool = require("cool-ascii-faces");
 let express = require("express");
 let bodyParser = require("body-parser");
+let dataStore = require("nedb");
 
 let data_VEG = require('./index-VEG');
 let calcularMediaTiempoPelea = require('./Nico/index-NRM');
@@ -10,6 +11,8 @@ let presupuesto = require("./Enrique/index-EGO");
 let enriqueAPI = require("./Enrique/index");
 let api_VEG = require('./api-VEG');
 let api_NRM = require('./Nico/index-api');
+
+let dbMovies = new dataStore();
 
 
 let app = express();
@@ -51,7 +54,7 @@ app.get("/samples/EGO", (req, res) => {
     res.send(`<html><body><h2>El presupuesto medio de las peliculas producidas en ${paisFiltro} es de ${presupuestoMedioPais}€</h2></body></html>`)
 })
 
-enriqueAPI(app);
+enriqueAPI(app, dbMovies);
 
 //Víctor Escalera García
 function calcularMediaViewCount(data, pais) {

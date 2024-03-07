@@ -1,26 +1,40 @@
-const movies_data = require("./index-EGO")
+const movies_data = require("./index-EGO.js")
 
 const API_BASE = "/api/v1";
 
-module.exports = (app) => {
+module.exports = (app, dbMovies) => {
     
     let dataset = new Array();
 
     app.get(API_BASE+"/movies-dataset/loadInitialData", (req, res) => {
-        if (dataset.length === 0) {
-            for(let i=0; i < movies_data.length; i++){
-                dataset.push(movies_data[i]);
-            }
-            res.sendStatus(201, "Created");
-        } else {
-            // 16.2 POST A recurso existente
-            res.sendStatus(409, "Conflict");
-        }
+        // if (dataset.length === 0) {
+        //     for(let i=0; i < movies_data.length; i++){
+        //         dataset.push(movies_data[i]);
+        //     }
+        //     res.sendStatus(201, "Created");
+        // } else {
+        //     // 16.2 POST A recurso existente
+        //     res.sendStatus(409, "Conflict");
+        // }
+        dbMovies.insert(movies_data);
+        res.sendStatus(200, "OK");
     });
+
     // GET Base
     app.get(API_BASE+"/movies-dataset", (req, res) => {
-        res.send(JSON.stringify(dataset));
-        res.sendStatus(200, "OK");
+        //res.send(JSON.stringify(dataset));
+        dbMovies.find({}, (err, movies) => {
+            if(err){
+                res.sendStatus(500, "Internal Error");    
+            } else {
+                res.send(JSON.stringify(movies))
+                // res.send(JSON.stringify(movies.map((c) => {
+                //     delete c._id;
+                //     return c;
+                // })));
+                res.sendStatus(200, "OK");
+            }
+        })
     });
     // POST Nueva pelicula
     app.post(API_BASE+"/movies-dataset", (req, res) => {
@@ -28,14 +42,14 @@ module.exports = (app) => {
         let comprueba = [];
         let movie = req.body;
         // Lista con los campos a cumplir
-        let camposOriginal = Object.keys(dataset[0]);
+        let camposOriginal = Object.keys(dbMovies[0]);
         for(let i=0; i<Object.keys(movie).length;i++) {
             // Para cada campo dentro de cada nueva pelicula añadida en el post, comprueba si todos los campos son correctos
             comprueba.push(camposOriginal.includes(Object.keys(movie)[i]));
         }
         // Comprueba si el resultado de hacer una operacion AND a toda la lista es true o false
         if (comprueba.reduce((a,b) => a && b)) {
-            if (dataset.find(objeto => objeto.original_title === movie.original_title)) {
+            if (dbMovies.find(objeto => objeto.original_title === movie.original_title)) {
                 // En caso de que haya un objeto con el titulo original repetido no se podrá añadir
                 res.sendStatus(409, "Conflict")
             } else {
@@ -73,7 +87,7 @@ module.exports = (app) => {
         }
     });
     // POST No permitido en un recurso
-    app.post(API_BASE+"/movies-dataset/Avatar", (req, res) => {
+    app.post(API_BASE+"/movies-dataset/:name", (req, res) => {
         res.sendStatus(405, "Method Not Allowed");
     });
 
@@ -88,12 +102,23 @@ module.exports = (app) => {
         }
     })
     // DELETE El recurso Avatar
-    app.delete(API_BASE+"/movies-dataset/Avatar", (req, res) => {
-        if (dataset.find(objeto => objeto.original_title === "Avatar")) {
-            dataset = dataset.filter(objeto => objeto.original_title !== "Avatar");
-            res.sendStatus(200, "OK");
-        } else {
-            res.sendStatus(404, "Not Found");
+    app.delete(API_BASE+"/movies-dataset/:title", (req, res) => {
+        let title = req.params.title;
+
+        if (title.includes("%20")) {
+            title = encodeURIComponent(nombre);
         }
-    })
+
+        dbMovies.remove({"original_title": title}, {}, (err, numRemoved) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                if (numRemoved >= 1) {
+                    res.sendStatus(200, "OK");
+                } else {
+                    res.sendStatus(404, "Not Found");
+                }
+            }
+        })
+    });
 }
