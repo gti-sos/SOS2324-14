@@ -2,7 +2,8 @@
   "name": "sos2324-14",
   "version": "1.0.0",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "npx newman run ./tests/apiVEG-gcloud.json -e ./tests/enviroments/gcloud.json"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
