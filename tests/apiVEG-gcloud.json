@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "77a7d6b4-89ce-467e-8721-07158ee80303",
+		"_postman_id": "71b32a00-163a-4df8-b2f9-98c94a3fe9ce",
 		"name": "VEG Api Testing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33038536"
@@ -90,14 +90,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/datos",
+					"raw": "{{gcloud}}/api/v1/datos-youtube",
 					"host": [
 						"{{gcloud}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"datos"
+						"datos-youtube"
 					]
 				}
 			},
@@ -122,7 +122,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/Albania",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/country/Albania",
 					"host": [
 						"{{gcloud}}"
 					],
@@ -130,7 +130,246 @@
 						"api",
 						"v1",
 						"youtube-trends",
+						"country",
 						"Albania"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v1/youtube-trends/id/0",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"id",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso published-at",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v1/youtube-trends/published-at/2010-07",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"published-at",
+						"2010-07"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso channel_title",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v1/youtube-trends/channel_title/SEFutbol",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"channel_title",
+						"SEFutbol"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso category_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v1/youtube-trends/category_id/2",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"category_id",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso trending_date",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v1/youtube-trends/trending_date/10.07.11",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"trending_date",
+						"10.07.11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso view_count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v1/youtube-trends/view_count/514000",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"view_count",
+						"514000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso comment_count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v1/youtube-trends/comment_count/3651",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"comment_count",
+						"3651"
 					]
 				}
 			},
@@ -197,7 +436,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\":11,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo 2\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"id\":10,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo 2\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -238,7 +477,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\":0,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"id\":1,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -321,7 +560,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\": 10,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo 2\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"id\": 11,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo 2\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -363,7 +602,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"id\":10,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -371,7 +610,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/9",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/10",
 					"host": [
 						"{{gcloud}}"
 					],
@@ -379,7 +618,7 @@
 						"api",
 						"v1",
 						"youtube-trends",
-						"9"
+						"10"
 					]
 				}
 			},
@@ -486,17 +725,8 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n        \"id\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/9",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/10",
 					"host": [
 						"{{gcloud}}"
 					],
@@ -504,7 +734,7 @@
 						"api",
 						"v1",
 						"youtube-trends",
-						"9"
+						"10"
 					]
 				}
 			},
@@ -528,15 +758,6 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n        \"id\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "{{gcloud}}/api/v1/youtube-trends",
 					"host": [

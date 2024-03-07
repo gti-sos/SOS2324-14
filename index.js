@@ -3,13 +3,13 @@ let express = require("express");
 let bodyParser = require("body-parser");
 let dataStore = require("nedb");
 
-let data_VEG = require('./index-VEG');
+let data_VEG = require('./Victor/index-VEG');
 let calcularMediaTiempoPelea = require('./Nico/index-NRM');
 //let presupuesto = require("./Enrique/index-EGO");
 
 //APIs
 let enriqueAPI = require("./Enrique/index");
-let api_VEG = require('./api-VEG');
+let api_VEG = require('./Victor/api-VEG');
 let api_NRM = require('./Nico/index-api');
 
 let dbMovies = new dataStore();
