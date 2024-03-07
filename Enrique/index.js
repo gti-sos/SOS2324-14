@@ -7,17 +7,20 @@ module.exports = (app, dbMovies) => {
     let dataset = new Array();
 
     app.get(API_BASE+"/movies-dataset/loadInitialData", (req, res) => {
-        // if (dataset.length === 0) {
-        //     for(let i=0; i < movies_data.length; i++){
-        //         dataset.push(movies_data[i]);
-        //     }
-        //     res.sendStatus(201, "Created");
-        // } else {
-        //     // 16.2 POST A recurso existente
-        //     res.sendStatus(409, "Conflict");
-        // }
-        dbMovies.insert(movies_data);
-        res.sendStatus(200, "OK");
+        dbMovies.find({}, (err, docs) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {   
+                if (docs.length === 0) {
+                    // Si la base de datos esta vacía añade los 10 primeros datos
+                    dbMovies.insert(movies_data);
+                    res.sendStatus(201, "Created");
+                } else {
+                    // Si la base de datos no esta vacía muestra el error 409
+                    res.sendStatus(409, "Conflict");
+                }
+            }
+        })
     });
 
     // GET Base
@@ -27,80 +30,149 @@ module.exports = (app, dbMovies) => {
             if(err){
                 res.sendStatus(500, "Internal Error");    
             } else {
-                res.send(JSON.stringify(movies))
-                // res.send(JSON.stringify(movies.map((c) => {
-                //     delete c._id;
-                //     return c;
-                // })));
-                res.sendStatus(200, "OK");
+                res.send(JSON.stringify(movies.map((c) => {
+                    delete c._id;
+                    return c;
+                })));
+                //res.sendStatus(200, "OK");
             }
         })
     });
+
     // POST Nueva pelicula
     app.post(API_BASE+"/movies-dataset", (req, res) => {
+        let movie = req.body;
         // Lista de boleanos para comprobar
         let comprueba = [];
-        let movie = req.body;
-        // Lista con los campos a cumplir
-        let camposOriginal = Object.keys(dbMovies[0]);
-        for(let i=0; i<Object.keys(movie).length;i++) {
-            // Para cada campo dentro de cada nueva pelicula añadida en el post, comprueba si todos los campos son correctos
-            comprueba.push(camposOriginal.includes(Object.keys(movie)[i]));
-        }
-        // Comprueba si el resultado de hacer una operacion AND a toda la lista es true o false
-        if (comprueba.reduce((a,b) => a && b)) {
-            if (dbMovies.find(objeto => objeto.original_title === movie.original_title)) {
-                // En caso de que haya un objeto con el titulo original repetido no se podrá añadir
-                res.sendStatus(409, "Conflict")
+        // Listas para almacenar los datos para comprobaciones
+        let primerElemento = [];
+        let camposOriginal = [];
+        
+        dbMovies.find({}, (err, doc) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } 
+            if (doc.length !== 0){
+                // Si la base de datos no esta vacia:
+                // Accedo al primer elemento de la bd
+                primerElemento = doc[0];
+                // Añado los campos originales de la bd
+                camposOriginal = Object.keys(primerElemento);
+                // Comprobar si la pelicula es un Array o un JSON
+                if (movie instanceof Array) {
+                    // Por ahora solo contemplo que los POST se hagan con un JSON, si en el body hay un Array, sera un POST no válido
+                    res.status(415).send("Unsupported Media Type. Arrays are not currently supported by the API.");
+                } else {
+                    for(let i=0; i<Object.keys(movie).length;i++) {
+                        // Para cada campo dentro de cada nueva pelicula añadida en el post, comprueba si todos los campos son correctos
+                        comprueba.push(camposOriginal.includes(Object.keys(movie)[i]));
+                    }
+                    // Comprueba si el resultado de hacer una operacion AND a toda la lista es true o false
+                    if (comprueba.reduce((a,b) => a && b)) {
+                        // Comprobamos que en la base de datos no haya una pelicula con el mismo nombre que el post
+                        if (doc.find(pelis => pelis.original_title === movie.original_title)) {
+                            // 16.2 POST A recurso existente
+                            res.sendStatus(409, "Conflict");
+                        } else {
+                            // Si todos los campos son correctos y no hay otra pelicula igual, hacemos el POST
+                            dbMovies.insert(movie);
+                            res.sendStatus(201, "Created");
+                        }
+                    } else {
+                        // 16.3 BAD REQUEST POST, los campos del objeto en el POST no son correctos
+                        res.sendStatus(400, "Bad Request");
+                    }
+                } 
             } else {
-                // Si todos los campos estan correctos, se añade el recurso
-                dataset.push(movie);
-                res.sendStatus(200, "OK");
-            }
-        } else {
-            // 16.3 BAD REQUEST POST
-            res.sendStatus(400, "Bad Request");
-        }
+                // Si la base de datos está vacía, se puede hacer el post correctamente
+                dbMovies.insert(movie);
+                res.sendStatus(201, "Created");
+            }    
+        })
     });
+
     // DELETE Del recurso
     app.delete(API_BASE+"/movies-dataset", (req, res) => {
-        while(dataset.length > 0) {
-            dataset.pop();
-        }
-        res.sendStatus(200, "OK");
+        dbMovies.find({}, (err, docs) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {  
+                if (docs.length === 0) {
+                    // Si la base de datos ya esta vacía, devuelve un codigo 409
+                    res.sendStatus(409, "Conflict");
+                } else {
+                    dbMovies.remove({}, { multi: true }, (err, numRemoved) => {
+                        if (err) {
+                            res.sendStatus(500, "Internal Error");
+                        } else {
+                            res.status(200).send(`OK, ${numRemoved} data deleted`);
+                        }
+                    })
+                }
+            }
+        })
     });
+
     // 16.4 GET Un recurso inexistente
     app.get(API_BASE+"/datos-peliculas", (req, res) => {
         res.sendStatus(404, "Not Found");
     });
+
     // 16.5 PUT No permitido
     app.put(API_BASE+"/movies-dataset", (req, res) => {
         res.sendStatus(405, "Method Not Allowed");
     });
+
     // GET Del recurso Avatar
-    app.get(API_BASE+"/movies-dataset/Avatar", (req, res) => {
-        if (dataset.filter(objeto => objeto.original_title === "Avatar")) {
-            res.send(JSON.stringify(dataset.filter(objeto => objeto.original_title === "Avatar")));
-            res.sendStatus(200, "OK");
-        } else {
-            res.sendStatus(404, "Not Found");
+    app.get(API_BASE+"/movies-dataset/:title", (req, res) => {
+        let title = req.params.title;
+        // Como tenemos identififcadores con espacios, primero limpiamos el parametro para que sea igual que el de la BD
+        if (title.includes("%20")) {
+            title = encodeURIComponent(nombre);
         }
+        // Ahora buscamos las peliculas cuyo titulo original coincide con el recurso buscado
+        dbMovies.find({ original_title: title }, (err, doc) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                if (doc.length === 0) {
+                    res.sendStatus(404, "Not Found");
+                } else {
+                    res.send(JSON.stringify(doc[0]));
+                }
+            }
+        })
     });
+
     // POST No permitido en un recurso
-    app.post(API_BASE+"/movies-dataset/:name", (req, res) => {
+    app.post(API_BASE+"/movies-dataset/:title", (req, res) => {
         res.sendStatus(405, "Method Not Allowed");
     });
 
     //16.1 PUT Con el mismo id
-    app.put(API_BASE+"/movies-dataset/Avatar", (req,res) => {
+    app.put(API_BASE+"/movies-dataset/:title", (req,res) => {
         let cambio = req.body;
-        if (cambio.original_title === "Avatar"){
-            dataset[dataset.findIndex(objeto => objeto.original_title === "Avatar")] = cambio;
-            res.sendStatus(200, "OK");
-        } else {
-            res.sendStatus(400, "Bad Request");
-        }
-    })
+        let title = req.params.title;
+        dbMovies.find({ original_title: title} , (err, doc) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                let objeto = doc[0];
+                if (doc.length === 0) {
+                    res.sendStatus(404, "Not Found");
+                } else {
+                    if (cambio.original_title === objeto.original_title) {
+                        // Utilizo inser con upsert = true para que el objeto ya existente se actualice, es decir se haga el PUT
+                        dbMovies.update({ original_title: title}, cambio, { upsert: true }); 
+                        res.sendStatus(201, "Updated");
+                    } else {
+                        res.sendStatus(400, "Bad Request");
+                    }
+                }
+            }
+        });
+    });
+
     // DELETE El recurso Avatar
     app.delete(API_BASE+"/movies-dataset/:title", (req, res) => {
         let title = req.params.title;

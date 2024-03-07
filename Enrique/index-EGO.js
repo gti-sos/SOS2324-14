@@ -419,7 +419,6 @@ let movies_data = [
   }
 ]
 
-module.exports = movies_data;
 
 console.log(movies_data.slice(0, 3))
 
@@ -431,20 +430,20 @@ console.log(movies_data.slice(0, 3))
 
 // // Parsea el CSV
 // Papa.parse(csvData, {
-//   header: true,
-//   dynamicTyping: true,
-//   complete: (result) => {
-//     // Obtiene los datos parseados
-//     const data = result.data;
-
-//     // Almacena los datos en el array
-//     movies.push(...data);
-
-//     // Muestra los 3 primeros datos del array
-//     console.log(movies.slice(0,3));
-//   }
-// });
-
+  //   header: true,
+  //   dynamicTyping: true,
+  //   complete: (result) => {
+    //     // Obtiene los datos parseados
+    //     const data = result.data;
+    
+    //     // Almacena los datos en el array
+    //     movies.push(...data);
+    
+    //     // Muestra los 3 primeros datos del array
+    //     console.log(movies.slice(0,3));
+    //   }
+    // });
+    
 // let movies_reduce = []
 // movies_reduce.push(movies.splice(0,11))
 
@@ -472,4 +471,4 @@ let averageBudget = presupuestoMedioPais(paisFiltro);
 
 console.log(`El presupuesto medio de las peliculas producidas en ${paisFiltro} es de ${Math.round(averageBudget)}€`);
 
-//module.exports = presupuestoMedioPais
+module.exports = movies_data;
