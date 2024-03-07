@@ -47,38 +47,37 @@ function api_NRM(app) {
     });
     
     // POST Nuevo evento
-    app.post(API_BASE+"/ufc-events-data", (req, res) => {
-        const requiredFields = ['location', 'fighter1', 'fighter2', 'fighter_1_kd', 'fighter_2_kd', 'fighter_1_str', 'fighter_2_str', 'fighter_1_td', 'fighter_2_td', 'fighter_1_sub', 'fighter_2_sub', 'weight_class', 'method', 'round', 'time', 'event_name', 'date', 'winner'];
-
-    // Verificar si el tipo de contenido es JSON
+    app.post(API_BASE + "/ufc-events-data", (req, res) => {
+        const requiredFields = ['location', 'fighter1', 'fighter2', 'fighter_1_kd', 'fighter_2_kd', 
+            'fighter_1_str', 'fighter_2_str', 'fighter_1_td', 'fighter_2_td', 'fighter_1_sub', 'fighter_2_sub', 
+            'weight_class', 'method', 'round', 'time', 'event_name', 'date', 'winner'];
+    
+        // Verificar si el tipo de contenido es JSON
         if (req.headers['content-type'] !== 'application/json') {
-            res.sendStatus(400, 'Content not application/JSON')
+            return res.status(400).send('Content not application/JSON');
         }
-
-    // Intentar analizar el cuerpo de la solicitud como JSON
-        try {
-            const fight = req.body;
-
-            const isValid = requiredFields.every(field => field in fight && fight[field] !== null && fight[field] !== undefined);
-
-            if (!isValid) {
-                res.sendStatus(400, 'incorrect JSON');
-            }
-
-            const exists = dataset.some(obj => obj.fighter1 === fight.fighter1 && obj.fighter2 === fight.fighter2 && obj.date === fight.date);
-            if (exists) {
-                res.sendStatus(409, 'Conflict');
-            }
-
-            dataset.push(fight);
-            res.sendStatus(200, 'OK')
-        } catch (error) {
-            res.sendStatus(400, 'incorrect JSON')
+    
+        const fight = req.body;
+    
+        // Verificar si todos los campos requeridos están presentes y no son nulos o indefinidos
+        const isValid = requiredFields.every(field => field in fight && fight[field] !== null && fight[field] !== undefined);
+        if (!isValid) {
+            return res.status(400).send('Incorrect JSON');
         }
+        // Verificar si ya existe un evento con los mismos luchadores y fecha
+        const exists = dataset.some(obj => obj.fighter1 === fight.fighter1 && obj.fighter2 === fight.fighter2 && obj.date === fight.date);
+        if (exists) {
+            return res.status(409).send('Conflict');
+        }
+        // Agregar el nuevo evento al dataset
+        dataset.push(fight);
+        return res.status(201).send('OK');
     });
 
 
-    // DELETE del recurso
+
+
+    // DELETE de todo
     app.delete(API_BASE+"/ufc-events-data", (req, res) => {
         while (dataset.length > 0) {
             dataset.pop();
@@ -96,9 +95,10 @@ function api_NRM(app) {
         res.sendStatus(405, "Method Not Allowed");
     });
 
-    // GET del recurso Welterweight
-    app.get(API_BASE+"/ufc-events-data/Welterweight", (req, res) => {
-        const datosFiltrados = dataset.filter(obj => obj.weight_class === "Welterweight");
+    // GET del recurso especificado
+    app.get(API_BASE+"/ufc-events-data/:peso", (req, res) => {
+        const peso = req.params.peso;
+        const datosFiltrados = dataset.filter(obj => obj.weight_class === peso);
 
         if (datosFiltrados.length === 0) {
             res.sendStatus(404,"Not Found");
@@ -113,13 +113,28 @@ function api_NRM(app) {
         res.sendStatus(405, "Method Not Allowed");
     });
 
-    // 16.1 PUT Mismo recurso
-    app.put(API_BASE+"/ufc-events-data/Welterweight", (req, res) => {
+    // 16.1 PUT recurso existente
+    app.put(API_BASE+"/ufc-events-data/:fighter1/:fighter2/:date", (req, res) => {
+        const f1 = req.params.fighter1;
+        const f2 = req.params.fighter2;
+        const fdate = req.params.date;
         const sw = req.body;
 
-        const index = dataset.findIndex(item => item.fighter1 === sw.fighter1 &&
-                                        item.fighter2 === sw.fighter2 &&
-                                        item.date === sw.date) 
+        // Verificación
+        if (!f1 || !f2 || !fdate || !sw) {
+            res.sendStatus(400, "Bad Request: Missing required data");
+            return;
+        }
+
+        // const identificador = `${f1}:${f2}:${fdate}`;
+
+        const index =  dataset.findIndex(item => {
+            return (
+                item.fighter1 === f1 &&
+                item.fighter2 === f2 &&
+                item.date === fdate
+            );
+        });
         if (index !== -1) {
             Object.assign(dataset[index], sw);
             res.sendStatus(200, 'OK');
@@ -128,18 +143,17 @@ function api_NRM(app) {
         }
     });
 
-    // DELETE El recurso 
-    app.delete(API_BASE+"/ufc-events-data/Welterweight", (req, res) => {
-        if (dataset.find(obj => obj.weight_class === "Welterweight")) {
-            dataset = dataset.filter(obj => obj.weight_class !== "Welterweight");
+    // DELETE El recurso peso
+    app.delete(API_BASE+"/ufc-events-data/:peso", (req, res) => {
+        const peso = req.params.peso;
+        
+        if (dataset.find(obj => obj.weight_class === peso)) {
+            dataset = dataset.filter(obj => obj.weight_class !== peso);
             res.sendStatus(200, "OK");
         } else {
             res.sendStatus(404, "Not Found");
         }
     });
-
-
-    
 
 }
 module.exports = api_NRM;
