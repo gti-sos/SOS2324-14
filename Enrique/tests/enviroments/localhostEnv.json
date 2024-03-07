@@ -1,0 +1,15 @@
+{
+	"id": "7fd09ba4-8f4a-4507-8040-f6ae1601d3e5",
+	"name": "localhost",
+	"values": [
+		{
+			"key": "SERVER",
+			"value": "http://localhost:10002",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2024-03-07T21:13:35.800Z",
+	"_postman_exported_using": "Postman/10.23.8"
+}

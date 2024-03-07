@@ -13,6 +13,7 @@ let api_VEG = require('./Victor/api-VEG');
 let api_NRM = require('./Nico/index-api');
 
 let dbMovies = new dataStore();
+let db = new dataStore();
 
 
 let app = express();
@@ -74,6 +75,6 @@ app.get("/samples/VEG", (req, res) => {
     res.send(`<html><body><h1>La media de view_count para ${paisDeseado} es: ${mediaViewCountPaisDeseado}</h1></body></html>`);
 });
 
-api_VEG(app);
+api_VEG(app, db);
 
 

@@ -164,7 +164,7 @@ module.exports = (app, dbMovies) => {
                     if (cambio.original_title === objeto.original_title) {
                         // Utilizo inser con upsert = true para que el objeto ya existente se actualice, es decir se haga el PUT
                         dbMovies.update({ original_title: title}, cambio, { upsert: true }); 
-                        res.sendStatus(201, "Updated");
+                        res.sendStatus(201, "Created");
                     } else {
                         res.sendStatus(400, "Bad Request");
                     }
