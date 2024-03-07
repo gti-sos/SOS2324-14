@@ -1,41 +1,61 @@
-const express = require("express");
 const data_VEG = require('./index-VEG');
 const API_BASE = "/api/v1";
 
+const dataStore = require('nedb');
+const db = new dataStore({ filename: 'data.db', autoload: true });
+
 function api_VEG(app) {
 
-    let dataset = new Array();
+    //let dataset = new Array();
 
     //GET Punto 13: Crear datos si no hay
-    app.get(API_BASE+"/youtube-trends/loadInitialData", (req, res) => {
-        if (dataset.length === 0) {
-            for(let i=0; i < data_VEG.length; i++){
-                dataset.push(data_VEG[i]);
+    app.get(API_BASE + "/youtube-trends/loadInitialData", (req, res) => {
+        db.find({}, (err, docs) => {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500, "Internal Error");
+            } else {
+                if (docs.length === 0) {
+                    // Insertar datos iniciales en la base de datos
+                    db.insert(data_VEG, (err, newDocs) => {
+                        if (err) {
+                            console.error(err);
+                            res.sendStatus(500, "Internal Error");
+                        } else {
+                            res.sendStatus(201, "Created");
+                        }
+                    });
+                } else {
+                    res.sendStatus(409, "Conflict");
+                }
             }
-            res.sendStatus(201, "Created");
-        } else {
-            // 16.2 POST A recurso existente
-            res.sendStatus(409, "Conflict");
-        }
+        });
     });
 
     //GET inicial
     app.get(API_BASE + "/youtube-trends", (req, res) => {
-        res.status(200).json(dataset);
+        db.find({}).sort({ id: 1 }).exec((err, data) => { // Orden ascendente por ID
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                res.status(200).json(data);
+            }
+        });
     });
 
     // GET para obtener los datos relacionados con un país específico
     app.get(API_BASE + "/youtube-trends/:country", (req, res) => {
         const country = req.params.country;
-        const filteredData = dataset.filter(item => item.country === country);
-
-        // Verificar si se encontraron datos para el país especificado
-        if (filteredData && filteredData.length > 0) {
-            res.send(JSON.stringify(filteredData));
-            res.sendStatus(200, "OK");
-        } else {
-            res.sendStatus(404, "Not Found");
-        }
+        db.find({ country: country }).sort({ id: 1 }).exec((err, docs) => {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500, "Internal Error");
+            } else if (docs && docs.length > 0) {
+                res.status(200).json(docs);
+            } else {
+                res.sendStatus(404, "Not Found");
+            }
+        });
     });
 
     //POST para crear un nuevo dato
@@ -49,13 +69,25 @@ function api_VEG(app) {
         }
 
         // Verificar si el ID ya existe en la base de datos
-        const idExistente = dataset.some(item => item.id === nuevoDato.id);
-        if (idExistente) {
-            res.sendStatus(409, "Conflict");
-        } else {
-            dataset.push(nuevoDato);
-            res.sendStatus(201, "Created");
-        }
+        db.findOne({ id: nuevoDato.id }, (err, existingData) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+                return;
+            }
+
+            if (existingData) {
+                res.sendStatus(409, "Conflict");
+            } else {
+                // Insertar el nuevo dato en la base de datos
+                db.insert(nuevoDato, (err, insertedData) => {
+                    if (err) {
+                        res.sendStatus(500, "Internal Error");
+                    } else {
+                        res.sendStatus(201, "Created");
+                    }
+                });
+            }
+        });
     });
 
     // POST No permitido en un recurso
@@ -67,23 +99,32 @@ function api_VEG(app) {
 
     //PUT para actualizar un dato existente
     app.put(API_BASE + "/youtube-trends/:id", (req, res) => {
-        const idFromUrl = req.params.id;
+        const idFromUrl = parseInt(req.params.id); 
         const newDato = req.body;
 
-        // Convertir idFromUrl a cadena y que así se compare bien la id de url la id del nuevo dato
-        const idFromUrlString = idFromUrl.toString();
-
-        if (idFromUrlString !== newDato.id.toString()) {
-            res.sendStatus(400, "Bad Request");
-        } else {
-            const index = dataset.findIndex(item => item.id === parseInt(idFromUrl));
-            if (index !== -1) {
-                Object.assign(dataset[index], newDato);
-                res.sendStatus(200, "OK");
-            } else {
-                res.sendStatus(404, "Not Found");
-            }
+        if (idFromUrl !== newDato.id) {
+            return res.status(400).send("Bad Request: El ID en la URL y en el cuerpo de la solicitud no coinciden");
         }
+
+        db.findOne({ id: idFromUrl }, (findErr, existingData) => {
+            if (findErr) {
+                return res.sendStatus(500,"Internal Error");
+            }
+            if (!existingData) {
+                return res.sendStatus(404,"Not Found");
+            }
+    
+            db.update({ id: idFromUrl }, { $set: newDato }, {}, (updateErr, numReplaced) => {
+                if (updateErr) {
+                    return res.sendStatus(500,"Internal Error");
+                }
+                if (numReplaced === 0) {
+                    return res.sendStatus(404,"Not Found");
+                }
+
+                res.sendStatus(200,"OK");
+            });
+        });
     });
 
     //PUT No permitido en un recurso
@@ -92,24 +133,32 @@ function api_VEG(app) {
     });
 
 
-    //DELETE para eliminar un dato existente
+
+    // DELETE para eliminar un dato existente
     app.delete(API_BASE + "/youtube-trends/:id", (req, res) => {
-        const id = req.params.id.toString();
-        const index = dataset.findIndex(item => item.id.toString() === id);
-        if (index !== -1) {
-            dataset.splice(index, 1);
-            res.sendStatus(200, "OK");
-        } else {
-            res.sendStatus(404, "Not Found");
-        }
+        const id = parseInt(req.params.id);
+    
+        db.remove({ id: id }, {}, (err, numRemoved) => {
+            if (err) {
+                return res.sendStatus(500,"Internal Error");
+            }
+            if (numRemoved === 0) {
+                return res.sendStatus(404,"Not Found");
+            }
+            res.sendStatus(200,"OK");
+        });
     });
 
+    // DELETE para eliminar todos los recursos
     app.delete(API_BASE + "/youtube-trends", (req, res) => {
-        // Eliminar todos los recursos
-        while (dataset.length > 0) {
-            dataset.pop();
-        }
-        res.sendStatus(200, "OK");
+        db.remove({}, { multi: true }, (err, numRemoved) => {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500, "Internal Error");
+            } else {
+                res.sendStatus(200, "OK");
+            }
+        });
     });
 
     //GET Un recurso inexistente
