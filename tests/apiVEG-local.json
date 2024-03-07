@@ -122,7 +122,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/Albania",
+					"raw": "{{local}}/api/v1/youtube-trends/country/Albania",
 					"host": [
 						"{{local}}"
 					],
@@ -130,7 +130,246 @@
 						"api",
 						"v1",
 						"youtube-trends",
+						"country",
 						"Albania"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local}}/api/v1/youtube-trends/id/0",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"id",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso published-at",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local}}/api/v1/youtube-trends/published-at/2010-07",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"published-at",
+						"2010-07"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso channel_title",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local}}/api/v1/youtube-trends/channel_title/SEFutbol",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"channel_title",
+						"SEFutbol"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso category_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local}}/api/v1/youtube-trends/category_id/2",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"category_id",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso trending_date",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local}}/api/v1/youtube-trends/trending_date/10.07.11",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"trending_date",
+						"10.07.11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso view_count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local}}/api/v1/youtube-trends/view_count/514000",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"view_count",
+						"514000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso comment_count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local}}/api/v1/youtube-trends/comment_count/3651",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"comment_count",
+						"3651"
 					]
 				}
 			},
@@ -486,15 +725,6 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n        \"id\":10,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "{{local}}/api/v1/youtube-trends/10",
 					"host": [
