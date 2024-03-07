@@ -71,19 +71,23 @@ function api_NRM(app) {
         }
         // Agregar el nuevo evento al dataset
         dataset.push(fight);
-        return res.status(201).send('OK');
+        return res.status(201).send('Created');
     });
 
 
 
 
     // DELETE de todo
-    app.delete(API_BASE+"/ufc-events-data", (req, res) => {
+app.delete(API_BASE+"/ufc-events-data", (req, res) => {
+    if (dataset.length === 0) {
+        return res.sendStatus(404, 'No data found to delete');
+    } else {
         while (dataset.length > 0) {
             dataset.pop();
         }
-        res.sendStatus(200, 'OK');
-    });
+        return res.sendStatus(200, 'OK');
+    }
+});
 
     // 16.4 GET Rec inexistente
     app.get(API_BASE+"/ufc-events", (req, res) =>{
@@ -109,7 +113,7 @@ function api_NRM(app) {
     });
 
     // POST No permitido en un recurso
-    app.post(API_BASE+"/ufc-events-data/Welterweight", (req, res) => {
+    app.post(API_BASE+"/ufc-events-data/:peso", (req, res) => {
         res.sendStatus(405, "Method Not Allowed");
     });
 
