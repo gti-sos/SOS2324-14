@@ -4,6 +4,9 @@ const API_BASE = "/api/v1";
 //const dataStore = require('nedb');
 //const db = new dataStore({ filename: 'data.db', autoload: true });
 
+// Test POSTMAN Víctor
+// npx newman run ./tests/apiVEG-gcloud.json -e ./tests/enviroments/gcloud.json && 
+
 function api_VEG(app, db) {
 
     //let dataset = new Array();

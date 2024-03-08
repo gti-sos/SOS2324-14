@@ -1,4 +1,4 @@
-const movies_data = require("./index-EGO.js")
+const movies_data = require("./index-EGO.js");
 
 const API_BASE = "/api/v1";
 
@@ -25,18 +25,24 @@ module.exports = (app, dbMovies) => {
 
     // GET Base
     app.get(API_BASE+"/movies-dataset", (req, res) => {
-        //res.send(JSON.stringify(dataset));
         dbMovies.find({}, (err, movies) => {
             if(err){
                 res.sendStatus(500, "Internal Error");    
             } else {
-                res.send(JSON.stringify(movies.map((c) => {
-                    delete c._id;
-                    return c;
-                })));
-                //res.sendStatus(200, "OK");
+                // Si hay una query para paginar, pagina el recurso
+                if (req.query) {
+                    let limit = req.query.limit;
+                    let offset = req.query.offset;
+                    res.send(JSON.stringify(movies.slice(offset, limit)));
+                } else {
+                    // Si no, muestra el recurso entero
+                    res.send(JSON.stringify(movies.map((c) => {
+                        delete c._id;
+                        return c;
+                    })));
+                }
             }
-        })
+        });
     });
 
     // POST Nueva pelicula
@@ -192,5 +198,19 @@ module.exports = (app, dbMovies) => {
                 }
             }
         })
+    });
+
+    // Painación de la API
+    app.get(API_BASE+"/pruebas", (req, res) => {
+        let limit = req.query.limit
+        let offset = req.query.offset
+        dbMovies.find({}, (err, doc) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                //let primero = doc[limit]
+ //               res.send(JSON.stringify(doc.slice(offset, limit)));
+            }
+        });
     });
 }
