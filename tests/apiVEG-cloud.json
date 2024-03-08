@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "2a3ab57b-fdc0-4702-b7f2-1d0262338347",
-		"name": "VEG Api Testing(Local)",
+		"_postman_id": "71b32a00-163a-4df8-b2f9-98c94a3fe9ce",
+		"name": "VEG Api Testing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33038536"
 	},
@@ -25,9 +25,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/loadInitialData",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/loadInitialData",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -58,9 +58,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends",
+					"raw": "{{gcloud}}/api/v1/youtube-trends",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -90,9 +90,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/datos-youtube",
+					"raw": "{{gcloud}}/api/v1/datos-youtube",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -122,9 +122,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/country/Albania",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/country/Albania",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -156,9 +156,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/id/0",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/id/0",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -190,16 +190,16 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/published-at/2010-07",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/published-at/2022-06",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
 						"v1",
 						"youtube-trends",
 						"published-at",
-						"2010-07"
+						"2022-06"
 					]
 				}
 			},
@@ -224,9 +224,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/channel_title/SEFutbol",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/channel_title/SEFutbol",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -258,9 +258,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/category_id/2",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/category_id/2",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -292,9 +292,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/trending_date/10.07.11",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/trending_date/10.07.11",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -326,9 +326,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/view_count/514000",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/view_count/514000",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -360,9 +360,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/comment_count/3651",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/comment_count/3651",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -403,9 +403,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends",
+					"raw": "{{gcloud}}/api/v1/youtube-trends",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -444,9 +444,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends",
+					"raw": "{{gcloud}}/api/v1/youtube-trends",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -485,9 +485,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends",
+					"raw": "{{gcloud}}/api/v1/youtube-trends",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -526,9 +526,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/channel_title",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/channel_title",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -568,9 +568,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/9",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/9",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -610,9 +610,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/10",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/10",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -652,9 +652,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/12",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/12",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -694,9 +694,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends",
+					"raw": "{{gcloud}}/api/v1/youtube-trends",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -726,9 +726,9 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends/10",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/10",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
@@ -759,9 +759,9 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{local}}/api/v1/youtube-trends",
+					"raw": "{{gcloud}}/api/v1/youtube-trends",
 					"host": [
-						"{{local}}"
+						"{{gcloud}}"
 					],
 					"path": [
 						"api",
