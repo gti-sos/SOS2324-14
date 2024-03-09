@@ -122,16 +122,20 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/country/Albania",
+					"raw": "{{gcloud}}/api/v1/youtube-trends?country=Albania",
 					"host": [
 						"{{gcloud}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"youtube-trends",
-						"country",
-						"Albania"
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "Albania"
+						}
 					]
 				}
 			},
@@ -156,16 +160,20 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/id/0",
+					"raw": "{{gcloud}}/api/v1/youtube-trends?id=0",
 					"host": [
 						"{{gcloud}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"youtube-trends",
-						"id",
-						"0"
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "0"
+						}
 					]
 				}
 			},
@@ -190,16 +198,20 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/published-at/2022-06",
+					"raw": "{{gcloud}}/api/v1/youtube-trends?published-at=2022-06",
 					"host": [
 						"{{gcloud}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"youtube-trends",
-						"published-at",
-						"2022-06"
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "published-at",
+							"value": "2022-06"
+						}
 					]
 				}
 			},
@@ -224,16 +236,20 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/channel_title/SEFutbol",
+					"raw": "{{gcloud}}/api/v1/youtube-trends?channel_title=SEFutbol",
 					"host": [
 						"{{gcloud}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"youtube-trends",
-						"channel_title",
-						"SEFutbol"
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "channel_title",
+							"value": "SEFutbol"
+						}
 					]
 				}
 			},
@@ -258,16 +274,20 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/category_id/2",
+					"raw": "{{gcloud}}/api/v1/youtube-trends?category_id=2",
 					"host": [
 						"{{gcloud}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"youtube-trends",
-						"category_id",
-						"2"
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "2"
+						}
 					]
 				}
 			},
@@ -292,16 +312,20 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/trending_date/10.07.11",
+					"raw": "{{gcloud}}/api/v1/youtube-trends?trending_date=10.07.11",
 					"host": [
 						"{{gcloud}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"youtube-trends",
-						"trending_date",
-						"10.07.11"
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "trending_date",
+							"value": "10.07.11"
+						}
 					]
 				}
 			},
@@ -326,16 +350,20 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/view_count/514000",
+					"raw": "{{gcloud}}/api/v1/youtube-trends?view_count=514000",
 					"host": [
 						"{{gcloud}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"youtube-trends",
-						"view_count",
-						"514000"
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "view_count",
+							"value": "514000"
+						}
 					]
 				}
 			},
@@ -360,16 +388,20 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/comment_count/3651",
+					"raw": "{{gcloud}}/api/v1/youtube-trends?comment_count=3651",
 					"host": [
 						"{{gcloud}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"youtube-trends",
-						"comment_count",
-						"3651"
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "comment_count",
+							"value": "3651"
+						}
 					]
 				}
 			},

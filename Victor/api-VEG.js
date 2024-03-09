@@ -8,7 +8,7 @@ module.exports = (app, db) => {
 
     //let dataset = new Array();
 
-    //GET Punto 13: Crear datos si no hay
+    //GET Punto 13: Introducir datos
     app.get(API_BASE + "/youtube-trends/loadInitialData", (req, res) => {
         db.find({}, (err, docs) => {
             if (err) {
@@ -32,164 +32,41 @@ module.exports = (app, db) => {
         });
     });
 
-    //GET inicial
-    app.get(API_BASE + "/youtube-trends", (req, res) => {
-        db.find({}).sort({ id: 1 }).exec((err, data) => { // Orden ascendente por ID
-            if (err) {
-                res.sendStatus(500, "Internal Error");
-            } else {
-                res.status(200).json(data);
-            }
-        });
-    });
+    // GET para obtener datos con paginación 
+app.get(API_BASE + "/youtube-trends", (req, res) => {
+    const page = parseInt(req.query.page) || 1; // Página solicitada (predeterminada: 1)
+    const limit = parseInt(req.query.limit) || 10; // Número de resultados por página (predeterminado: 10)
+    const skip = (page - 1) * limit; // Salto para la paginación
 
-    // GET para obtener los datos relacionados con un país específico
-    app.get(API_BASE + "/youtube-trends/country/:country", (req, res) => {
-        const country = req.params.country;
-        db.find({ country: country }).sort({ id: 1 }).exec((err, docs) => {
-            if (err) {
-                console.error(err);
-                res.sendStatus(500, "Internal Error");
-            } else if (docs && docs.length > 0) {
-                res.status(200).json(docs);
-            } else {
-                res.sendStatus(404, "Not Found");
-            }
-        });
-    });
-
-    //GET para obtener los datos relacionados de un ID específico
-    app.get(API_BASE + "/youtube-trends/id/:id", (req, res) => {
-        const id = parseInt(req.params.id); // Convertir el ID a un número entero
-        db.findOne({ id: id }, (err, doc) => {
-            if (err) {
-                console.error(err);
-                res.status(500).send("Internal Error");
-            } else if (doc) {
-                res.status(200).json(doc);
-            } else {
-                res.sendStatus(404, "Not Found");
-            }
-        });
-    });
-
-    // GET para obtener los datos relacionados de un titulo de video específico
-    app.get(API_BASE + "/youtube-trends/title/:title", (req, res) => {
-        const title = req.params.title;
-        db.find({ title: title }).sort({ id: 1 }).exec((err, docs) => {
-            if (err) {
-                console.error(err);
-                res.sendStatus(500, "Internal Error");
-            } else if (docs && docs.length > 0) {
-                res.status(200).json(docs);
-            } else {
-                res.sendStatus(404, "Not Found");
-            }
-        });
-    });
-
-    // GET para obtener los datos que se han publicado en una fecha (mes y año) específico
-    app.get(API_BASE + "/youtube-trends/published-at/:publishedAt", (req, res) => {
-        const publishedAt = req.params.publishedAt;
+    // Filtros opcionales
+    const filters = {};
+    if (req.query.country) filters.country = req.query.country;
+    if (req.query.title) filters.title = req.query.title;
+    if (req.query.publishedAt) {
+        const publishedAt = req.query.publishedAt;
         const [year, month] = publishedAt.split("-"); // Dividir el valor de la URL en año y mes
-
-        // Calcular el rango de fechas para el mes y año especificados
         const startOfMonth = new Date(year, month - 1, 1);
         const endOfMonth = new Date(year, month, 0, 23, 59, 59);
+        filters.published_at = { $gte: startOfMonth.toISOString(), $lte: endOfMonth.toISOString() };
+    }
+    if (req.query.channelTitle) filters.channel_title = req.query.channelTitle;
+    if (req.query.categoryId) filters.category_id = parseInt(req.query.categoryId);
+    if (req.query.trendingDate) filters.trending_date = req.query.trendingDate;
+    if (req.query.viewCount) filters.view_count = parseInt(req.query.viewCount);
+    if (req.query.commentCount) filters.comment_count = parseInt(req.query.commentCount);
 
-
-        db.find({ published_at: { $gte: startOfMonth.toISOString(), $lte: endOfMonth.toISOString() } }, (err, docs) => {
-            if (err) {
-                console.error(err);
-                res.sendStatus(500, "Internal Error");
-            } else if (docs && docs.length > 0) {
-                res.status(200).json(docs);
-            } else {
-                res.sendStatus(404, "Not Found");
-            }
-        });
+    // Realizar la consulta con los filtros y la paginación
+    db.find(filters).sort({ id: 1 }).skip(skip).limit(limit).exec((err, docs) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500, "Internal Error");
+        } else if (docs && docs.length > 0) {
+            res.status(200).json(docs);
+        } else {
+            res.sendStatus(404, "Not Found");
+        }
     });
-
-    // GET para obtener los datos relacionados de un canal específico
-    app.get(API_BASE + "/youtube-trends/channel_title/:channel_title", (req, res) => {
-        const channel_title = req.params.channel_title;
-        db.find({ channel_title: channel_title }).sort({ id: 1 }).exec((err, docs) => {
-            if (err) {
-                console.error(err);
-                res.sendStatus(500, "Internal Error");
-            } else if (docs && docs.length > 0) {
-                res.status(200).json(docs);
-            } else {
-                res.sendStatus(404, "Not Found");
-            }
-        });
-    });
-
-    //GET para obtener los datos relacionados de un category_id específica
-    app.get(API_BASE + "/youtube-trends/category_id/:category_id", (req, res) => {
-        const category_id = parseInt(req.params.category_id);
-        db.findOne({ category_id: category_id }, (err, doc) => {
-            if (err) {
-                console.error(err);
-                res.sendStatus(500, "Internal Error");
-            } else if (doc) {
-                res.status(200).json(doc);
-            } else {
-                res.sendStatus(404, "Not Found");
-            }
-        });
-    });
-
-    // GET para obtener los datos que están en tendencia en una fecha específica
-    app.get(API_BASE + "/youtube-trends/trending_date/:trendingDate", (req, res) => {
-        const trendingDate = req.params.trendingDate; // Obtener el valor de la fecha de tendencia de la URL
-
-        // Realizar la búsqueda en la base de datos utilizando el valor de la fecha de tendencia
-        db.find({ trending_date: trendingDate }, (err, docs) => {
-            if (err) {
-                console.error(err);
-                res.status(500).send("Internal Error");
-            } else if (docs && docs.length > 0) {
-                res.status(200).json(docs);
-            } else {
-                res.sendStatus(404,"Not Found");
-            }
-        });
-    });
-
-    //GET para obtener los datos relacionados dado un view_count
-    app.get(API_BASE + "/youtube-trends/view_count/:view_count", (req, res) => {
-        const view_count = parseInt(req.params.view_count); 
-        db.findOne({ view_count: view_count }, (err, doc) => {
-            if (err) {
-                console.error(err);
-                res.status(500).send("Internal Error");
-            } else if (doc) {
-                res.status(200).json(doc);
-            } else {
-                res.sendStatus(404, "Not Found");
-            }
-        });
-    });
-
-    //GET para obtener los datos relacionados dado un view_count
-    app.get(API_BASE + "/youtube-trends/comment_count/:comment_count", (req, res) => {
-        const comment_count = parseInt(req.params.comment_count); 
-        db.findOne({ comment_count: comment_count }, (err, doc) => {
-            if (err) {
-                console.error(err);
-                res.status(500).send("Internal Error");
-            } else if (doc) {
-                res.status(200).json(doc);
-            } else {
-                res.sendStatus(404, "Not Found");
-            }
-        });
-    });
-
-
-
-
+});
 
     //POST para crear un nuevo dato
     app.post(API_BASE + "/youtube-trends", (req, res) => {
