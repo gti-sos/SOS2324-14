@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node index.js",
-    "test": "npx newman run ./tests/apiVEG-gcloud.json && npx newman run ./tests/apiNRM-gcloud.json && npx newman run ./Enrique/tests/CollectionAPIEGO.json -e ./Enrique/tests/enviroments/GCloudEnv.json"
+    "test": "npm run test-EGO && npm run test-NRM && npm run test-VEG",
+    "test-EGO": "npx newman run ./Enrique/tests/CollectionAPIEGO.json -e ./Enrique/tests/enviroments/GCloudEnv.json",
+    "test-NRM": "npx newman run ./tests/apiNRM-gcloud.json -e ./tests/enviroments/gcloud.json",
+    "test-VEG": "npx newman run ./tests/apiVEG-gcloud.json -e ./tests/enviroments/gcloud.json"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
