@@ -33,40 +33,39 @@ module.exports = (app, db) => {
     });
 
     // GET para obtener datos con paginación 
-app.get(API_BASE + "/youtube-trends", (req, res) => {
-    const page = parseInt(req.query.page) || 1; // Página solicitada (predeterminada: 1)
-    const limit = parseInt(req.query.limit) || 10; // Número de resultados por página (predeterminado: 10)
-    const skip = (page - 1) * limit; // Salto para la paginación
+    app.get(API_BASE + "/youtube-trends", (req, res) => {
 
-    // Filtros opcionales
-    const filters = {};
-    if (req.query.country) filters.country = req.query.country;
-    if (req.query.title) filters.title = req.query.title;
-    if (req.query.publishedAt) {
-        const publishedAt = req.query.publishedAt;
-        const [year, month] = publishedAt.split("-"); // Dividir el valor de la URL en año y mes
-        const startOfMonth = new Date(year, month - 1, 1);
-        const endOfMonth = new Date(year, month, 0, 23, 59, 59);
-        filters.published_at = { $gte: startOfMonth.toISOString(), $lte: endOfMonth.toISOString() };
-    }
-    if (req.query.channelTitle) filters.channel_title = req.query.channelTitle;
-    if (req.query.categoryId) filters.category_id = parseInt(req.query.categoryId);
-    if (req.query.trendingDate) filters.trending_date = req.query.trendingDate;
-    if (req.query.viewCount) filters.view_count = parseInt(req.query.viewCount);
-    if (req.query.commentCount) filters.comment_count = parseInt(req.query.commentCount);
-
-    // Realizar la consulta con los filtros y la paginación
-    db.find(filters).sort({ id: 1 }).skip(skip).limit(limit).exec((err, docs) => {
-        if (err) {
-            console.error(err);
+        const queryParams = req.query;
+        const limit = parseInt(queryParams.limit) || 10; 
+        const offset = parseInt(queryParams.offset) || 0; 
+      
+        let query = {};
+      
+        Object.keys(queryParams).forEach(key => {
+            if (key !== 'limit' && key !== 'offset') {
+                const value = !isNaN(queryParams[key]) ? parseFloat(queryParams[key]) : queryParams[key];
+                if (typeof value === 'string') {
+                    query[key] = new RegExp(value, 'i');
+                } else {
+                    query[key] = value;
+                }
+            }
+        });
+      
+        db.find(query).skip(offset).limit(limit).exec((err, data_VEG) => {
+          if (err) {
             res.sendStatus(500, "Internal Error");
-        } else if (docs && docs.length > 0) {
-            res.status(200).json(docs);
-        } else {
-            res.sendStatus(404, "Not Found");
-        }
-    });
-});
+          } else {
+
+              const datosFinal = data_VEG.map(d => {
+              const { _id, ...datosSin_id } = d;
+              return datosSin_id;
+            });
+            res.status(200).json(datosFinal);
+          }
+        });
+      });
+
 
     //POST para crear un nuevo dato
     app.post(API_BASE + "/youtube-trends", (req, res) => {

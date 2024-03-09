@@ -198,7 +198,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends?published-at=2022-06",
+					"raw": "{{gcloud}}/api/v1/youtube-trends?published-at=2010-07-011T22:00:12Z",
 					"host": [
 						"{{gcloud}}"
 					],
@@ -210,7 +210,7 @@
 					"query": [
 						{
 							"key": "published-at",
-							"value": "2022-06"
+							"value": "2010-07-011T22:00:12Z"
 						}
 					]
 				}
