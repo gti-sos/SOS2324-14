@@ -8,6 +8,12 @@ module.exports = (app, db) => {
 
     //let dataset = new Array();
 
+
+    //Documentación Postman
+    app.get(API_BASE + "/youtube-trends/docs", (req, res) => {
+        res.status(301).redirect("https://documenter.getpostman.com/view/33038536/2sA2xh3Cti")
+    });
+
     //GET Punto 13: Introducir datos
     app.get(API_BASE + "/youtube-trends/loadInitialData", (req, res) => {
         db.find({}, (err, docs) => {
