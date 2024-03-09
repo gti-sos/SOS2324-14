@@ -25,22 +25,67 @@ module.exports = (app, dbMovies) => {
 
     // GET Base
     app.get(API_BASE+"/movies-dataset", (req, res) => {
+        //let queris = req.query
+        //res.send(JSON.stringify(Object.keys(req.query).length))
+
+        //for (let campo in queris) { campo:queris[campo] }
         dbMovies.find({}, (err, movies) => {
             if(err){
                 res.sendStatus(500, "Internal Error");    
             } else {
-                // Si hay una query para paginar, pagina el recurso
-                if (req.query) {
-                    let limit = req.query.limit;
-                    let offset = req.query.offset;
-                    res.send(JSON.stringify(movies.slice(offset, limit)));
+                if (!(Object.keys(req.query).length === 0)) {
+
+                    // Si hay una query para paginar, pagina el recurso
+                    if (req.query.limit && req.query.offset) {
+                        let limit = req.query.limit;
+                        let offset = req.query.offset;
+                        res.send(JSON.stringify(movies.slice(offset, limit)));
+                        // Si solo esta el campo limit, muestra la cantidad de elementos que indica limit
+                    } else if (req.query.limit && !req.query.offset) {
+                        let limit = req.query.limit;
+                        res.send(JSON.stringify(movies.slice(0, limit)));
+                        // Si solo esta el campo offset, muestra el objeto que esta en esa posicion
+                    } else if (!req.query.limit && req.query.offset) {
+                        let offset = req.query.offset;
+                        res.send(JSON.stringify(movies[offset]));
+                    } else if (req.query){
+                        let showMovies = []
+                        
+                        if (Object.keys(req.query).length === 1) {
+                            let campos = Object.keys(req.query)
+                            let campo = campos[0]
+                            for (let i = 0; i < movies.length; i++) {
+                                if (movies[i][campo] === req.query[campo]) {
+                                    showMovies.push(movies[i])
+                                } 
+                            }
+                            res.send(JSON.stringify(showMovies))
+                        } /*else {
+                            let campos = Object.keys(req.query)
+                            for (let i = 0; i < movies.length; i++) {
+                                let verdad = []
+                                for (let j = 0; j < campos.length; j++) {
+                                    if ((movies[i][campos[j]]) === req.query[campos[j]]) {
+                                        verdad.push((movies[i][campos[j]]) === req.query[campos[j]]) 
+                                        //verdad.push(false) 
+                                    }
+                                }
+                                if (verdad.reduce((a,b) => a && b) === false) {
+                                    showMovies.push(movies[i])
+                                }
+                            }
+                            res.send(JSON.stringify(showMovies))
+                            
+                            // res.send(JSON.stringify((movies[0][campos[0]]) === req.query[campos[0]])) // Esto funciona y obtine el titulo
+                        }*/
+                    }
                 } else {
                     // Si no, muestra el recurso entero
                     res.send(JSON.stringify(movies.map((c) => {
                         delete c._id;
                         return c;
                     })));
-                }
+                } 
             }
         });
     });
@@ -129,7 +174,7 @@ module.exports = (app, dbMovies) => {
         res.sendStatus(405, "Method Not Allowed");
     });
 
-    // GET Del recurso Avatar
+    // GET Del un recurso por su titulo
     app.get(API_BASE+"/movies-dataset/:title", (req, res) => {
         let title = req.params.title;
         // Como tenemos identififcadores con espacios, primero limpiamos el parametro para que sea igual que el de la BD
