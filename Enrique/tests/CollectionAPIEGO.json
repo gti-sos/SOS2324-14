@@ -72,6 +72,86 @@
 			"response": []
 		},
 		{
+			"name": "PAGING /api/v1/movies-dataset?offset=0&limit=5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/movies-dataset?offset=0&limit=5",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies-dataset"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SEARCH /api/v1/movies-dataset?original_title=Avatar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/movies-dataset?original_title=Avatar",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies-dataset"
+					],
+					"query": [
+						{
+							"key": "original_title",
+							"value": "Avatar"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GET NOT FOUND /api/v1/datos-peliculas",
 			"event": [
 				{
