@@ -23,12 +23,13 @@ module.exports = (app, dbMovies) => {
         })
     });
 
+    // GET Para la documentación en postman
+    app.get(API_BASE+"/movies-dataset/docs", (req, res) => {
+        res.redirect(302, 'https://documenter.getpostman.com/view/33038669/2sA2xh3YgP');
+    })
+
     // GET Base
     app.get(API_BASE+"/movies-dataset", (req, res) => {
-        //let queris = req.query
-        //res.send(JSON.stringify(Object.keys(req.query).length))
-
-        //for (let campo in queris) { campo:queris[campo] }
         dbMovies.find({}, (err, movies) => {
             if(err){
                 res.sendStatus(500, "Internal Error");    
@@ -48,6 +49,7 @@ module.exports = (app, dbMovies) => {
                     } else if (!req.query.limit && req.query.offset) {
                         let offset = req.query.offset;
                         res.send(JSON.stringify(movies[offset]));
+                    // En otro caso la query es para buscar por un campo
                     } else if (req.query){
                         let showMovies = []
                         
@@ -60,8 +62,9 @@ module.exports = (app, dbMovies) => {
                                 } 
                             }
                             res.send(JSON.stringify(showMovies))
-                        } /*else {
-                            let campos = Object.keys(req.query)
+                        } else {
+                            res.status(400).send("Bad Request. Unavailable find by two fields.")
+                            /*let campos = Object.keys(req.query)
                             for (let i = 0; i < movies.length; i++) {
                                 let verdad = []
                                 for (let j = 0; j < campos.length; j++) {
@@ -74,10 +77,10 @@ module.exports = (app, dbMovies) => {
                                     showMovies.push(movies[i])
                                 }
                             }
-                            res.send(JSON.stringify(showMovies))
+                            res.send(JSON.stringify(showMovies))*/
                             
                             // res.send(JSON.stringify((movies[0][campos[0]]) === req.query[campos[0]])) // Esto funciona y obtine el titulo
-                        }*/
+                        }
                     }
                 } else {
                     // Si no, muestra el recurso entero
@@ -224,7 +227,7 @@ module.exports = (app, dbMovies) => {
         });
     });
 
-    // DELETE El recurso Avatar
+    // DELETE El recurso por su titulo
     app.delete(API_BASE+"/movies-dataset/:title", (req, res) => {
         let title = req.params.title;
 
@@ -243,19 +246,5 @@ module.exports = (app, dbMovies) => {
                 }
             }
         })
-    });
-
-    // Painación de la API
-    app.get(API_BASE+"/pruebas", (req, res) => {
-        let limit = req.query.limit
-        let offset = req.query.offset
-        dbMovies.find({}, (err, doc) => {
-            if (err) {
-                res.sendStatus(500, "Internal Error");
-            } else {
-                //let primero = doc[limit]
- //               res.send(JSON.stringify(doc.slice(offset, limit)));
-            }
-        });
     });
 }
