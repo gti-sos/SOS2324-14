@@ -11,9 +11,11 @@ let calcularMediaTiempoPelea = require('./Nico/index-NRM');
 let enriqueAPI = require("./Enrique/index");
 let api_VEG = require('./Victor/api-VEG');
 let api_NRM = require('./Nico/index-api');
+const data = require("./Victor/index-VEG");
 
 let dbMovies = new dataStore();
 let db = new dataStore();
+let dbUfc = new dataStore();
 
 
 let app = express();
@@ -33,29 +35,29 @@ app.listen(PORT,()=>{
 // });
 
 // Nicolas Redondo Moreno
-app.get("/samples/NRM", (req, res) => {
-    const {mediaMinu, mediaSeg}  = calcularMediaTiempoPelea();
-    console.log("mediaMinu:", mediaMinu);
-    console.log("mediaSeg:", mediaSeg);
-    const htmlResponse = `
-        <html>
-               <body>
-                <h1>Resultado de los datos de Nico</h1>
-                <h3>La media de tiempo de las peleas del dataset es de ${mediaMinu} minutos y ${mediaSeg} segundos.</h3>
-            </body>
-        </html>`;
-    res.send(htmlResponse);
-});
+// app.get("/samples/NRM", (req, res) => {
+//     const {mediaMinu, mediaSeg}  = calcularMediaTiempoPelea();
+//     console.log("mediaMinu:", mediaMinu);
+//     console.log("mediaSeg:", mediaSeg);
+//     const htmlResponse = `
+//         <html>
+//                <body>
+//                 <h1>Resultado de los datos de Nico</h1>
+//                 <h3>La media de tiempo de las peleas del dataset es de ${mediaMinu} minutos y ${mediaSeg} segundos.</h3>
+//             </body>
+//         </html>`;
+//     res.send(htmlResponse);
+// });
 
-api_NRM(app);
+api_NRM(app, dbUfc);
 
 //Enrique Garcia Olivares
 enriqueAPI(app, dbMovies);
 
 // Elimidada la ruta /samples/EGO
 // app.get("/samples/EGO", (req, res) => {
-//     let paisFiltro = "United States of America"
-//     let presupuestoMedioPais = presupuesto(paisFiltro)
+    // let paisFiltro = "United States of America"
+    // let presupuestoMedioPais = presupuesto(paisFiltro)
 //     res.send(`<html><body><h2>El presupuesto medio de las peliculas producidas en ${paisFiltro} es de ${presupuestoMedioPais}€</h2></body></html>`)
 // })
 
