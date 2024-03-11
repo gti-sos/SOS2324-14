@@ -48,6 +48,12 @@ module.exports = (app, dbUfc) => {
         });
     });        
 
+    //Documentación Postman
+    app.get(API_BASE + "/ufc-events-data/docs", (req, res) => {
+        res.status(301).redirect("https://documenter.getpostman.com/view/32992444/2sA2xh3tEg")
+    });
+    
+
     // GET Base
     app.get(API_BASE+"/ufc-events-data", (req, res) => {
         dbUfc.find({}, (err, events) => {
@@ -235,9 +241,5 @@ app.delete(API_BASE+"/ufc-events-data", (req, res) => {
     });
 
     
-    //Documentación Postman
-    app.get(API_BASE + "/ufc-events-data/docs", (req, res) => {
-        res.status(301).redirect("https://documenter.getpostman.com/view/32992444/2sA2xh3tEg")
-    });
 
 }
