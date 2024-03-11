@@ -34,60 +34,95 @@ module.exports = (app, dbMovies) => {
             if(err){
                 res.sendStatus(500, "Internal Error");    
             } else {
+                let sinIdMovies = movies.map((c) => {
+                    delete c._id;
+                    return c
+                });
                 if (!(Object.keys(req.query).length === 0)) {
 
                     // Si hay una query para paginar, pagina el recurso
                     if (req.query.limit && req.query.offset) {
                         let limit = req.query.limit;
                         let offset = req.query.offset;
-                        res.send(JSON.stringify(movies.slice(offset, limit)));
+
+                        res.send(JSON.stringify(sinIdMovies.slice(offset, limit)));
                         // Si solo esta el campo limit, muestra la cantidad de elementos que indica limit
                     } else if (req.query.limit && !req.query.offset) {
                         let limit = req.query.limit;
-                        res.send(JSON.stringify(movies.slice(0, limit)));
+
+                        res.send(JSON.stringify(sinIdMovies.slice(0, limit)));
                         // Si solo esta el campo offset, muestra el objeto que esta en esa posicion
                     } else if (!req.query.limit && req.query.offset) {
                         let offset = req.query.offset;
-                        res.send(JSON.stringify(movies[offset]));
+
+                        res.send(JSON.stringify(sinIdMovies[offset]));
                     // En otro caso la query es para buscar por un campo
                     } else if (req.query){
-                        let showMovies = []
-                        
-                        if (Object.keys(req.query).length === 1) {
-                            let campos = Object.keys(req.query)
-                            let campo = campos[0]
-                            for (let i = 0; i < movies.length; i++) {
-                                if (movies[i][campo] === req.query[campo]) {
-                                    showMovies.push(movies[i])
-                                } 
-                            }
-                            res.send(JSON.stringify(showMovies))
-                        } else {
-                            res.status(400).send("Bad Request. Unavailable find by two fields.")
-                            /*let campos = Object.keys(req.query)
-                            for (let i = 0; i < movies.length; i++) {
-                                let verdad = []
-                                for (let j = 0; j < campos.length; j++) {
-                                    if ((movies[i][campos[j]]) === req.query[campos[j]]) {
-                                        verdad.push((movies[i][campos[j]]) === req.query[campos[j]]) 
-                                        //verdad.push(false) 
+                        let showMovies = [];
+
+                        let campos = Object.entries(req.query)
+                        sinIdMovies.forEach(movie => {
+                            let verdad = [];
+                            campos.forEach(entrada => {
+                                let clave = entrada[0];
+                                let valor = entrada[1];
+                                // La query como parametros tiene genero en ella
+                                if (clave === 'genres') {
+                                    // Como el valor de genres es un string con los generos, comprobamos si el valor que buscamos se encuentra en ese string
+                                    verdad.push(movie[clave].includes(valor));
+                                // La query como parametros tiene palabras clave en ella
+                                } else if (clave === 'keywords') {
+                                    verdad.push(movie[clave].includes(valor));
+                                // La query como parametros tiene fecha de lanzamiento en ella
+                                } else if (clave === 'release_date') {
+                                    verdad.push(movie[clave].includes(valor));
+                                // La query como parametros tiene compañias de produccion en ella
+                                } else if (clave === 'production_companies') {
+                                    let compañiaComprueba = [];
+                                    // Como el campo production_companies es un array de objetos
+                                    // recorro dicho array de objetos con un for each
+                                    movie.production_companies.forEach(company => {
+                                        // Vamos a comprobar que al menos uno de los objetos del array contiene el valor de la query
+                                        if (company['name'] === valor) {
+                                            compañiaComprueba.push(true);
+                                        } else {
+                                            compañiaComprueba.push(false);
+                                        }
+                                    if (compañiaComprueba.reduce((a, b) => a || b)) {
+                                        verdad.push(true);
+                                    } else {
+                                        // Este else es para que la lista verdad no este vacia en caso de ser el unico parametro
+                                        verdad.push(false);
                                     }
+                                    })
+                                // La query como parametros tiene paises de produccion en ella
+                                } else if (clave === 'production_countries') {
+                                    let countryComprueba = []
+                                    movie.production_countries.forEach(country => {
+                                        if (country['name'] === valor) {
+                                            countryComprueba.push(true);
+                                        } else {
+                                            countryComprueba.push(false);
+                                        }
+                                    if (countryComprueba.reduce((a, b) => a || b)) {
+                                        verdad.push(true);
+                                    } else {
+                                        verdad.push(false);
+                                    }
+                                    })
+                                } else {
+                                    verdad.push(movie[clave] === valor);
                                 }
-                                if (verdad.reduce((a,b) => a && b) === false) {
-                                    showMovies.push(movies[i])
-                                }
+                            })
+                            if (verdad.reduce((a, b) => a && b)) {
+                                showMovies.push(movie);
                             }
-                            res.send(JSON.stringify(showMovies))*/
-                            
-                            // res.send(JSON.stringify((movies[0][campos[0]]) === req.query[campos[0]])) // Esto funciona y obtine el titulo
-                        }
+                        })
+                        res.send(JSON.stringify(showMovies));
                     }
                 } else {
                     // Si no, muestra el recurso entero
-                    res.send(JSON.stringify(movies.map((c) => {
-                        delete c._id;
-                        return c;
-                    })));
+                    res.send(JSON.stringify(sinIdMovies));
                 } 
             }
         });
@@ -166,6 +201,30 @@ module.exports = (app, dbMovies) => {
             }
         })
     });
+
+    // D01 punto 3 de por persona
+    app.get(API_BASE+"/movies-dataset/:genero/:year", (req, res) => {
+        let genero = req.params.genero;
+        let year = req.params.year;
+        dbMovies.find({}, (err, movies) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                let sinIdMovies = movies.map((c) => {
+                    delete c._id;
+                    return c
+                });
+                let resPelis = [];
+                sinIdMovies.forEach(movie => {
+                    if (movie.genres.includes(genero) && movie.release_date.includes(year)) {
+                        resPelis.push(movie)
+                    }
+                })
+                
+                res.send(JSON.stringify(resPelis));
+            }
+        })
+    })
 
     // 16.4 GET Un recurso inexistente
     app.get(API_BASE+"/datos-peliculas", (req, res) => {
