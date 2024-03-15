@@ -1,4 +1,4 @@
-const movies_data = require("./index-EGO.js");
+const movies_data = require("./data-EGO.js");
 
 const API_BASE = "/api/v1";
 
@@ -63,61 +63,27 @@ module.exports = (app, dbMovies) => {
                         let campos = Object.entries(req.query)
                         sinIdMovies.forEach(movie => {
                             let verdad = [];
+                            let specialFields = ['genres', 'keywords', 'production_companies', 'production_countries', 'release_date']
                             campos.forEach(entrada => {
                                 let clave = entrada[0];
                                 let valor = entrada[1];
-                                // La query como parametros tiene genero en ella
-                                if (clave === 'genres') {
-                                    // Como el valor de genres es un string con los generos, comprobamos si el valor que buscamos se encuentra en ese string
+                                // Si la clave se refiere a index, al ser un valor numérico hay que parsearlo
+                                if (clave === 'index') {
+                                    verdad.push(movie[clave] === parseInt(valor));
+                                // Si el la clave del parámetro de busqueda coincide con alguno de la lista specialFields, se hara la busqueda especial para ellos
+                                } else if (specialFields.includes(clave)) {
                                     verdad.push(movie[clave].includes(valor));
-                                // La query como parametros tiene palabras clave en ella
-                                } else if (clave === 'keywords') {
-                                    verdad.push(movie[clave].includes(valor));
-                                // La query como parametros tiene fecha de lanzamiento en ella
-                                } else if (clave === 'release_date') {
-                                    verdad.push(movie[clave].includes(valor));
-                                // La query como parametros tiene compañias de produccion en ella
-                                } else if (clave === 'production_companies') {
-                                    let compañiaComprueba = [];
-                                    // Como el campo production_companies es un array de objetos
-                                    // recorro dicho array de objetos con un for each
-                                    movie.production_companies.forEach(company => {
-                                        // Vamos a comprobar que al menos uno de los objetos del array contiene el valor de la query
-                                        if (company['name'] === valor) {
-                                            compañiaComprueba.push(true);
-                                        } else {
-                                            compañiaComprueba.push(false);
-                                        }
-                                    if (compañiaComprueba.reduce((a, b) => a || b)) {
-                                        verdad.push(true);
-                                    } else {
-                                        // Este else es para que la lista verdad no este vacia en caso de ser el unico parametro
-                                        verdad.push(false);
-                                    }
-                                    })
-                                // La query como parametros tiene paises de produccion en ella
-                                } else if (clave === 'production_countries') {
-                                    let countryComprueba = []
-                                    movie.production_countries.forEach(country => {
-                                        if (country['name'] === valor) {
-                                            countryComprueba.push(true);
-                                        } else {
-                                            countryComprueba.push(false);
-                                        }
-                                    if (countryComprueba.reduce((a, b) => a || b)) {
-                                        verdad.push(true);
-                                    } else {
-                                        verdad.push(false);
-                                    }
-                                    })
+                                // Si no requiere ningun filtrado especial se busca sin mas
                                 } else {
                                     verdad.push(movie[clave] === valor);
                                 }
                             })
+                            // Comprueba que la busqueda haya sido correcta
                             if (verdad.reduce((a, b) => a && b)) {
                                 showMovies.push(movie);
                             }
                         })
+                        // Devuelve los objetos que coincidan con la busqueda 
                         res.send(JSON.stringify(showMovies));
                     }
                 } else {
@@ -180,7 +146,7 @@ module.exports = (app, dbMovies) => {
         })
     });
 
-    // DELETE Del recurso
+    // DELETE Del la colección
     app.delete(API_BASE+"/movies-dataset", (req, res) => {
         dbMovies.find({}, (err, docs) => {
             if (err) {
@@ -202,9 +168,10 @@ module.exports = (app, dbMovies) => {
         })
     });
 
-    // D01 punto 3 de por persona
-    app.get(API_BASE+"/movies-dataset/:genero/:year", (req, res) => {
+    // D01 punto 3 de por persona, filtrar por genero y año por defecto
+    app.get(API_BASE+"/movies-dataset/:genero/:company/:year", (req, res) => {
         let genero = req.params.genero;
+        let company = req.params.company;
         let year = req.params.year;
         dbMovies.find({}, (err, movies) => {
             if (err) {
@@ -214,17 +181,60 @@ module.exports = (app, dbMovies) => {
                     delete c._id;
                     return c
                 });
-                let resPelis = [];
+                let resPelis = {};
                 sinIdMovies.forEach(movie => {
-                    if (movie.genres.includes(genero) && movie.release_date.includes(year)) {
-                        resPelis.push(movie)
+                    if (movie.genres.includes(genero) && movie.release_date.includes(year) && movie.production_companies.includes(company)) {
+                        resPelis = movie
                     }
                 })
-                
-                res.send(JSON.stringify(resPelis));
+                if (resPelis.length === 0) {
+                    res.sendStatus(404, "Not Found");
+                } else {
+                    res.send(JSON.stringify(resPelis));
+                }
             }
         })
     })
+
+    //D01 hacer un put al recurso con propiedades indicadas en genero y año
+    app.put(API_BASE+"/movies-dataset/:genero/:company/:year", (req, res) => {
+        let cambio = req.body;
+        let genero = req.params.genero;
+        let company = req.params.company;
+        let year = req.params.year;
+        let updates = 0
+        dbMovies.update({ genres: { $regex: eval(`/`+genero+`/`)}, production_companies: {$regex: eval(`/`+company+`/`)}, release_date: {$regex: eval(`/`+year+`/`)} }, cambio, {}, (err, numUpdated) => {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                updates = updates + 1
+            }
+            if (numUpdated >= 1) {
+                res.sendStatus(201);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+        
+    });
+
+    // D01 borrar los recursos que coincidan con las propiedades indicadas
+    app.delete(API_BASE+"/movies-dataset/:genero/:company/:year", (req, res) => {
+        let genero = req.params.genero;
+        let company = req.params.company;
+        let year = req.params.year;
+        dbMovies.remove({ genres: { $regex: eval(`/`+genero+`/`)}, production_companies: {$regex: eval(`/`+company+`/`)}, release_date: {$regex: eval(`/`+year+`/`)} }, {}, (err, numRemoved) => {
+            if (err) {
+                res.sendStatus(500)
+            } else {
+                if (numRemoved >= 1) {
+                    res.status(200).send(`Ok. ${numRemoved} resource/s removed `);
+                } else {
+                    res.sendStatus(404);
+                    }
+                }
+        });
+    });
 
     // 16.4 GET Un recurso inexistente
     app.get(API_BASE+"/datos-peliculas", (req, res) => {
@@ -239,11 +249,7 @@ module.exports = (app, dbMovies) => {
     // GET Del un recurso por su titulo
     app.get(API_BASE+"/movies-dataset/:title", (req, res) => {
         let title = req.params.title;
-        // Como tenemos identififcadores con espacios, primero limpiamos el parametro para que sea igual que el de la BD
-        if (title.includes("%20")) {
-            title = encodeURIComponent(nombre);
-        }
-        // Ahora buscamos las peliculas cuyo titulo original coincide con el recurso buscado
+        // Buscamos las peliculas cuyo titulo original coincide con el recurso buscado
         dbMovies.find({ original_title: title }, (err, doc) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
@@ -266,7 +272,7 @@ module.exports = (app, dbMovies) => {
     app.put(API_BASE+"/movies-dataset/:title", (req,res) => {
         let cambio = req.body;
         let title = req.params.title;
-        dbMovies.find({ original_title: title} , (err, doc) => {
+        dbMovies.find({ original_title: title}, (err, doc) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
             } else {
@@ -290,9 +296,9 @@ module.exports = (app, dbMovies) => {
     app.delete(API_BASE+"/movies-dataset/:title", (req, res) => {
         let title = req.params.title;
 
-        if (title.includes("%20")) {
+        /*if (title.includes("%20")) {
             title = encodeURIComponent(nombre);
-        }
+        }*/
 
         dbMovies.remove({"original_title": title}, {}, (err, numRemoved) => {
             if (err) {

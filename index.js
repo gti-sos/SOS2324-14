@@ -5,10 +5,9 @@ let dataStore = require("nedb");
 
 let data_VEG = require('./Victor/index-VEG');
 let calcularMediaTiempoPelea = require('./Nico/index-NRM');
-//let presupuesto = require("./Enrique/index-EGO");
 
 //APIs
-let enriqueAPI = require("./Enrique/index");
+let enriqueAPI = require("./Enrique/indexAPI-EGO");
 let api_VEG = require('./Victor/api-VEG');
 let api_NRM = require('./Nico/index-api');
 const data = require("./Victor/index-VEG");
@@ -29,11 +28,6 @@ app.listen(PORT,()=>{
     console.log(`Server listening on port ${PORT}.`);
 });
 
-// Eliminada la ruta /cool
-// app.get("/cool", (req,res)=>{
-//     res.send(`<html><body><h1>${cool()}</h1></body></html>`);
-// });
-
 // Nicolas Redondo Moreno
 // app.get("/samples/NRM", (req, res) => {
 //     const {mediaMinu, mediaSeg}  = calcularMediaTiempoPelea();
@@ -53,14 +47,6 @@ api_NRM(app, dbUfc);
 
 //Enrique Garcia Olivares
 enriqueAPI(app, dbMovies);
-
-// Elimidada la ruta /samples/EGO
-// app.get("/samples/EGO", (req, res) => {
-    // let paisFiltro = "United States of America"
-    // let presupuestoMedioPais = presupuesto(paisFiltro)
-//     res.send(`<html><body><h2>El presupuesto medio de las peliculas producidas en ${paisFiltro} es de ${presupuestoMedioPais}€</h2></body></html>`)
-// })
-
 
 //Víctor Escalera García
 

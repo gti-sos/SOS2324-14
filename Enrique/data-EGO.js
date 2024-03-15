@@ -419,8 +419,11 @@ let movies_data = [
   }
 ]
 
-
-console.log(movies_data.slice(0, 3))
+movies_data.forEach(movie => {
+  movie.genres = movie.genres.replace(/ /g, ", ");
+  movie.production_companies = movie.production_companies.map(company => company.name).join(", ");
+  movie.production_countries = movie.production_countries.map(country => country.name).join(", ");
+})
 
 // Lee el archivo CSV
 // let csvData = fs.readFileSync('./Enrique/movies_dataset.csv', 'utf8');
@@ -443,32 +446,5 @@ console.log(movies_data.slice(0, 3))
     //     console.log(movies.slice(0,3));
     //   }
     // });
-    
-// let movies_reduce = []
-// movies_reduce.push(movies.splice(0,11))
-
-function presupuestoMedioPais(pais) {
-  // Creo el array presupuestos donde estarán el budget de cada pelicula 
-  let presupuestos = new Array();
-  for (let i = 0; i < movies_data.length; i++){
-    //presupuestos.push(parseInt(movies[i].budget))
-    let paises_movie = movies_data[i].production_countries.map(country => country.name)
-    if (paises_movie.includes(pais)) {
-      presupuestos.push(movies_data[i].budget)
-    }
-  }
-  // Calculamos la suma de los presupuestos con reduce
-  let sumaPresupuestos = presupuestos.reduce((a,b) => a + b, 0)
-  // Obtenemos el total de peliculas para hacer la media
-  let totalPeliculas = presupuestos.length
-  
-  return sumaPresupuestos/totalPeliculas
-}
-
-let paisFiltro = "United States of America"
-
-let averageBudget = presupuestoMedioPais(paisFiltro);
-
-console.log(`El presupuesto medio de las peliculas producidas en ${paisFiltro} es de ${Math.round(averageBudget)}€`);
 
 module.exports = movies_data;
