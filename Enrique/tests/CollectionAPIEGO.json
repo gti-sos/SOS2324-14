@@ -1,13 +1,47 @@
 {
 	"info": {
 		"_postman_id": "1d08c22d-10fd-40c6-a184-93253d76fc48",
-		"name": "API Requests",
+		"name": "Documentación Movies API",
+		"description": "Esta documentación aporta los conocimientos necesarios para poder utilizar la API correctamente",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33038669"
 	},
 	"item": [
 		{
-			"name": "INIT DATA /api/v1/movies-dataset/loadInitialData",
+			"name": "Lista vacía inicialmente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/movies-dataset",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies-dataset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Insertar datos en la BD",
 			"event": [
 				{
 					"listen": "test",
@@ -40,7 +74,7 @@
 			"response": []
 		},
 		{
-			"name": "GET /api/v1/movies-dataset",
+			"name": "Mostrar la colección",
 			"event": [
 				{
 					"listen": "test",
@@ -72,7 +106,7 @@
 			"response": []
 		},
 		{
-			"name": "PAGING /api/v1/movies-dataset?offset=0&limit=5",
+			"name": "Paginanción de la API",
 			"event": [
 				{
 					"listen": "test",
@@ -114,7 +148,7 @@
 			"response": []
 		},
 		{
-			"name": "SEARCH /api/v1/movies-dataset?original_title=Avatar",
+			"name": "Búsqueda por campos",
 			"event": [
 				{
 					"listen": "test",
@@ -124,7 +158,8 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -132,7 +167,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v1/movies-dataset?original_title=Avatar",
+					"raw": "{{SERVER}}/api/v1/movies-dataset?keywords=marvel",
 					"host": [
 						"{{SERVER}}"
 					],
@@ -143,8 +178,8 @@
 					],
 					"query": [
 						{
-							"key": "original_title",
-							"value": "Avatar"
+							"key": "keywords",
+							"value": "marvel"
 						}
 					]
 				}
@@ -152,7 +187,7 @@
 			"response": []
 		},
 		{
-			"name": "GET NOT FOUND /api/v1/datos-peliculas",
+			"name": "Recurso no valido",
 			"event": [
 				{
 					"listen": "test",
@@ -184,7 +219,7 @@
 			"response": []
 		},
 		{
-			"name": "POST api/v1/movies-dataset",
+			"name": "Insertar un nuevo dato a la BD",
 			"event": [
 				{
 					"listen": "test",
@@ -194,7 +229,8 @@
 							"    pm.response.to.have.status(201);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -203,7 +239,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"index\": 10,\r\n    \"budget\": 270000000,\r\n    \"genres\": \"Adventure Fantasy Action Science Fiction\",\r\n    \"id\": 1452,\r\n    \"keywords\": \"saving the world dc comics invulnerability sequel superhero\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Superman Returns\",\r\n    \"overview\": \"Superman returns to discover his 5-year absence has allowed Lex Luthor to walk free, and that those he was closest too felt abandoned and have moved on. Luthor plots his ultimate revenge that could see millions killed and change the face of the planet forever, as well as ridding himself of the Man of Steel.\",\r\n    \"popularity\": 57.925623,\r\n    \"production_companies\": [\r\n      {\r\n        \"name\": \"DC Comics\",\r\n        \"id\": 429\r\n      },\r\n      {\r\n        \"name\": \"Legendary Pictures\",\r\n        \"id\": 923\r\n      },\r\n      {\r\n        \"name\": \"Warner Bros.\",\r\n        \"id\": 6194\r\n      },\r\n      {\r\n        \"name\": \"Bad Hat Harry Productions\",\r\n        \"id\": 9168\r\n      }\r\n    ],\r\n    \"production_countries\": [\r\n      {\r\n        \"iso_3166_1\": \"US\",\r\n        \"name\": \"United States of America\"\r\n      }\r\n    ],\r\n    \"release_date\": \"2006-06-28\",\r\n    \"revenue\": 391081192,\r\n    \"runtime\": 154,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"\",\r\n    \"title\": \"Superman Returns\",\r\n    \"vote_average\": 5.4,\r\n    \"vote_count\": 1400,\r\n    \"director\": \"Bryan Singer\"\r\n}",
+					"raw": "{\r\n    \"index\": 10,\r\n    \"budget\": 270000000,\r\n    \"genres\": \"Adventure, Fantasy, Action, Science, Fiction\",\r\n    \"id\": 1452,\r\n    \"keywords\": \"saving the world dc comics invulnerability sequel superhero\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Superman Returns\",\r\n    \"overview\": \"Superman returns to discover his 5-year absence has allowed Lex Luthor to walk free, and that those he was closest too felt abandoned and have moved on. Luthor plots his ultimate revenge that could see millions killed and change the face of the planet forever, as well as ridding himself of the Man of Steel.\",\r\n    \"popularity\": 57.925623,\r\n    \"production_companies\": \"DC Comics, Legendary Pictures, Warner Bros., Bad Hat Harry Productions\",\r\n    \"production_countries\": \"United States of America\",\r\n    \"release_date\": \"2006-06-28\",\r\n    \"revenue\": 391081192,\r\n    \"runtime\": 154,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"\",\r\n    \"title\": \"Superman Returns\",\r\n    \"vote_average\": 5.4,\r\n    \"vote_count\": 1400,\r\n    \"director\": \"Bryan Singer\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -225,7 +261,49 @@
 			"response": []
 		},
 		{
-			"name": "BAD REQUEST /api/v1/movies-dataset",
+			"name": "Inserta un dato con el mismo título",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 409\", function () {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"index\": 10,\r\n    \"budget\": 270000000,\r\n    \"genres\": \"Adventure, Fantasy, Action, Science, Fiction\",\r\n    \"id\": 1452,\r\n    \"keywords\": \"saving the world dc comics invulnerability sequel superhero\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Superman Returns\",\r\n    \"overview\": \"Superman returns to discover his 5-year absence has allowed Lex Luthor to walk free, and that those he was closest too felt abandoned and have moved on. Luthor plots his ultimate revenge that could see millions killed and change the face of the planet forever, as well as ridding himself of the Man of Steel.\",\r\n    \"popularity\": 57.925623,\r\n    \"production_companies\": \"DC Comics, Legendary Pictures, Warner Bros., Bad Hat Harry Productions\",\r\n    \"production_countries\": \"United States of America\",\r\n    \"release_date\": \"2006-06-28\",\r\n    \"revenue\": 391081192,\r\n    \"runtime\": 154,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"\",\r\n    \"title\": \"Superman Returns\",\r\n    \"vote_average\": 5.4,\r\n    \"vote_count\": 1400,\r\n    \"director\": \"Bryan Singer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/movies-dataset",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies-dataset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Petición con campos erroneos",
 			"event": [
 				{
 					"listen": "test",
@@ -235,7 +313,8 @@
 							"    pm.response.to.have.status(400);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -244,7 +323,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"index\": 10,\r\n    \"budget\": 270000000,\r\n    \"gender\": \"Adventure Fantasy Action Science Fiction\",\r\n    \"ido\": 1452,\r\n    \"keywords\": \"saving the world dc comics invulnerability sequel superhero\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Superman Returns\",\r\n    \"overview\": \"Superman returns to discover his 5-year absence has allowed Lex Luthor to walk free, and that those he was closest too felt abandoned and have moved on. Luthor plots his ultimate revenge that could see millions killed and change the face of the planet forever, as well as ridding himself of the Man of Steel.\",\r\n    \"popularity\": 57.925623,\r\n    \"production_companies\": [\r\n      {\r\n        \"name\": \"DC Comics\",\r\n        \"id\": 429\r\n      },\r\n      {\r\n        \"name\": \"Legendary Pictures\",\r\n        \"id\": 923\r\n      },\r\n      {\r\n        \"name\": \"Warner Bros.\",\r\n        \"id\": 6194\r\n      },\r\n      {\r\n        \"name\": \"Bad Hat Harry Productions\",\r\n        \"id\": 9168\r\n      }\r\n    ],\r\n    \"production_countries\": [\r\n      {\r\n        \"iso_3166_1\": \"US\",\r\n        \"name\": \"United States of America\"\r\n      }\r\n    ],\r\n    \"release_date\": \"2006-06-28\",\r\n    \"revenue\": 391081192,\r\n    \"runtime\": 154,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"\",\r\n    \"title\": \"Superman Returns\",\r\n    \"vote_average\": 5.4,\r\n    \"vote_count\": 1400,\r\n    \"director\": \"Bryan Singer\"\r\n  }",
+					"raw": "{\r\n    \"indox\": 10,\r\n    \"budget\": 270000000,\r\n    \"genre\": \"Adventure, Fantasy, Action, Science, Fiction\",\r\n    \"id\": 1452,\r\n    \"keywords\": \"saving the world dc comics invulnerability sequel superhero\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Superman Returns\",\r\n    \"overview\": \"Superman returns to discover his 5-year absence has allowed Lex Luthor to walk free, and that those he was closest too felt abandoned and have moved on. Luthor plots his ultimate revenge that could see millions killed and change the face of the planet forever, as well as ridding himself of the Man of Steel.\",\r\n    \"popular\": 57.925623,\r\n    \"production_companies\": \"DC Comics, Legendary Pictures, Warner Bros., Bad Hat Harry Productions\",\r\n    \"production_countries\": \"United States of America\",\r\n    \"release_date\": \"2006-06-28\",\r\n    \"revenue\": 391081192,\r\n    \"runtime\": 154,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"\",\r\n    \"title\": \"Superman Returns\",\r\n    \"vote_average\": 5.4,\r\n    \"vote_count\": 1400,\r\n    \"director\": \"Bryan Singer\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -266,7 +345,7 @@
 			"response": []
 		},
 		{
-			"name": "PUT NOT ALLOWED /api/v1/movies-dataset",
+			"name": "Actualización de colección prohibida",
 			"event": [
 				{
 					"listen": "test",
@@ -307,7 +386,7 @@
 			"response": []
 		},
 		{
-			"name": "GET /api/v1/movies-dataset/Avatar",
+			"name": "Obtener un recurso por su título",
 			"event": [
 				{
 					"listen": "test",
@@ -340,7 +419,7 @@
 			"response": []
 		},
 		{
-			"name": "POST NOT ALLOWED /api/v1/movies-dataset/Avatar",
+			"name": "Un recurso no es una colección",
 			"event": [
 				{
 					"listen": "test",
@@ -382,7 +461,7 @@
 			"response": []
 		},
 		{
-			"name": "PUT /api/v1/movies-dataset/Avatar",
+			"name": "Actualizar un recurso",
 			"event": [
 				{
 					"listen": "test",
@@ -392,7 +471,8 @@
 							"    pm.response.to.have.status(201);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -401,7 +481,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"index\": 0,\r\n    \"budget\": 237000000,\r\n    \"genres\": \"Action Adventure Fantasy Science Fiction\",\r\n    \"id\": 19995,\r\n    \"keywords\": \"culture clash future space war space colony society\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Avatar\",\r\n    \"overview\": \"In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.\",\r\n    \"popularity\": 150.437577,\r\n    \"production_companies\": [\r\n      {\r\n        \"name\": \"Ingenieros Film Partners\",\r\n        \"id\": 100\r\n      },\r\n      {\r\n        \"name\": \"Twentieth Century Fox Film Corporation\",\r\n        \"id\": 306\r\n      },\r\n      {\r\n        \"name\": \"Dune Entertainment\",\r\n        \"id\": 444\r\n      },\r\n      {\r\n        \"name\": \"Lightstorm Entertainment\",\r\n        \"id\": 574\r\n      }\r\n    ],\r\n    \"production_countries\": [\r\n      {\r\n        \"iso_3166_1\": \"US\",\r\n        \"name\": \"United States of America\"\r\n      },\r\n      {\r\n        \"iso_3166_1\": \"GB\",\r\n        \"name\": \"United Kingdom\"\r\n      },\r\n      {\r\n        \"iso_3166_1\": \"ES\",\r\n        \"name\": \"España\"\r\n      }\r\n    ],\r\n    \"release_date\": \"2009-12-10\",\r\n    \"revenue\": 2787965087,\r\n    \"runtime\": 162,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"Enter the World of Pandora.\",\r\n    \"title\": \"Avatar\",\r\n    \"vote_average\": 7.2,\r\n    \"vote_count\": 11800,\r\n    \"director\": \"James Cameron\"\r\n  }",
+					"raw": "{\r\n    \"index\": 0,\r\n    \"budget\": 237000000,\r\n    \"genres\": \"Action, Adventure, Fantasy, Science, Fiction\",\r\n    \"id\": 19995,\r\n    \"keywords\": \"culture clash future space war space colony society aliens\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Avatar\",\r\n    \"overview\": \"In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.\",\r\n    \"popularity\": 150.437577,\r\n    \"production_companies\": \"Ingenieros Film Partners, Twentieth Century Fox Film Corporation, Dune Entertainment, Lightstorm Entertainment\",\r\n    \"production_countries\": \"United States of America, United Kingdom, Spain\",\r\n    \"release_date\": \"2009-12-10\",\r\n    \"revenue\": 2787965087,\r\n    \"runtime\": 162,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"Enter the World of Pandora.\",\r\n    \"title\": \"Avatar\",\r\n    \"vote_average\": 7.2,\r\n    \"vote_count\": 11800,\r\n    \"director\": \"James Cameron\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -424,7 +504,7 @@
 			"response": []
 		},
 		{
-			"name": "BAD REQUES PUT /api/v1/movies-dataset",
+			"name": "Prohibido cambiar el id del recurso",
 			"event": [
 				{
 					"listen": "test",
@@ -434,7 +514,8 @@
 							"    pm.response.to.have.status(400);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -443,7 +524,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"index\": 0,\r\n    \"budget\": 237000000,\r\n    \"genres\": \"Action Adventure Fantasy Science Fiction\",\r\n    \"id\": 19995,\r\n    \"keywords\": \"culture clash future space war space colony society\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Avatar 2\",\r\n    \"overview\": \"In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.\",\r\n    \"popularity\": 150.437577,\r\n    \"production_companies\": [\r\n      {\r\n        \"name\": \"Ingenieros Film Partners\",\r\n        \"id\": 100\r\n      },\r\n      {\r\n        \"name\": \"Twentieth Century Fox Film Corporation\",\r\n        \"id\": 306\r\n      },\r\n      {\r\n        \"name\": \"Dune Entertainment\",\r\n        \"id\": 444\r\n      },\r\n      {\r\n        \"name\": \"Lightstorm Entertainment\",\r\n        \"id\": 574\r\n      }\r\n    ],\r\n    \"production_countries\": [\r\n      {\r\n        \"iso_3166_1\": \"US\",\r\n        \"name\": \"United States of America\"\r\n      },\r\n      {\r\n        \"iso_3166_1\": \"GB\",\r\n        \"name\": \"United Kingdom\"\r\n      },\r\n      {\r\n        \"iso_3166_1\": \"ES\",\r\n        \"name\": \"España\"\r\n      }\r\n    ],\r\n    \"release_date\": \"2009-12-10\",\r\n    \"revenue\": 2787965087,\r\n    \"runtime\": 162,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"Enter the World of Pandora.\",\r\n    \"title\": \"Avatar\",\r\n    \"vote_average\": 7.2,\r\n    \"vote_count\": 11800,\r\n    \"director\": \"James Cameron\"\r\n  }",
+					"raw": "{\r\n    \"index\": 0,\r\n    \"budget\": 237000000,\r\n    \"genres\": \"Action, Adventure, Fantasy, Science, Fiction\",\r\n    \"id\": 19995,\r\n    \"keywords\": \"culture clash future space war space colony society aliens\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Avatar 2\",\r\n    \"overview\": \"In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.\",\r\n    \"popularity\": 150.437577,\r\n    \"production_companies\": \"Ingenieros Film Partners, Twentieth Century Fox Film Corporation, Dune Entertainment, Lightstorm Entertainment\",\r\n    \"production_countries\": \"United States of America, United Kingdom, Spain\",\r\n    \"release_date\": \"2009-12-10\",\r\n    \"revenue\": 2787965087,\r\n    \"runtime\": 162,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"Enter the World of Pandora.\",\r\n    \"title\": \"Avatar\",\r\n    \"vote_average\": 7.2,\r\n    \"vote_count\": 11800,\r\n    \"director\": \"James Cameron\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -466,7 +547,247 @@
 			"response": []
 		},
 		{
-			"name": "DELETE /api/v1/movies-dataset/Avatar",
+			"name": "Campos erróneos en el PUT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"indx\": 0,\r\n    \"budget\": 237000000,\r\n    \"genre\": \"Action, Adventure, Fantasy, Science, Fiction\",\r\n    \"id\": 19995,\r\n    \"keywords\": \"culture clash future space war space colony society aliens\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Avatar\",\r\n    \"overview\": \"In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.\",\r\n    \"popularity\": 150.437577,\r\n    \"production_companie\": \"Ingenieros Film Partners, Twentieth Century Fox Film Corporation, Dune Entertainment, Lightstorm Entertainment\",\r\n    \"production_countrie\": \"United States of America, United Kingdom, Spain\",\r\n    \"release_date\": \"2009-12-10\",\r\n    \"revenue\": 2787965087,\r\n    \"runtime\": 162,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"Enter the World of Pandora.\",\r\n    \"title\": \"Avatar\",\r\n    \"vote_average\": 7.2,\r\n    \"vote_count\": 11800,\r\n    \"directors\": \"James Cameron\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/movies-dataset/Avatar",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies-dataset",
+						"Avatar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un recurso por tres propiedades",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/movies-dataset/Action/DC Entertainment/2012",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies-dataset",
+						"Action",
+						"DC Entertainment",
+						"2012"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualización de un recurso por propiedades",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"index\": 3,\r\n    \"budget\": 250000000,\r\n    \"genres\": \"Action, Crime, Drama, Thriller, Comedy\",\r\n    \"id\": 49026,\r\n    \"keywords\": \"dc comics crime fighter terrorist secret identity burglar\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"The Dark Knight Rises\",\r\n    \"overview\": \"Following the death of District Attorney Harvey Dent, Batman assumes responsibility for Dent's crimes to protect the late attorney's reputation and is subsequently hunted by the Gotham City Police Department. Eight years later, Batman encounters the mysterious Selina Kyle and the villainous Bane, a new terrorist leader who overwhelms Gotham's finest. The Dark Knight resurfaces to protect a city that has branded him an enemy.\",\r\n    \"popularity\": 112.31295,\r\n    \"production_companies\": \"Legendary Pictures, Warner Bros., DC Entertainment, Syncopy\",\r\n    \"production_countries\": \"United States of America, Spain\",\r\n    \"release_date\": \"2012-07-16\",\r\n    \"revenue\": 1084939099,\r\n    \"runtime\": 165,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"The Legend Ends\",\r\n    \"title\": \"The Dark Knight Laught\",\r\n    \"vote_average\": 7.6,\r\n    \"vote_count\": 9106,\r\n    \"director\": \"Christopher Nolan Tiende Nadie\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/movies-dataset/Action/DC Entertainment/2012",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies-dataset",
+						"Action",
+						"DC Entertainment",
+						"2012"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un recurso por propiedades",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/movies-dataset/Action/DC Entertainment/2012",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies-dataset",
+						"Action",
+						"DC Entertainment",
+						"2012"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fallo al obtener un recurso por tres propiedades",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/movies-dataset/Action/2012",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies-dataset",
+						"Action",
+						"2012"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualización de un recurso inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"index\": 3,\r\n    \"budget\": 250000000,\r\n    \"genres\": \"Action, Crime, Drama, Thriller, Comedy\",\r\n    \"id\": 49026,\r\n    \"keywords\": \"dc comics crime fighter terrorist secret identity burglar\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"The Dark Knight Rises\",\r\n    \"overview\": \"Following the death of District Attorney Harvey Dent, Batman assumes responsibility for Dent's crimes to protect the late attorney's reputation and is subsequently hunted by the Gotham City Police Department. Eight years later, Batman encounters the mysterious Selina Kyle and the villainous Bane, a new terrorist leader who overwhelms Gotham's finest. The Dark Knight resurfaces to protect a city that has branded him an enemy.\",\r\n    \"popularity\": 112.31295,\r\n    \"production_companies\": \"Legendary Pictures, Warner Bros., DC Entertainment, Syncopy\",\r\n    \"production_countries\": \"United States of America, Spain\",\r\n    \"release_date\": \"2012-07-16\",\r\n    \"revenue\": 1084939099,\r\n    \"runtime\": 165,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"The Legend Ends\",\r\n    \"title\": \"The Dark Knight Laught\",\r\n    \"vote_average\": 7.6,\r\n    \"vote_count\": 9106,\r\n    \"director\": \"Christopher Nolan Tiende Nadie\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/movies-dataset/Action/DC Entertainment/2012",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies-dataset",
+						"Action",
+						"DC Entertainment",
+						"2012"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un recurso por su titulo",
 			"event": [
 				{
 					"listen": "test",
@@ -499,7 +820,41 @@
 			"response": []
 		},
 		{
-			"name": "DELETE api/v1/movies-dataset",
+			"name": "Fallo al obtener un recurso por su título",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/movies-dataset/Avatar",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies-dataset",
+						"Avatar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar la colección",
 			"event": [
 				{
 					"listen": "test",

@@ -2,10 +2,22 @@ const movies_data = require("./data-EGO.js");
 
 const API_BASE = "/api/v1";
 
+//Funcion comprueba campos
+function compruebaCampos(movie) {
+    // Lista de boleanos para comprobar
+    let comprueba = [];
+    // Lista para los campos originales
+    let camposOriginal = Object.keys(movies_data[0]);
+    for(let i=0; i<Object.keys(movie).length;i++) {
+        // Para cada campo dentro de cada nueva pelicula añadida en el post, comprueba si todos los campos son correctos
+        comprueba.push(camposOriginal.includes(Object.keys(movie)[i])); // Movie es un parametro de entrada en la funcion
+    }
+    
+    return comprueba.reduce((a,b) => a && b);
+}
+
 module.exports = (app, dbMovies) => {
     
-    let dataset = new Array();
-
     app.get(API_BASE+"/movies-dataset/loadInitialData", (req, res) => {
         dbMovies.find({}, (err, docs) => {
             if (err) {
@@ -46,12 +58,12 @@ module.exports = (app, dbMovies) => {
                         let offset = req.query.offset;
 
                         res.send(JSON.stringify(sinIdMovies.slice(offset, limit)));
-                        // Si solo esta el campo limit, muestra la cantidad de elementos que indica limit
+                    // Si solo esta el campo limit, muestra la cantidad de elementos que indica limit
                     } else if (req.query.limit && !req.query.offset) {
                         let limit = req.query.limit;
 
                         res.send(JSON.stringify(sinIdMovies.slice(0, limit)));
-                        // Si solo esta el campo offset, muestra el objeto que esta en esa posicion
+                    // Si solo esta el campo offset, muestra el objeto que esta en esa posicion
                     } else if (!req.query.limit && req.query.offset) {
                         let offset = req.query.offset;
 
@@ -97,33 +109,20 @@ module.exports = (app, dbMovies) => {
     // POST Nueva pelicula
     app.post(API_BASE+"/movies-dataset", (req, res) => {
         let movie = req.body;
-        // Lista de boleanos para comprobar
-        let comprueba = [];
-        // Listas para almacenar los datos para comprobaciones
-        let primerElemento = [];
-        let camposOriginal = [];
         
         dbMovies.find({}, (err, doc) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
             } 
             if (doc.length !== 0){
-                // Si la base de datos no esta vacia:
-                // Accedo al primer elemento de la bd
-                primerElemento = doc[0];
-                // Añado los campos originales de la bd
-                camposOriginal = Object.keys(primerElemento);
+            // Si la base de datos no esta vacia:
                 // Comprobar si la pelicula es un Array o un JSON
                 if (movie instanceof Array) {
                     // Por ahora solo contemplo que los POST se hagan con un JSON, si en el body hay un Array, sera un POST no válido
                     res.status(415).send("Unsupported Media Type. Arrays are not currently supported by the API.");
                 } else {
-                    for(let i=0; i<Object.keys(movie).length;i++) {
-                        // Para cada campo dentro de cada nueva pelicula añadida en el post, comprueba si todos los campos son correctos
-                        comprueba.push(camposOriginal.includes(Object.keys(movie)[i]));
-                    }
-                    // Comprueba si el resultado de hacer una operacion AND a toda la lista es true o false
-                    if (comprueba.reduce((a,b) => a && b)) {
+                    // Comprueba el resultado de la funcion compruebaCampos
+                    if (compruebaCampos(movie)) {
                         // Comprobamos que en la base de datos no haya una pelicula con el mismo nombre que el post
                         if (doc.find(pelis => pelis.original_title === movie.original_title)) {
                             // 16.2 POST A recurso existente
@@ -168,7 +167,7 @@ module.exports = (app, dbMovies) => {
         })
     });
 
-    // D01 punto 3 de por persona, filtrar por genero y año por defecto
+    // D01 punto 3 de por persona, filtrar por genero, compañia y año por defecto
     app.get(API_BASE+"/movies-dataset/:genero/:company/:year", (req, res) => {
         let genero = req.params.genero;
         let company = req.params.company;
@@ -207,15 +206,17 @@ module.exports = (app, dbMovies) => {
             if (err) {
                 res.sendStatus(500);
             } else {
-                updates = updates + 1
-            }
-            if (numUpdated >= 1) {
-                res.sendStatus(201);
-            } else {
-                res.sendStatus(404);
+                if (compruebaCampos(cambio)) {
+                    if (numUpdated >= 1) {
+                        res.sendStatus(201, "Created");
+                    } else {
+                        res.sendStatus(404, "Not Found");
+                    }
+                } else {
+                    res.sendStatus(400, "Bad Request");
+                }
             }
         });
-        
     });
 
     // D01 borrar los recursos que coincidan con las propiedades indicadas
@@ -228,11 +229,11 @@ module.exports = (app, dbMovies) => {
                 res.sendStatus(500)
             } else {
                 if (numRemoved >= 1) {
-                    res.status(200).send(`Ok. ${numRemoved} resource/s removed `);
+                    res.status(200).send(`Ok. ${numRemoved} resource removed `);
                 } else {
                     res.sendStatus(404);
-                    }
                 }
+            }
         });
     });
 
@@ -254,10 +255,14 @@ module.exports = (app, dbMovies) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
             } else {
+                let sinIdMovies = doc.map((c) => {
+                    delete c._id;
+                    return c
+                });
                 if (doc.length === 0) {
                     res.sendStatus(404, "Not Found");
                 } else {
-                    res.send(JSON.stringify(doc[0]));
+                    res.send(JSON.stringify(sinIdMovies[0]));
                 }
             }
         })
@@ -276,17 +281,21 @@ module.exports = (app, dbMovies) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
             } else {
-                let objeto = doc[0];
-                if (doc.length === 0) {
-                    res.sendStatus(404, "Not Found");
-                } else {
-                    if (cambio.original_title === objeto.original_title) {
-                        // Utilizo inser con upsert = true para que el objeto ya existente se actualice, es decir se haga el PUT
-                        dbMovies.update({ original_title: title}, cambio, { upsert: true }); 
-                        res.sendStatus(201, "Created");
+                if (compruebaCampos(cambio)) {
+                    let objeto = doc[0];
+                    if (doc.length === 0) {
+                        res.sendStatus(404, "Not Found");
                     } else {
-                        res.sendStatus(400, "Bad Request");
+                        if (cambio.original_title === objeto.original_title) {
+                            // Utilizo inser con upsert = true para que el objeto ya existente se actualice, es decir se haga el PUT
+                            dbMovies.update({ original_title: title}, cambio, { upsert: true }); 
+                            res.sendStatus(201, "Created");
+                        } else {
+                            res.sendStatus(400, "Bad Request");
+                        }
                     }
+                } else {
+                    res.sendStatus(400, "Bad Request");
                 }
             }
         });
@@ -295,10 +304,6 @@ module.exports = (app, dbMovies) => {
     // DELETE El recurso por su titulo
     app.delete(API_BASE+"/movies-dataset/:title", (req, res) => {
         let title = req.params.title;
-
-        /*if (title.includes("%20")) {
-            title = encodeURIComponent(nombre);
-        }*/
 
         dbMovies.remove({"original_title": title}, {}, (err, numRemoved) => {
             if (err) {
