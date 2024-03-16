@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "54e44663-96f6-494a-b4fc-10d34028ef1d",
-		"name": "VEG Api Testing",
+		"_postman_id": "2a3ab57b-fdc0-4702-b7f2-1d0262338347",
+		"name": "VEG Api Testing(Local)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33038536"
 	},
@@ -17,8 +17,7 @@
 							"    pm.response.to.have.status(201);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -26,9 +25,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/loadInitialData",
+					"raw": "{{local}}/api/v1/youtube-trends/loadInitialData",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -51,8 +50,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -60,9 +58,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends",
+					"raw": "{{local}}/api/v1/youtube-trends",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -93,9 +91,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends?offset=0&limit=5",
+					"raw": "{{local}}/api/v1/youtube-trends?offset=0&limit=5",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -136,9 +134,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/España campeona del mundo/SEFutbol/2010-07-011T22:00:12Z",
+					"raw": "{{local}}/api/v1/youtube-trends/España campeona del mundo/SEFutbol/2010-07-011T22:00:12Z",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -181,9 +179,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/España campeona del mundo/SEFutbol/2010-07-011T22:00:12Z",
+					"raw": "{{local}}/api/v1/youtube-trends/España campeona del mundo/SEFutbol/2010-07-011T22:00:12Z",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -217,9 +215,9 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/MatoLale x Jongmen KOKAINA/MATOLALE/2022-07-05T16:30:27Z",
+					"raw": "{{local}}/api/v1/youtube-trends/MatoLale x Jongmen KOKAINA/MATOLALE/2022-07-05T16:30:27Z",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -262,9 +260,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/9",
+					"raw": "{{local}}/api/v1/youtube-trends/9",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -287,8 +285,7 @@
 							"    pm.response.to.have.status(404);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -296,9 +293,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/datos-youtube",
+					"raw": "{{local}}/api/v1/datos-youtube",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -320,8 +317,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -329,9 +325,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends?country=Albania",
+					"raw": "{{local}}/api/v1/youtube-trends?country=Albania",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -359,8 +355,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -368,9 +363,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends?published_at=2010-07-011T22:00:12Z",
+					"raw": "{{local}}/api/v1/youtube-trends?published_at=2010-07-011T22:00:12Z",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -398,8 +393,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -407,9 +401,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends?channel_title=SEFutbol",
+					"raw": "{{local}}/api/v1/youtube-trends?channel_title=SEFutbol",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -437,8 +431,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -446,9 +439,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends?category_id=2",
+					"raw": "{{local}}/api/v1/youtube-trends?category_id=2",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -476,8 +469,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -485,9 +477,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends?trending_date=10.07.11",
+					"raw": "{{local}}/api/v1/youtube-trends?trending_date=10.07.11",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -515,8 +507,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -524,9 +515,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends?view_count=514000",
+					"raw": "{{local}}/api/v1/youtube-trends?view_count=514000",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -554,8 +545,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -563,9 +553,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends?comment_count=3651",
+					"raw": "{{local}}/api/v1/youtube-trends?comment_count=3651",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -593,8 +583,7 @@
 							"    pm.response.to.have.status(400);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -611,9 +600,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends",
+					"raw": "{{local}}/api/v1/youtube-trends",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -653,9 +642,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends",
+					"raw": "{{local}}/api/v1/youtube-trends",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -677,8 +666,7 @@
 							"    pm.response.to.have.status(201);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -695,9 +683,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends",
+					"raw": "{{local}}/api/v1/youtube-trends",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -719,8 +707,7 @@
 							"    pm.response.to.have.status(409);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -737,9 +724,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends",
+					"raw": "{{local}}/api/v1/youtube-trends",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -761,8 +748,7 @@
 							"    pm.response.to.have.status(405);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -779,9 +765,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/channel_title",
+					"raw": "{{local}}/api/v1/youtube-trends/channel_title",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -804,8 +790,7 @@
 							"    pm.response.to.have.status(400);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -822,9 +807,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/9",
+					"raw": "{{local}}/api/v1/youtube-trends/9",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -847,8 +832,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -865,9 +849,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/10",
+					"raw": "{{local}}/api/v1/youtube-trends/10",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -890,8 +874,7 @@
 							"    pm.response.to.have.status(404);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -908,9 +891,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/12",
+					"raw": "{{local}}/api/v1/youtube-trends/12",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -933,8 +916,7 @@
 							"    pm.response.to.have.status(405);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -951,9 +933,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends",
+					"raw": "{{local}}/api/v1/youtube-trends",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -975,8 +957,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -984,9 +965,9 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/10",
+					"raw": "{{local}}/api/v1/youtube-trends/10",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
@@ -1009,8 +990,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript",
-						"packages": {}
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -1018,9 +998,9 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends",
+					"raw": "{{local}}/api/v1/youtube-trends",
 					"host": [
-						"{{gcloud}}"
+						"{{local}}"
 					],
 					"path": [
 						"api",
