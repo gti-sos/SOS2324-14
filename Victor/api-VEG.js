@@ -95,27 +95,22 @@ module.exports = (app, db) => {
     app.get(API_BASE + "/youtube-trends/:title/:channel_title/:published_at", (req, res) => {
         const title = req.params.title;
         const channelTitle = req.params.channel_title;
-        const publishedAt = req.query.published_at;
+        const publishedAt = req.params.published_at; 
 
         let query = {
             title: title,
-            channel_title: channelTitle
+            channel_title: channelTitle,
+            published_at: publishedAt 
         };
-
-        // Verificar si se proporciona el published_at
-        if (publishedAt) {
-            const year = new Date(publishedAt).getFullYear();
-            query.published_at = year.toString();
-        }
 
         db.findOne(query).exec((err, resource) => {
             if (err) {
                 console.error(err);
                 res.sendStatus(500, "Internal Error");
             } else if (resource) {
-                res.status(200).json(resource); 
+                res.status(200).json(resource);
             } else {
-                res.sendStatus(404, "Not Found"); 
+                res.sendStatus(404, "Not Found");
             }
         });
     });
@@ -155,18 +150,18 @@ module.exports = (app, db) => {
         const title = req.params.title;
         const channelTitle = req.params.channel_title;
         const publishedAt = req.query.published_at;
-    
+
         let query = {
             title: title,
             channel_title: channelTitle
         };
-    
+
         // Verificar si se proporciona el published_at
         if (publishedAt) {
             const year = new Date(publishedAt).getFullYear();
             query.published_at = year.toString();
         }
-    
+
         // Eliminar el recurso de la base de datos
         db.remove(query, { multi: true }, (err, numRemoved) => {
             if (err) {
@@ -183,61 +178,61 @@ module.exports = (app, db) => {
 
 
     //POST para crear un nuevo dato
-app.post(API_BASE + "/youtube-trends", (req, res) => {
-    const nuevoDato = req.body;
+    app.post(API_BASE + "/youtube-trends", (req, res) => {
+        const nuevoDato = req.body;
 
-    // Verificar el orden de las propiedades recibidas
-    const expectedOrder = ['id', 'country', 'title', 'published_at', 'channel_title', 'category_id', 'trending_date', 'view_count', 'comment_count'];
-    const receivedFields = Object.keys(nuevoDato);
+        // Verificar el orden de las propiedades recibidas
+        const expectedOrder = ['id', 'country', 'title', 'published_at', 'channel_title', 'category_id', 'trending_date', 'view_count', 'comment_count'];
+        const receivedFields = Object.keys(nuevoDato);
 
-    // Verificar si el orden de las propiedades coincide con el esperado
-    const isValidOrder = expectedOrder.every((field, index) => receivedFields[index] === field);
+        // Verificar si el orden de las propiedades coincide con el esperado
+        const isValidOrder = expectedOrder.every((field, index) => receivedFields[index] === field);
 
-    if (!isValidOrder) {
-        // Si el orden no es válido, devolver código de estado 400 (Bad Request)
-        res.status(400).send("Bad Request: El orden de las propiedades es incorrecto.");
-        return;
-    }
-
-    // Verificar si el objeto recibido tiene la estructura de campos esperada
-    const expectedFields = ['id', 'country', 'title', 'published_at', 'channel_title', 'category_id', 'trending_date', 'view_count', 'comment_count'];
-
-    // Verificar si todos los campos esperados están presentes
-    const isValidStructure = expectedFields.every(field => receivedFields.includes(field));
-
-    if (!isValidStructure) {
-        // Si la estructura no es válida, devolver código de estado 400 (Bad Request)
-        res.sendStatus(400,"Bad Request");
-        return;
-    }
-
-    // Verificar si el campo 'id' está presente en el objeto recibido
-    if (!nuevoDato.hasOwnProperty('id')) {
-        res.sendStatus(400,"Bad Request");
-        return;
-    }
-
-    // Verificar si el ID ya existe en la base de datos
-    db.findOne({ id: nuevoDato.id }, (err, existingData) => {
-        if (err) {
-            res.sendStatus(500, "Internal Error");
+        if (!isValidOrder) {
+            // Si el orden no es válido, devolver código de estado 400 (Bad Request)
+            res.status(400).send("Bad Request: El orden de las propiedades es incorrecto.");
             return;
         }
 
-        if (existingData) {
-            res.sendStatus(409, "Conflict");
-        } else {
-            // Insertar el nuevo dato en la base de datos
-            db.insert(nuevoDato, (err, insertedData) => {
-                if (err) {
-                    res.sendStatus(500, "Internal Error");
-                } else {
-                    res.sendStatus(201, "Created");
-                }
-            });
+        // Verificar si el objeto recibido tiene la estructura de campos esperada
+        const expectedFields = ['id', 'country', 'title', 'published_at', 'channel_title', 'category_id', 'trending_date', 'view_count', 'comment_count'];
+
+        // Verificar si todos los campos esperados están presentes
+        const isValidStructure = expectedFields.every(field => receivedFields.includes(field));
+
+        if (!isValidStructure) {
+            // Si la estructura no es válida, devolver código de estado 400 (Bad Request)
+            res.sendStatus(400, "Bad Request");
+            return;
         }
+
+        // Verificar si el campo 'id' está presente en el objeto recibido
+        if (!nuevoDato.hasOwnProperty('id')) {
+            res.sendStatus(400, "Bad Request");
+            return;
+        }
+
+        // Verificar si el ID ya existe en la base de datos
+        db.findOne({ id: nuevoDato.id }, (err, existingData) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+                return;
+            }
+
+            if (existingData) {
+                res.sendStatus(409, "Conflict");
+            } else {
+                // Insertar el nuevo dato en la base de datos
+                db.insert(nuevoDato, (err, insertedData) => {
+                    if (err) {
+                        res.sendStatus(500, "Internal Error");
+                    } else {
+                        res.sendStatus(201, "Created");
+                    }
+                });
+            }
+        });
     });
-});
     // POST No permitido en un recurso
     app.post(API_BASE + "/youtube-trends/channel_title", (req, res) => {
         res.sendStatus(405, "Method Not Allowed");
