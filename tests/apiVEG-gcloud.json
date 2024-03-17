@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "54e44663-96f6-494a-b4fc-10d34028ef1d",
 		"name": "VEG Api Testing",
+		"description": "Documentación API v1 youtube-trends desarrollada por Víctor Escalera García",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33038536"
 	},
@@ -40,7 +41,8 @@
 						"v1",
 						"youtube-trends"
 					]
-				}
+				},
+				"description": "Obtener la lista de objetos  \nTest: La lista debe estar inicialmente vacía"
 			},
 			"response": []
 		},
@@ -76,7 +78,8 @@
 						"youtube-trends",
 						"loadInitialData"
 					]
-				}
+				},
+				"description": "Cargar datos iniciales"
 			},
 			"response": []
 		},
@@ -124,7 +127,8 @@
 							"value": "8"
 						}
 					]
-				}
+				},
+				"description": "Obtener datos por paginación  \nTests: La lista debe devolver 8 objetos"
 			},
 			"response": []
 		},
@@ -168,7 +172,8 @@
 						"DON XHONI",
 						"2022-07-07T22:00:12Z"
 					]
-				}
+				},
+				"description": "Obtener un recurso dado un ID por 3 propiedades  \nTests: Debe devolver un recurso"
 			},
 			"response": []
 		},
@@ -213,7 +218,8 @@
 						"SEFutbol",
 						"2010-07-011T22:00:12Z"
 					]
-				}
+				},
+				"description": "PUT un recurso dado un ID por 3 propiedades"
 			},
 			"response": []
 		},
@@ -249,12 +255,13 @@
 						"MATOLALE",
 						"2022-07-05T16:30:27Z"
 					]
-				}
+				},
+				"description": "Borrar un recurso dado un ID por 3 propiedades"
 			},
 			"response": []
 		},
 		{
-			"name": "GET recurso id",
+			"name": "GET recurso ranking",
 			"event": [
 				{
 					"listen": "test",
@@ -292,7 +299,8 @@
 						"youtube-trends",
 						"9"
 					]
-				}
+				},
+				"description": "Obtener un recurso por ranking  \nTests: Debe devolver un recurso"
 			},
 			"response": []
 		},
@@ -325,7 +333,8 @@
 						"v1",
 						"datos-youtube"
 					]
-				}
+				},
+				"description": "Prueba de get con error 404(no existe el recurso especificado)"
 			},
 			"response": []
 		},
@@ -364,7 +373,8 @@
 							"value": "Albania"
 						}
 					]
-				}
+				},
+				"description": "Prueba de get por el campo country"
 			},
 			"response": []
 		},
@@ -403,7 +413,8 @@
 							"value": "2010-07-011T22:00:12Z"
 						}
 					]
-				}
+				},
+				"description": "Prueba de get por el campo published-at"
 			},
 			"response": []
 		},
@@ -442,7 +453,8 @@
 							"value": "SEFutbol"
 						}
 					]
-				}
+				},
+				"description": "Prueba de get por el campo channel_title"
 			},
 			"response": []
 		},
@@ -481,7 +493,8 @@
 							"value": "2"
 						}
 					]
-				}
+				},
+				"description": "Prueba de get por el campo category_id"
 			},
 			"response": []
 		},
@@ -520,7 +533,8 @@
 							"value": "10.07.11"
 						}
 					]
-				}
+				},
+				"description": "Prueba de get por el campo trending_date"
 			},
 			"response": []
 		},
@@ -559,7 +573,8 @@
 							"value": "514000"
 						}
 					]
-				}
+				},
+				"description": "Prueba de get por el campo view_count"
 			},
 			"response": []
 		},
@@ -598,7 +613,8 @@
 							"value": "3651"
 						}
 					]
-				}
+				},
+				"description": "Prueba de get por el campo comment_count"
 			},
 			"response": []
 		},
@@ -623,7 +639,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        //\"id\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        //\"ranking\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -640,7 +656,8 @@
 						"v1",
 						"youtube-trends"
 					]
-				}
+				},
+				"description": "Prueba de post error 400(Obligatorio el campo id)"
 			},
 			"response": []
 		},
@@ -665,7 +682,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\":11,\r\n        \"title\": \"España campeona del mundo\",\r\n        \"country\": \"España\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"ranking\":11,\r\n        \"title\": \"España campeona del mundo\",\r\n        \"country\": \"España\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -682,7 +699,8 @@
 						"v1",
 						"youtube-trends"
 					]
-				}
+				},
+				"description": "Prueba de post error 400(Los campos deben estar ordenados en el body)"
 			},
 			"response": []
 		},
@@ -713,7 +731,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\":10,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo 2\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"ranking\":10,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo 2\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -730,7 +748,8 @@
 						"v1",
 						"youtube-trends"
 					]
-				}
+				},
+				"description": "Prueba de post con éxito\n\nTests: El body no puede estar vacío"
 			},
 			"response": []
 		},
@@ -755,7 +774,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\":1,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"ranking\":1,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -772,7 +791,8 @@
 						"v1",
 						"youtube-trends"
 					]
-				}
+				},
+				"description": "Prueba de post error 409(El ID ya existe en la base de datos)"
 			},
 			"response": []
 		},
@@ -797,7 +817,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"ranking\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -815,7 +835,8 @@
 						"youtube-trends",
 						"channel_title"
 					]
-				}
+				},
+				"description": "Prueba de post error 405(Formato de post incorrecto)"
 			},
 			"response": []
 		},
@@ -858,12 +879,13 @@
 						"youtube-trends",
 						"9"
 					]
-				}
+				},
+				"description": "Prueba de put error 400(No se puede cambiar el ranking de un objeto)"
 			},
 			"response": []
 		},
 		{
-			"name": "PUT dato por ID",
+			"name": "PUT dato por ranking",
 			"event": [
 				{
 					"listen": "test",
@@ -883,7 +905,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\":10,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"ranking\":10,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -901,12 +923,13 @@
 						"youtube-trends",
 						"10"
 					]
-				}
+				},
+				"description": "Prueba de put con éxito"
 			},
 			"response": []
 		},
 		{
-			"name": "PUT Error 404 objeto con ID no existente",
+			"name": "PUT Error 404 objeto con ranking no existente",
 			"event": [
 				{
 					"listen": "test",
@@ -926,7 +949,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\":12,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put 2)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"ranking\":12,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put 2)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -944,7 +967,8 @@
 						"youtube-trends",
 						"12"
 					]
-				}
+				},
+				"description": "Prueba de put error 404(No existe el objeto a actualizar)"
 			},
 			"response": []
 		},
@@ -969,7 +993,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"ranking\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -986,12 +1010,13 @@
 						"v1",
 						"youtube-trends"
 					]
-				}
+				},
+				"description": "Prueba de put error 405(Formato de put incorrecto)"
 			},
 			"response": []
 		},
 		{
-			"name": "DELETE dato por ID",
+			"name": "DELETE dato por ranking",
 			"event": [
 				{
 					"listen": "test",
@@ -1020,7 +1045,8 @@
 						"youtube-trends",
 						"10"
 					]
-				}
+				},
+				"description": "Prueba borrado de objeto por ranking"
 			},
 			"response": []
 		},
@@ -1053,7 +1079,8 @@
 						"v1",
 						"youtube-trends"
 					]
-				}
+				},
+				"description": "Borrar todo"
 			},
 			"response": []
 		}
