@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "1d08c22d-10fd-40c6-a184-93253d76fc48",
 		"name": "Documentación Movies API",
-		"description": "Esta documentación aporta los conocimientos necesarios para poder utilizar la API correctamente",
+		"description": "Esta documentación aporta los conocimientos necesarios para poder utilizar la API correctamente. A continuación vamos a ver la mayoría de peticiones que puedes realizar en esta API y casuísticas en las que serán peticiones erroneas o prohíbidas.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33038669"
 	},
@@ -16,6 +16,10 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"List is empty\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eql(0);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -36,7 +40,8 @@
 						"v1",
 						"movies-dataset"
 					]
-				}
+				},
+				"description": "Al desplegar la API, debes saber que el array de datos estará inicialmente vacío"
 			},
 			"response": []
 		},
@@ -49,9 +54,11 @@
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {\r",
 							"    pm.response.to.have.status(201);\r",
-							"});"
+							"});\r",
+							""
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -69,7 +76,8 @@
 						"movies-dataset",
 						"loadInitialData"
 					]
-				}
+				},
+				"description": "Para insertar los 10 primeros datos en la base de datos será necesario ejecutar primero esta petición, hasta que no la realice la lista permanecerá vacía."
 			},
 			"response": []
 		},
@@ -82,9 +90,14 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"List not empty\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.not.eql(0);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -101,7 +114,8 @@
 						"v1",
 						"movies-dataset"
 					]
-				}
+				},
+				"description": "Ahora si, una vez insertados los datos, al hacer la petición GET al recurso base, se mostrará un array de objetos con los 10 primeros datos que insertamos en la petición anterior."
 			},
 			"response": []
 		},
@@ -114,9 +128,14 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Showing 5 objects\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eql(5);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -143,7 +162,8 @@
 							"value": "5"
 						}
 					]
-				}
+				},
+				"description": "Es posible obtener un conjunto reducido de datos utilizando paginación, como se muestra en la URL, al añadir el carácter ? al final del recurso base podrá paginar los resultados que se muestran en la petición. El campo offset indica desde que elemento se va a empezar a mostrar, mientras que el campo limit indica cuantos elementos se va a mostrar, teniendo en cuenta que el ejemplo tiene por defecto los valores offset=0 y limit=5, eso no quiere decir que se muestre hasta el elemento 5, sino que se muestran 5 elementos.\n\nTambién cabe mencionar, que en caso de indicar solo offset en la peticion, se mostrará el elemento que esté en la posición indicada y que si solo indica limit se mostrara desde el primer elemento hasta el que se indique."
 			},
 			"response": []
 		},
@@ -156,6 +176,13 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"All objects have the field 'keywords'\", function () {\r",
+							"  var data = pm.response.json();\r",
+							"  var objectsWithoutKeywords = data.filter(object => {\r",
+							"    return !object.hasOwnProperty(\"keywords\");\r",
+							"  });\r",
+							"  pm.expect(objectsWithoutKeywords.length).to.eql(0);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -167,7 +194,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v1/movies-dataset?keywords=marvel",
+					"raw": "{{SERVER}}/api/v1/movies-dataset?keywords=magic",
 					"host": [
 						"{{SERVER}}"
 					],
@@ -179,10 +206,11 @@
 					"query": [
 						{
 							"key": "keywords",
-							"value": "marvel"
+							"value": "magic"
 						}
 					]
-				}
+				},
+				"description": "La API también permite hacer busquedas por cualquier campo que tengan los objetos almacenados, en el ejemplo de la URL se indica que queremos buscar todas las películas que contenga en el campo keyword la palabra magic, es decir, se buscaran las peliculas que entre otras, una de sus palabras claves sea magic.\n\nEsta búsqueda es aplicable a todos los campo, es decir, si quisiera listar las películas que se lanzaron en el año 2012 tendría que añadir al final del recurso ?release_date=2012, el resultado de la petición mostrará todas las peliculas lanzadas en 2012."
 			},
 			"response": []
 		},
@@ -214,7 +242,64 @@
 						"v1",
 						"datos-peliculas"
 					]
+				},
+				"description": "En caso de equivocarte al introducir la URL como en este caso, que en vez de acceder a la colección movies-dataset, intentas acceder a la colección datos-peliculas, que no existe y su resultado será el código de error 404."
+			},
+			"response": []
+		},
+		{
+			"name": "Insertar película con campos erroneos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Ojbject in body not contains field 'index'\", function () {\r",
+							"  var requestBody = JSON.parse(pm.request.body.raw);\r",
+							"  var hasOriginalTitle = false;\r",
+							"\r",
+							"  for (var property in requestBody) {\r",
+							"    if (property === \"index\") {\r",
+							"      hasOriginalTitle = true;\r",
+							"      break;\r",
+							"    }\r",
+							"  }\r",
+							"\r",
+							"  pm.expect(hasOriginalTitle).to.be.false;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
 				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"indox\": 10,\r\n    \"budget\": 270000000,\r\n    \"genre\": \"Adventure, Fantasy, Action, Science, Fiction\",\r\n    \"id\": 1452,\r\n    \"keywords\": \"saving the world dc comics invulnerability sequel superhero\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Superman Returns\",\r\n    \"overview\": \"Superman returns to discover his 5-year absence has allowed Lex Luthor to walk free, and that those he was closest too felt abandoned and have moved on. Luthor plots his ultimate revenge that could see millions killed and change the face of the planet forever, as well as ridding himself of the Man of Steel.\",\r\n    \"popular\": 57.925623,\r\n    \"production_companies\": \"DC Comics, Legendary Pictures, Warner Bros., Bad Hat Harry Productions\",\r\n    \"production_countries\": \"United States of America\",\r\n    \"release_date\": \"2006-06-28\",\r\n    \"revenue\": 391081192,\r\n    \"runtime\": 154,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"\",\r\n    \"title\": \"Superman Returns\",\r\n    \"vote_average\": 5.4,\r\n    \"vote_count\": 1400,\r\n    \"director\": \"Bryan Singer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/movies-dataset",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies-dataset"
+					]
+				},
+				"description": "Ahora pasamos a explicar las peticiones POST, se utilizan para añadir nuevas peliculas a la base de datos, pero cuidado, las peliculas añadidas han de contener los mismos campos, si algun campo no coincide con los existentes en la base de daots"
 			},
 			"response": []
 		},
@@ -227,6 +312,19 @@
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {\r",
 							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Ojbject in body contains field 'original_title'\", function () {\r",
+							"  var requestBody = JSON.parse(pm.request.body.raw);\r",
+							"  var hasOriginalTitle = false;\r",
+							"\r",
+							"  for (var property in requestBody) {\r",
+							"    if (property === \"original_title\") {\r",
+							"      hasOriginalTitle = true;\r",
+							"      break;\r",
+							"    }\r",
+							"  }\r",
+							"\r",
+							"  pm.expect(hasOriginalTitle).to.be.true;\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -269,7 +367,14 @@
 						"exec": [
 							"pm.test(\"Status code is 409\", function () {\r",
 							"    pm.response.to.have.status(409);\r",
-							"});"
+							"});\r",
+							"pm.test(\"Original title is 'Superman Returns\", function () {\r",
+							"  var requestBody = JSON.parse(pm.request.body.raw);\r",
+							"  var originalTitle = requestBody.original_title;\r",
+							"  pm.expect(originalTitle).to.eql(\"Superman Returns\");\r",
+							"});\r",
+							"\r",
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -282,48 +387,6 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"index\": 10,\r\n    \"budget\": 270000000,\r\n    \"genres\": \"Adventure, Fantasy, Action, Science, Fiction\",\r\n    \"id\": 1452,\r\n    \"keywords\": \"saving the world dc comics invulnerability sequel superhero\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Superman Returns\",\r\n    \"overview\": \"Superman returns to discover his 5-year absence has allowed Lex Luthor to walk free, and that those he was closest too felt abandoned and have moved on. Luthor plots his ultimate revenge that could see millions killed and change the face of the planet forever, as well as ridding himself of the Man of Steel.\",\r\n    \"popularity\": 57.925623,\r\n    \"production_companies\": \"DC Comics, Legendary Pictures, Warner Bros., Bad Hat Harry Productions\",\r\n    \"production_countries\": \"United States of America\",\r\n    \"release_date\": \"2006-06-28\",\r\n    \"revenue\": 391081192,\r\n    \"runtime\": 154,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"\",\r\n    \"title\": \"Superman Returns\",\r\n    \"vote_average\": 5.4,\r\n    \"vote_count\": 1400,\r\n    \"director\": \"Bryan Singer\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{SERVER}}/api/v1/movies-dataset",
-					"host": [
-						"{{SERVER}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"movies-dataset"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Petición con campos erroneos",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 400\", function () {\r",
-							"    pm.response.to.have.status(400);\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"indox\": 10,\r\n    \"budget\": 270000000,\r\n    \"genre\": \"Adventure, Fantasy, Action, Science, Fiction\",\r\n    \"id\": 1452,\r\n    \"keywords\": \"saving the world dc comics invulnerability sequel superhero\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Superman Returns\",\r\n    \"overview\": \"Superman returns to discover his 5-year absence has allowed Lex Luthor to walk free, and that those he was closest too felt abandoned and have moved on. Luthor plots his ultimate revenge that could see millions killed and change the face of the planet forever, as well as ridding himself of the Man of Steel.\",\r\n    \"popular\": 57.925623,\r\n    \"production_companies\": \"DC Comics, Legendary Pictures, Warner Bros., Bad Hat Harry Productions\",\r\n    \"production_countries\": \"United States of America\",\r\n    \"release_date\": \"2006-06-28\",\r\n    \"revenue\": 391081192,\r\n    \"runtime\": 154,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"\",\r\n    \"title\": \"Superman Returns\",\r\n    \"vote_average\": 5.4,\r\n    \"vote_count\": 1400,\r\n    \"director\": \"Bryan Singer\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -394,9 +457,16 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
-							"});"
+							"});\r",
+							"pm.test(\"Value of 'original_title' is 'Avatar'\", function () {\r",
+							"  var responseBody = pm.response.json();\r",
+							"  var originalTitle = responseBody.original_title;\r",
+							"  pm.expect(originalTitle).to.eql(\"Avatar\");\r",
+							"});\r",
+							""
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -429,7 +499,8 @@
 							"    pm.response.to.have.status(405);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -438,7 +509,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"index\": 10,\r\n    \"budget\": 270000000,\r\n    \"genres\": \"Adventure Fantasy Action Science Fiction\",\r\n    \"id\": 1452,\r\n    \"keywords\": \"saving the world dc comics invulnerability sequel superhero\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Superman Returns\",\r\n    \"overview\": \"Superman returns to discover his 5-year absence has allowed Lex Luthor to walk free, and that those he was closest too felt abandoned and have moved on. Luthor plots his ultimate revenge that could see millions killed and change the face of the planet forever, as well as ridding himself of the Man of Steel.\",\r\n    \"popularity\": 57.925623,\r\n    \"production_companies\": [\r\n      {\r\n        \"name\": \"DC Comics\",\r\n        \"id\": 429\r\n      },\r\n      {\r\n        \"name\": \"Legendary Pictures\",\r\n        \"id\": 923\r\n      },\r\n      {\r\n        \"name\": \"Warner Bros.\",\r\n        \"id\": 6194\r\n      },\r\n      {\r\n        \"name\": \"Bad Hat Harry Productions\",\r\n        \"id\": 9168\r\n      }\r\n    ],\r\n    \"production_countries\": [\r\n      {\r\n        \"iso_3166_1\": \"US\",\r\n        \"name\": \"United States of America\"\r\n      }\r\n    ],\r\n    \"release_date\": \"2006-06-28\",\r\n    \"revenue\": 391081192,\r\n    \"runtime\": 154,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"\",\r\n    \"title\": \"Superman Returns\",\r\n    \"vote_average\": 5.4,\r\n    \"vote_count\": 1400,\r\n    \"director\": \"Bryan Singer\"\r\n  }",
+					"raw": "{\r\n    \"index\": 10,\r\n    \"budget\": 270000000,\r\n    \"genres\": \"Adventure, Fantasy, Action, Science, Fiction\",\r\n    \"id\": 1452,\r\n    \"keywords\": \"saving the world dc comics invulnerability sequel superhero\",\r\n    \"original_language\": \"en\",\r\n    \"original_title\": \"Superman Returns\",\r\n    \"overview\": \"Superman returns to discover his 5-year absence has allowed Lex Luthor to walk free, and that those he was closest too felt abandoned and have moved on. Luthor plots his ultimate revenge that could see millions killed and change the face of the planet forever, as well as ridding himself of the Man of Steel.\",\r\n    \"popularity\": 57.925623,\r\n    \"production_companies\": \"DC Comics, Legendary Pictures, Warner Bros., Bad Hat Harry Productions\",\r\n    \"production_countries\": \"United States of America\",\r\n    \"release_date\": \"2006-06-28\",\r\n    \"revenue\": 391081192,\r\n    \"runtime\": 154,\r\n    \"status\": \"Released\",\r\n    \"tagline\": \"\",\r\n    \"title\": \"Superman Returns\",\r\n    \"vote_average\": 5.4,\r\n    \"vote_count\": 1400,\r\n    \"director\": \"Bryan Singer\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -469,7 +540,12 @@
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {\r",
 							"    pm.response.to.have.status(201);\r",
-							"});"
+							"});\r",
+							"pm.test(\"Value of 'original_title' equals to 'Avatar'\", function () {\r",
+							"  var requestBody = JSON.parse(pm.request.body.raw);\r",
+							"  pm.expect(requestBody.original_title).to.eql(\"Avatar\");\r",
+							"});\r",
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -512,7 +588,12 @@
 						"exec": [
 							"pm.test(\"Status code is 400\", function () {\r",
 							"    pm.response.to.have.status(400);\r",
-							"});"
+							"});\r",
+							"pm.test(\"Value of 'original_title' not equal to 'Avatar'\", function () {\r",
+							"  var requestBody = JSON.parse(pm.request.body.raw);\r",
+							"  pm.expect(requestBody.original_title).to.not.eql(\"Avatar\");\r",
+							"});\r",
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -555,6 +636,19 @@
 						"exec": [
 							"pm.test(\"Status code is 400\", function () {\r",
 							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Ojbject in body not contains field 'genres'\", function () {\r",
+							"  var requestBody = JSON.parse(pm.request.body.raw);\r",
+							"  var hasOriginalTitle = false;\r",
+							"\r",
+							"  for (var property in requestBody) {\r",
+							"    if (property === \"genres\") {\r",
+							"      hasOriginalTitle = true;\r",
+							"      break;\r",
+							"    }\r",
+							"  }\r",
+							"\r",
+							"  pm.expect(hasOriginalTitle).to.be.false;\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -726,7 +820,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v1/movies-dataset/Action/2012",
+					"raw": "{{SERVER}}/api/v1/movies-dataset/Action/DC Entertainment/2012",
 					"host": [
 						"{{SERVER}}"
 					],
@@ -735,6 +829,7 @@
 						"v1",
 						"movies-dataset",
 						"Action",
+						"DC Entertainment",
 						"2012"
 					]
 				}

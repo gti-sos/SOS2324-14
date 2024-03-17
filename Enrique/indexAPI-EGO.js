@@ -72,10 +72,10 @@ module.exports = (app, dbMovies) => {
                     } else if (req.query){
                         let showMovies = [];
 
-                        let campos = Object.entries(req.query)
+                        let campos = Object.entries(req.query);
                         sinIdMovies.forEach(movie => {
                             let verdad = [];
-                            let specialFields = ['genres', 'keywords', 'production_companies', 'production_countries', 'release_date']
+                            let specialFields = ['genres', 'keywords', 'production_companies', 'production_countries', 'release_date'];
                             campos.forEach(entrada => {
                                 let clave = entrada[0];
                                 let valor = entrada[1];
@@ -138,11 +138,15 @@ module.exports = (app, dbMovies) => {
                     }
                 } 
             } else {
-                // Si la base de datos está vacía, se puede hacer el post correctamente
-                dbMovies.insert(movie);
-                res.sendStatus(201, "Created");
+                // Si la base de datos está vacía, se puede hacer el post correctamente, siempre que los campos coincidan con los esperados
+                if (compruebaCampos(movie)) {
+                    dbMovies.insert(movie);
+                    res.sendStatus(201, "Created");
+                } else {
+                    res.sendStatus(400, "Bad Request");
+                }
             }    
-        })
+        });
     });
 
     // DELETE Del la colección
@@ -161,10 +165,10 @@ module.exports = (app, dbMovies) => {
                         } else {
                             res.status(200).send(`OK, ${numRemoved} data deleted`);
                         }
-                    })
+                    });
                 }
             }
-        })
+        });
     });
 
     // D01 punto 3 de por persona, filtrar por genero, compañia y año por defecto
@@ -178,22 +182,22 @@ module.exports = (app, dbMovies) => {
             } else {
                 let sinIdMovies = movies.map((c) => {
                     delete c._id;
-                    return c
+                    return c;
                 });
                 let resPelis = {};
                 sinIdMovies.forEach(movie => {
                     if (movie.genres.includes(genero) && movie.release_date.includes(year) && movie.production_companies.includes(company)) {
-                        resPelis = movie
+                        resPelis = movie;
                     }
                 })
-                if (resPelis.length === 0) {
+                if (Object.entries(resPelis).length === 0) {
                     res.sendStatus(404, "Not Found");
                 } else {
                     res.send(JSON.stringify(resPelis));
                 }
             }
-        })
-    })
+        });
+    });
 
     //D01 hacer un put al recurso con propiedades indicadas en genero y año
     app.put(API_BASE+"/movies-dataset/:genero/:company/:year", (req, res) => {
@@ -201,7 +205,6 @@ module.exports = (app, dbMovies) => {
         let genero = req.params.genero;
         let company = req.params.company;
         let year = req.params.year;
-        let updates = 0
         dbMovies.update({ genres: { $regex: eval(`/`+genero+`/`)}, production_companies: {$regex: eval(`/`+company+`/`)}, release_date: {$regex: eval(`/`+year+`/`)} }, cambio, {}, (err, numUpdated) => {
             if (err) {
                 res.sendStatus(500);
@@ -226,7 +229,7 @@ module.exports = (app, dbMovies) => {
         let year = req.params.year;
         dbMovies.remove({ genres: { $regex: eval(`/`+genero+`/`)}, production_companies: {$regex: eval(`/`+company+`/`)}, release_date: {$regex: eval(`/`+year+`/`)} }, {}, (err, numRemoved) => {
             if (err) {
-                res.sendStatus(500)
+                res.sendStatus(500), "Internal Error";
             } else {
                 if (numRemoved >= 1) {
                     res.status(200).send(`Ok. ${numRemoved} resource removed `);
@@ -257,7 +260,7 @@ module.exports = (app, dbMovies) => {
             } else {
                 let sinIdMovies = doc.map((c) => {
                     delete c._id;
-                    return c
+                    return c;
                 });
                 if (doc.length === 0) {
                     res.sendStatus(404, "Not Found");
@@ -265,7 +268,7 @@ module.exports = (app, dbMovies) => {
                     res.send(JSON.stringify(sinIdMovies[0]));
                 }
             }
-        })
+        });
     });
 
     // POST No permitido en un recurso
@@ -316,6 +319,6 @@ module.exports = (app, dbMovies) => {
                     res.sendStatus(404, "Not Found");
                 }
             }
-        })
+        });
     });
 }
