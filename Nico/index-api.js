@@ -50,53 +50,64 @@ module.exports = (app, dbUfc) => {
 
     //Documentación Postman
     app.get(API_BASE + "/ufc-events-data/docs", (req, res) => {
-        res.status(301).redirect("https://documenter.getpostman.com/view/32992444/2sA2xh3tEg")
+        res.status(301).redirect("https://documenter.getpostman.com/view/32992444/2sA2xnxpmQ")
     });
+
+    // Validar campos requeridos para POST y PUT
+    function validateFields(fields, requiredFields) {
+        for (const field of requiredFields) {
+            if (!(field in fields) || fields[field] === null || fields[field] === undefined) {
+                return false;
+            }
+        }
+        return true;
+    }
     
 
     // GET Base
-    app.get(API_BASE+"/ufc-events-data", (req, res) => {
-        dbUfc.find({}, (err, events) => {
-            if (err) {
-                res.sendStatus(500, 'Internal Error');
-            } else {
-                // Consultas con parámetros
-                if (!(Object.keys(req.query).length === 0)) {
+app.get(API_BASE+"/ufc-events-data", (req, res) => {
+    dbUfc.find({}, (err, events) => {
+        if (err) {
+            res.sendStatus(500, 'Internal Error');
+        } else {
+            events.forEach(event => delete event._id);
+            // Consultas con parámetros
+            if (!(Object.keys(req.query).length === 0)) {
 
-                    if (req.query.limit && req.query.offset) {
-                        let limit = parseInt(req.query.limit);
-                        let offset = parseInt(req.query.offset);
-                        res.send(JSON.stringify(events.slice(offset, limit)));
-                    } else if(req.query.limit && !req.query.offset){
-                        let limit = parseInt(req.query.limit);
-                        res.send(JSON.stringify(events.slice(0, limit)));
-                    } else if (!req.query.limit && req.query.offset) {
-                        let offset = parseInt(req.query.offset);
-                        res.send(JSON.stringify(events.slice(offset)));
-                    } else {
-                        let mostrar = []
-                        let queryParams = Object.keys(req.query);
-                        for (let i = 0; i < events.length; i++) {
-                            let match = true;
-                            for (let j = 0; j < queryParams.length; j++) {
-                                if (events[i][queryParams[j]] !== req.query[queryParams[j]]) {
-                                    match = false;
-                                    break;
-                                }
-                            }
-                            if (match) {
-                                mostrar.push(events[i]);
+                if (req.query.limit && req.query.offset) {
+                    let limit = parseInt(req.query.limit);
+                    let offset = parseInt(req.query.offset);
+                    res.send(JSON.stringify(events.slice(offset, limit)));
+                } else if(req.query.limit && !req.query.offset){
+                    let limit = parseInt(req.query.limit);
+                    res.send(JSON.stringify(events.slice(0, limit)));
+                } else if (!req.query.limit && req.query.offset) {
+                    let offset = parseInt(req.query.offset);
+                    res.send(JSON.stringify(events.slice(offset)));
+                } else {
+                    let mostrar = []
+                    let queryParams = Object.keys(req.query);
+                    for (let i = 0; i < events.length; i++) {
+                        let match = true;
+                        for (let j = 0; j < queryParams.length; j++) {
+                            if (events[i][queryParams[j]] !== req.query[queryParams[j]]) {
+                                match = false;
+                                break;
                             }
                         }
-                        res.send(JSON.stringify(mostrar));
+                        if (match) {
+                            mostrar.push(events[i]);
+                        }
                     }
-                // Consultas sin parámetros
-                } else {
-                    res.send(JSON.stringify(events));
+                    res.send(JSON.stringify(mostrar));
                 }
+            // Consultas sin parámetros
+            } else {
+                res.send(JSON.stringify(events));
             }
-        })
-    });
+        }
+    })
+})
     
     // POST Nuevo evento
     app.post(API_BASE + "/ufc-events-data", (req, res) => {
@@ -112,7 +123,7 @@ module.exports = (app, dbUfc) => {
         const fight = req.body;
     
         // Verificar si todos los campos requeridos están presentes y no son nulos o indefinidos
-        const isValid = requiredFields.every(field => field in fight && fight[field] !== null && fight[field] !== undefined);
+        const isValid = validateFields(fight, requiredFields);
         if (!isValid) {
             return res.status(400).send('Incorrect JSON');
         }
@@ -139,25 +150,25 @@ module.exports = (app, dbUfc) => {
 
 
     // DELETE de todo
-app.delete(API_BASE+"/ufc-events-data", (req, res) => {
-    dbUfc.find({}, (err, dat) => {
-        if (err) {
-            res.sendStatus(500, "Internal Error");
-        } else {
-            if (dat.length === 0) {
-                res.sendStatus(404, 'No data found to delete.')
+    app.delete(API_BASE+"/ufc-events-data", (req, res) => {
+        dbUfc.find({}, (err, dat) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
             } else {
-                dbUfc.remove({}, {multi: true}, (err, removed) => {
-                    if (err) {
-                        res.sendStatus(500, "Internal Error");
-                    } else {
-                        res.status(200).send(`OK, ${removed} data deleted.`)
-                    }
-                });
+                if (dat.length === 0) {
+                    res.sendStatus(404, 'No data found to delete.')
+                } else {
+                    dbUfc.remove({}, {multi: true}, (err, removed) => {
+                        if (err) {
+                            res.sendStatus(500, "Internal Error");
+                        } else {
+                            res.status(200).send(`OK, ${removed} data deleted.`)
+                        }
+                    });
+                }
             }
-        }
+        });
     });
-});
 
     // 16.4 GET Rec inexistente
     app.get(API_BASE+"/ufc-events", (req, res) =>{
@@ -192,16 +203,26 @@ app.delete(API_BASE+"/ufc-events-data", (req, res) => {
     });
 
     // 16.1 PUT recurso existente
-    app.put(API_BASE+"/ufc-events-data/:fighter1/:fighter2/:date", (req, res) => {
-        const f1 = req.params.fighter1;
-        const f2 = req.params.fighter2;
+    app.put(API_BASE+"/ufc-events-data/stats/:fighter1/:fighter2/:date", (req, res) => {
+        const f1 = decodeURIComponent(req.params.fighter1);
+        const f2 = decodeURIComponent(req.params.fighter2);
         const fdate = req.params.date;
         const sw = req.body;
+
 
         // Verificación
         if (!f1 || !f2 || !fdate || !sw) {
             res.sendStatus(400, "Bad Request: Missing required data");
             return;
+        }
+
+        // Validar si los campos enviados son válidos
+        const isValid = validateFields(sw, ['location', 'fighter1', 'fighter2', 'fighter_1_kd', 'fighter_2_kd', 
+        'fighter_1_str', 'fighter_2_str', 'fighter_1_td', 'fighter_2_td', 'fighter_1_sub', 'fighter_2_sub', 
+        'weight_class', 'method', 'round', 'time', 'event_name', 'date', 'winner']);
+        
+        if (!isValid) {
+            return res.status(400).send('Incorrect JSON or missing required fields');
         }
 
         dbUfc.update(
@@ -239,6 +260,57 @@ app.delete(API_BASE+"/ufc-events-data", (req, res) => {
             }
         })
     });
+
+    // GET recurso existente
+    app.get(API_BASE+"/ufc-events-data/stats/:fighter1/:fighter2/:date", (req, res) => {
+        const f1 = decodeURIComponent(req.params.fighter1);
+        const f2 = decodeURIComponent(req.params.fighter2);
+        const fdate = req.params.date;
+
+    // Verificación
+        if (!f1 || !f2 || !fdate) {
+            res.status(400).send("Bad Request: Missing required data");
+            return;
+        }
+
+        dbUfc.findOne({ fighter1: f1, fighter2: f2, date: fdate }, (err, event) => {
+            if (err) {
+                res.status(500).send('Internal Error');
+            } else {
+                if (event) {
+                    res.status(200).json(event);
+                } else {
+                    res.status(404).send("Not Found");
+                }
+            }
+        });
+    });
+
+    // DELETE recurso existente
+    app.delete(API_BASE+"/ufc-events-data/stats/:fighter1/:fighter2/:date", (req, res) => {
+        const f1 = decodeURIComponent(req.params.fighter1);
+        const f2 = decodeURIComponent(req.params.fighter2);
+        const fdate = req.params.date;
+
+    // Verificación
+        if (!f1 || !f2 || !fdate) {
+            res.status(400).send("Bad Request: Missing required data");
+            return;
+        }
+
+        dbUfc.remove({ fighter1: f1, fighter2: f2, date: fdate }, { multi: true }, (err, numRemoved) => {
+            if (err) {
+                res.status(500).send('Internal Error');
+            } else {
+                if (numRemoved === 1) {
+                    res.status(200).send("OK");
+                } else {
+                    res.status(404).send("Not Found");
+                }
+            }
+        });
+    });
+
 
     
 

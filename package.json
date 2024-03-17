@@ -5,7 +5,7 @@
     "start": "node index.js",
     "test": "npm run test-EGO && npm run test-NRM && npm run test-VEG",
     "test-EGO": "npx newman run ./Enrique/tests/CollectionAPIEGO.json -e ./Enrique/tests/enviroments/GCloudEnv.json",
-    "test-NRM": "npx newman run ./tests/apiNRM-gcloud.json",
+    "test-NRM": "npx newman run ./tests/apiNRM-local.json",
     "test-VEG": "npx newman run ./tests/apiVEG-gcloud.json -e ./tests/enviroments/gcloud.json"
   },
   "dependencies": {
