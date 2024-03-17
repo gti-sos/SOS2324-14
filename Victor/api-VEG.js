@@ -57,11 +57,11 @@ module.exports = (app, db) => {
             }
         });
 
-        if ('id' in queryParams) {
+        if ('ranking' in queryParams) {
             return res.sendStatus(400, "Bad Request");
         }
 
-        db.find(query).sort({ id: 1 }).skip(offset).limit(limit).exec((err, data_VEG) => {
+        db.find(query).sort({ ranking: 1 }).skip(offset).limit(limit).exec((err, data_VEG) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
             } else {
@@ -74,12 +74,12 @@ module.exports = (app, db) => {
         });
     });
 
-    // GET para obtener un recurso por su ID
-    app.get(API_BASE + "/youtube-trends/:id", (req, res) => {
-        const resourceId = parseInt(req.params.id); // Obtener el ID del recurso de los parámetros de la ruta
+    // GET para obtener un recurso por su ranking
+    app.get(API_BASE + "/youtube-trends/:ranking", (req, res) => {
+        const resourceRanking = parseInt(req.params.ranking); // Obtener el Ranking del recurso de los parámetros de la ruta
 
-        // Buscar el recurso por su ID en la base de datos
-        db.findOne({ id: resourceId }, (err, resource) => {
+        // Buscar el recurso por su Ranking en la base de datos
+        db.findOne({ ranking: resourceRanking }, (err, resource) => {
             if (err) {
                 console.error(err);
                 res.sendStatus(500); // Devolver un error 500 si hay un problema con la base de datos
@@ -182,7 +182,7 @@ module.exports = (app, db) => {
         const nuevoDato = req.body;
 
         // Verificar el orden de las propiedades recibidas
-        const expectedOrder = ['id', 'country', 'title', 'published_at', 'channel_title', 'category_id', 'trending_date', 'view_count', 'comment_count'];
+        const expectedOrder = ['ranking', 'country', 'title', 'published_at', 'channel_title', 'category_id', 'trending_date', 'view_count', 'comment_count'];
         const receivedFields = Object.keys(nuevoDato);
 
         // Verificar si el orden de las propiedades coincide con el esperado
@@ -195,7 +195,7 @@ module.exports = (app, db) => {
         }
 
         // Verificar si el objeto recibido tiene la estructura de campos esperada
-        const expectedFields = ['id', 'country', 'title', 'published_at', 'channel_title', 'category_id', 'trending_date', 'view_count', 'comment_count'];
+        const expectedFields = ['ranking', 'country', 'title', 'published_at', 'channel_title', 'category_id', 'trending_date', 'view_count', 'comment_count'];
 
         // Verificar si todos los campos esperados están presentes
         const isValidStructure = expectedFields.every(field => receivedFields.includes(field));
@@ -206,14 +206,14 @@ module.exports = (app, db) => {
             return;
         }
 
-        // Verificar si el campo 'id' está presente en el objeto recibido
-        if (!nuevoDato.hasOwnProperty('id')) {
+        // Verificar si el campo 'ranking' está presente en el objeto recibido
+        if (!nuevoDato.hasOwnProperty('ranking')) {
             res.sendStatus(400, "Bad Request");
             return;
         }
 
-        // Verificar si el ID ya existe en la base de datos
-        db.findOne({ id: nuevoDato.id }, (err, existingData) => {
+        // Verificar si el Ranking ya existe en la base de datos
+        db.findOne({ ranking: nuevoDato.ranking }, (err, existingData) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
                 return;
@@ -241,15 +241,15 @@ module.exports = (app, db) => {
 
 
     //PUT para actualizar un dato existente
-    app.put(API_BASE + "/youtube-trends/:id", (req, res) => {
-        const idFromUrl = parseInt(req.params.id);
+    app.put(API_BASE + "/youtube-trends/:ranking", (req, res) => {
+        const rankingFromUrl = parseInt(req.params.ranking);
         const newDato = req.body;
 
-        if (idFromUrl !== newDato.id) {
-            return res.status(400).send("Bad Request: El ID en la URL y en el cuerpo de la solicitud no coinciden");
+        if (rankingFromUrl !== newDato.ranking) {
+            return res.sendStatus(400,"Bad Request");
         }
 
-        db.findOne({ id: idFromUrl }, (findErr, existingData) => {
+        db.findOne({ ranking: rankingFromUrl }, (findErr, existingData) => {
             if (findErr) {
                 return res.sendStatus(500, "Internal Error");
             }
@@ -257,7 +257,7 @@ module.exports = (app, db) => {
                 return res.sendStatus(404, "Not Found");
             }
 
-            db.update({ id: idFromUrl }, { $set: newDato }, {}, (updateErr, numReplaced) => {
+            db.update({ ranking: rankingFromUrl }, { $set: newDato }, {}, (updateErr, numReplaced) => {
                 if (updateErr) {
                     return res.sendStatus(500, "Internal Error");
                 }
@@ -278,10 +278,10 @@ module.exports = (app, db) => {
 
 
     // DELETE para eliminar un dato existente
-    app.delete(API_BASE + "/youtube-trends/:id", (req, res) => {
-        const id = parseInt(req.params.id);
+    app.delete(API_BASE + "/youtube-trends/:ranking", (req, res) => {
+        const ranking = parseInt(req.params.ranking);
 
-        db.remove({ id: id }, {}, (err, numRemoved) => {
+        db.remove({ ranking: ranking }, {}, (err, numRemoved) => {
             if (err) {
                 return res.sendStatus(500, "Internal Error");
             }
