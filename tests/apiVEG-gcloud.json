@@ -7,40 +7,6 @@
 	},
 	"item": [
 		{
-			"name": "GET youtube-trends loadInitialData",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/loadInitialData",
-					"host": [
-						"{{gcloud}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"youtube-trends",
-						"loadInitialData"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "GET youtube-trends",
 			"event": [
 				{
@@ -49,6 +15,11 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"The list of objects should be empty before loading initial data\", function () {\r",
+							"    var jsonData = pm.response.json(); \r",
+							"    pm.expect(jsonData.length).to.eql(0);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -74,15 +45,17 @@
 			"response": []
 		},
 		{
-			"name": "GET youtube-trends paginación",
+			"name": "GET youtube-trends loadInitialData",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});"
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -93,7 +66,46 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends?offset=0&limit=5",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/loadInitialData",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"youtube-trends",
+						"loadInitialData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET youtube-trends paginación",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Must be show 8 objects\", function () {\r",
+							"\t\t\t\t\t\t\t    var jsonData = pm.response.json();\r",
+							"\t\t\t\t\t\t\t    pm.expect(jsonData.length).to.eql(8);\r",
+							"\t\t\t\t\t\t\t});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v1/youtube-trends?offset=0&limit=8",
 					"host": [
 						"{{gcloud}}"
 					],
@@ -109,7 +121,7 @@
 						},
 						{
 							"key": "limit",
-							"value": "5"
+							"value": "8"
 						}
 					]
 				}
@@ -127,7 +139,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"// Verificar que la respuesta sea un objeto\r",
-							"pm.test(\"La respuesta debe ser un objeto\", function () {\r",
+							"pm.test(\"Must be show an object\", function () {\r",
 							"    // Convertir el cuerpo de la respuesta JSON a un objeto\r",
 							"    var jsonData = pm.response.json();\r",
 							"\r",
@@ -253,7 +265,7 @@
 							"});\r",
 							"\r",
 							"// Verificar que la respuesta sea un objeto\r",
-							"pm.test(\"La respuesta debe ser un objeto\", function () {\r",
+							"pm.test(\"Must be show an object\", function () {\r",
 							"    // Convertir el cuerpo de la respuesta JSON a un objeto\r",
 							"    var jsonData = pm.response.json();\r",
 							"\r",
@@ -683,7 +695,13 @@
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {\r",
 							"    pm.response.to.have.status(201);\r",
-							"});"
+							"});\r",
+							"\r",
+							"// Verificar si se recibe un cuerpo de respuesta no vacío\r",
+							"pm.test(\"Response body is not empty\", function () {\r",
+							"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+							"});\r",
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
