@@ -11,7 +11,7 @@ module.exports = (app, db) => {
 
     //Documentación Postman
     app.get(API_BASE + "/youtube-trends/docs", (req, res) => {
-        res.status(301).redirect("https://documenter.getpostman.com/view/33038536/2sA2xh3Cti")
+        res.status(301).redirect("https://documenter.getpostman.com/view/33038536/2sA2xnxpcY")
     });
 
     //GET Punto 13: Introducir datos
@@ -91,16 +91,16 @@ module.exports = (app, db) => {
         });
     });
 
-    //D01: GET para obtener un recurso por title y channel_title y published_at
+    //D01: GET para obtener un recurso por title, channel_title y published_at
     app.get(API_BASE + "/youtube-trends/:title/:channel_title/:published_at", (req, res) => {
         const title = req.params.title;
         const channelTitle = req.params.channel_title;
-        const publishedAt = req.params.published_at; 
+        const publishedAt = req.params.published_at;  // Cambio de req.params a req.query
 
         let query = {
             title: title,
             channel_title: channelTitle,
-            published_at: publishedAt 
+            published_at: publishedAt
         };
 
         db.findOne(query).exec((err, resource) => {

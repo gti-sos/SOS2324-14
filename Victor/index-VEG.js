@@ -26,7 +26,7 @@ const paisDeseado = 'Albania';
 // Calcular la media de view_count para el país deseado
 const mediaViewCountPaisDeseado = calcularMediaViewCount(data, paisDeseado);
 
-console.log(`La media de view_count para ${paisDeseado} es: ${mediaViewCountPaisDeseado}`);
+//console.log(`La media de view_count para ${paisDeseado} es: ${mediaViewCountPaisDeseado}`);
 
 module.exports = data;
 

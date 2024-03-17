@@ -125,6 +125,14 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// Verificar que la respuesta sea un objeto\r",
+							"pm.test(\"La respuesta debe ser un objeto\", function () {\r",
+							"    // Convertir el cuerpo de la respuesta JSON a un objeto\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    // Verificar si el cuerpo de la respuesta es un objeto\r",
+							"    pm.expect(jsonData).to.be.an('object');\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -136,7 +144,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/España campeona del mundo/SEFutbol/2010-07-011T22:00:12Z",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/DON XHONI - KATILE/DON XHONI/2022-07-07T22:00:12Z",
 					"host": [
 						"{{gcloud}}"
 					],
@@ -144,9 +152,9 @@
 						"api",
 						"v1",
 						"youtube-trends",
-						"España campeona del mundo",
-						"SEFutbol",
-						"2010-07-011T22:00:12Z"
+						"DON XHONI - KATILE",
+						"DON XHONI",
+						"2022-07-07T22:00:12Z"
 					]
 				}
 			},
