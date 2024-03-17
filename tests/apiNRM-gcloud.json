@@ -295,6 +295,55 @@
 			"response": []
 		},
 		{
+			"name": "ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23 BAD REQUEST",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"location\": \"Austin Texas USA\",\r\n        \"fighter1\": \"Arman Tsarukyan\",\r\n        \"fighter2\": \"Beneil Dariush\",\r\n        \"fighter_1_kd\": 5,\r\n        \"fighter_2_kd\": 0,\r\n        \"fighter_1_str\": 8,\r\n        \"fighter_2_str\": 2,\r\n        \"fighter_1_td\": 0,\r\n        \"fighter_2_td\": 0,\r\n        \"fighter_1_sub\": 0,\r\n        \"fighter_2_sub\": 0,\r\n        \"weight_class\": \"Lightweight\",\r\n        \"method\": \"KO/TKO Punch\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"protocol": "https",
+					"host": [
+						"sos2324-14",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"ufc-events-data",
+						"stats",
+						"Arman%20Tsarukyan",
+						"Beneil%20Dariush",
+						"2-Dec-23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "ufc-events-data/Welterweight NOT FOUND",
 			"event": [
 				{
@@ -386,7 +435,8 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -403,7 +453,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -414,6 +464,167 @@
 						"api",
 						"v1",
 						"ufc-events-data",
+						"stats",
+						"Arman%20Tsarukyan",
+						"Beneil%20Dariush",
+						"2-Dec-23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"protocol": "https",
+					"host": [
+						"sos2324-14",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"ufc-events-data",
+						"stats",
+						"Arman%20Tsarukyan",
+						"Beneil%20Dariush",
+						"2-Dec-23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"protocol": "https",
+					"host": [
+						"sos2324-14",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"ufc-events-data",
+						"stats",
+						"Arman%20Tsarukyan",
+						"Beneil%20Dariush",
+						"2-Dec-23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23 NOT FOUND",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"protocol": "https",
+					"host": [
+						"sos2324-14",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"ufc-events-data",
+						"stats",
+						"Arman%20Tsarukyan",
+						"Beneil%20Dariush",
+						"2-Dec-23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23 NOT FOUND",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"protocol": "https",
+					"host": [
+						"sos2324-14",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"ufc-events-data",
+						"stats",
 						"Arman%20Tsarukyan",
 						"Beneil%20Dariush",
 						"2-Dec-23"
