@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node index.js",
-    "test": "npm run test-EGO && npm run test-NRM && npm run test-VEG",
-    "test-EGO": "npx newman run ./Enrique/tests/CollectionAPIEGO.json -e ./Enrique/tests/enviroments/GCloudEnv.json",
-    "test-NRM": "npx newman run ./tests/apiNRM-gcloud.json",
-    "test-VEG": "npx newman run ./tests/apiVEG-gcloud.json -e ./tests/enviroments/gcloud.json"
+    "test": "npm run test-movies-dataset && npm run test-ufc-events-data && npm run test-youtube-trends",
+    "test-movies-dataset": "npx newman run ./Enrique/tests/CollectionAPIEGO.json -e ./Enrique/tests/enviroments/GCloudEnv.json",
+    "test-ufc-events-data": "npx newman run ./tests/apiNRM-gcloud.json",
+    "test-youtube-trends": "npx newman run ./tests/apiVEG-gcloud.json -e ./tests/enviroments/gcloud.json"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
