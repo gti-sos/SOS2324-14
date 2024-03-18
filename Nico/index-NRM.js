@@ -15,7 +15,7 @@ const ufc_data = [
     "Austin Texas USA\tRodolfo Bellato\tIhor Potieria\t0.0\t1.0\t80.0\t73.0\t1.0\t0.0\t0.0\t0.0\tLight Heavyweight\tKO/TKO Punches\t2.0\t4:17\tUFC Fight Night\t2-Dec-23\tRodolfo Bellato",
     "Austin Texas USA\tJared Gooden\tWellington Turman\t0.0\t0.0\t53.0\t37.0\t1.0\t1.0\t1.0\t0.0\tWelterweight\tSUB Rear Naked Choke\t2.0\t1:11\tUFC Fight Night\t2-Dec-23\tJared Gooden"
 ];
-
+/**
 function calcularMediaTiempoPelea(){
 
     let totalSegundos = 0;
@@ -36,9 +36,8 @@ function calcularMediaTiempoPelea(){
         mediaMinu:mediaMinutos,
         mediaSeg:mediaSegundosFinal
     };
-}
+}*/
 
 module.exports = {
-    calcularMediaTiempoPelea: calcularMediaTiempoPelea,
     ufc_data: ufc_data
 };
