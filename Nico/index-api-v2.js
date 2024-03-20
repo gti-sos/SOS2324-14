@@ -1,9 +1,9 @@
-const {ufc_data} = require("./index-NRM");
-const API_BASE = "/api/v1";
+import {ufc_data} from "./index-NRM.js";
+const API_BASE = "/api/v2";
 
 
 
-module.exports = (app, dbUfc) => {
+function loadBackendNRM(app, dbUfc) {
 
     let dataset = [];
 
@@ -310,8 +310,6 @@ app.get(API_BASE+"/ufc-events-data", (req, res) => {
             }
         });
     });
-
-
-    
-
 }
+
+export { loadBackendNRM };

@@ -1,6 +1,6 @@
-const movies_data = require("./data-EGO.js");
+import {movies_data} from "./data-EGO.js";
 
-const API_BASE = "/api/v1";
+const API_BASE = "/api/v2";
 
 //Funcion comprueba campos
 function compruebaCampos(movie) {
@@ -16,7 +16,7 @@ function compruebaCampos(movie) {
     return comprueba.reduce((a,b) => a && b);
 }
 
-module.exports = (app, dbMovies) => {
+function loadBackendEGO(app, dbMovies){
     
     app.get(API_BASE+"/movies-dataset/loadInitialData", (req, res) => {
         dbMovies.find({}, (err, docs) => {
@@ -322,3 +322,5 @@ module.exports = (app, dbMovies) => {
         });
     });
 }
+
+export { loadBackendEGO };

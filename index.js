@@ -1,26 +1,26 @@
 //let cool = require("cool-ascii-faces");
-let express = require("express");
-let bodyParser = require("body-parser");
-let dataStore = require("nedb");
-
-let data_VEG = require('./Victor/index-VEG');
-let calcularMediaTiempoPelea = require('./Nico/index-NRM');
+import express from "express";
+import bodyParser from "body-parser";
+import dataStore from "nedb";
+import { handler } from "./front/build/handler.js";
 
 //APIs
-let enriqueAPI = require("./Enrique/indexAPI-EGO");
-let api_VEG = require('./Victor/api-VEG');
-let api_NRM = require('./Nico/index-api');
-const data = require("./Victor/index-VEG");
+import {api_EGO} from './backEGO/indexAPI-EGOv1.js';
+import {api_VEG} from './Victor/api-VEG-v1.js';
+import {api_NRM} from './Nico/index-api-v1.js';
+import {loadBackendEGO} from "./backEGO/indexAPI-EGOv2.js";
+import {loadBackendVEG} from "./Victor/api-VEG-v2.js";
+import {loadBackendNRM} from "./Nico/index-api-v2.js";
 
 let dbMovies = new dataStore();
 let db = new dataStore();
 let dbUfc = new dataStore();
 
-
 let app = express();
 const PORT = (process.env.PORT || 10002);
 
 app.use(bodyParser.json());
+
 
 app.use("/",express.static("./public"));
 
@@ -42,13 +42,18 @@ app.listen(PORT,()=>{
 //         </html>`;
 //     res.send(htmlResponse);
 // });
-
+// API v1
 api_NRM(app, dbUfc);
+// API v2
+loadBackendNRM(app, dbUfc);
 
-//Enrique Garcia Olivares
-enriqueAPI(app, dbMovies);
+// Enrique Garcia Olivares
+// API v1
+api_EGO(app, dbMovies);
+// API v2
+loadBackendEGO(app, dbMovies);
 
-//Víctor Escalera García
+// Víctor Escalera García
 
 //Ruta /samples/VEG eliminada
 //app.get("/samples/VEG", (req, res) => {
@@ -56,7 +61,9 @@ enriqueAPI(app, dbMovies);
 //    const mediaViewCountPaisDeseado = calcularMediaViewCount(data_VEG, paisDeseado);
 //    res.send(`<html><body><h1>La media de view_count para ${paisDeseado} es: ${mediaViewCountPaisDeseado}</h1></body></html>`);
 //});
-
+// API v1
 api_VEG(app, db);
+// API v2
+loadBackendVEG(app, db);
 
-
+app.use(handler);
