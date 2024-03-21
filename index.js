@@ -2,7 +2,8 @@
 import express from "express";
 import bodyParser from "body-parser";
 import dataStore from "nedb";
-import { handler } from "./front/build/handler.js";
+import {handler} from "./front/build/handler.js";
+import cors from "cors";
 
 //APIs
 import {api_EGO} from './backEGO/indexAPI-EGOv1.js';
@@ -17,12 +18,14 @@ let db = new dataStore();
 let dbUfc = new dataStore();
 
 let app = express();
+
 const PORT = (process.env.PORT || 10002);
+
+app.use(cors());
 
 app.use(bodyParser.json());
 
-
-app.use("/",express.static("./public"));
+//app.use("/",express.static("./public"));
 
 app.listen(PORT,()=>{
     console.log(`Server listening on port ${PORT}.`);
