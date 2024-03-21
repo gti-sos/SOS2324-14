@@ -447,4 +447,4 @@ movies_data.forEach(movie => {
     //   }
     // });
 
-module.exports = movies_data;
+export { movies_data };

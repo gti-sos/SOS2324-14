@@ -1,4 +1,4 @@
-const fs = require('fs');
+//const fs = require('fs');
 
 // const data2 = fs.readFileSync('ufc_dataset_copy.csv', 'utf8');
 
@@ -38,6 +38,8 @@ function calcularMediaTiempoPelea(){
     };
 }*/
 
-module.exports = {
-    ufc_data: ufc_data
-};
+// module.exports = {
+//     ufc_data: ufc_data
+// };
+
+export { ufc_data };

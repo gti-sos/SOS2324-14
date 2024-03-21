@@ -1,4 +1,4 @@
-const data = [
+const data_VEG = [
     { ranking: 0, country: 'Albania', title: 'DON XHONI - KATILE', published_at: '2022-07-07T22:00:12Z', channel_title: 'DON XHONI', category_id: 24, trending_date: '22.11.07', view_count: 5130167, comment_count: 3641 },
     { ranking: 1, country: 'Albania', title: 'Dhurata Dora x Elvana Gjata - GAJDE (Official Video)', published_at: '2022-06-30T22:00:11Z', channel_title: 'Dhurata Dora', category_id: 10, trending_date: '22.11.07', view_count: 8886648, comment_count: 4414 },
     { ranking: 2, country: 'Albania', title: 'KIDA x BUTRINT IMERI - AM/PM', published_at: '2022-07-02T22:00:11Z', channel_title: 'KIDA', category_id: 10, trending_date: '22.11.07', view_count: 7230818, comment_count: 7518 },
@@ -24,9 +24,9 @@ function calcularMediaViewCount(data, pais) {
 const paisDeseado = 'Albania';
 
 // Calcular la media de view_count para el país deseado
-const mediaViewCountPaisDeseado = calcularMediaViewCount(data, paisDeseado);
+const mediaViewCountPaisDeseado = calcularMediaViewCount(data_VEG, paisDeseado);
 
 //console.log(`La media de view_count para ${paisDeseado} es: ${mediaViewCountPaisDeseado}`);
 
-module.exports = data;
-
+// module.exports = data;
+export { data_VEG };

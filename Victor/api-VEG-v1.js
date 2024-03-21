@@ -1,10 +1,10 @@
-const data_VEG = require('./index-VEG');
+import {data_VEG} from './index-VEG.js';
 const API_BASE = "/api/v1";
 
 //const dataStore = require('nedb');
 //const db = new dataStore({ filename: 'data.db', autoload: true });
 
-module.exports = (app, db) => {
+function api_VEG(app, db) {
 
     //let dataset = new Array();
 
@@ -309,3 +309,5 @@ module.exports = (app, db) => {
         res.sendStatus(404, "Not Found");
     });
 }
+
+export { api_VEG };
