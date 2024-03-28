@@ -7,10 +7,10 @@ import cors from "cors";
 
 //APIs
 import {api_EGO} from './backEGO/indexAPI-EGOv1.js';
-import {api_VEG} from './Victor/api-VEG-v1.js';
+import {api_VEG} from './backVEG/api-VEG-v1.js';
 import {api_NRM} from './Nico/index-api-v1.js';
 import {loadBackendEGO} from "./backEGO/indexAPI-EGOv2.js";
-import {loadBackendVEG} from "./Victor/api-VEG-v2.js";
+import {loadBackendVEG} from "./backVEG/api-VEG-v2.js";
 import {loadBackendNRM} from "./Nico/index-api-v2.js";
 
 let dbMovies = new dataStore();
@@ -57,13 +57,6 @@ api_EGO(app, dbMovies);
 loadBackendEGO(app, dbMovies);
 
 // Víctor Escalera García
-
-//Ruta /samples/VEG eliminada
-//app.get("/samples/VEG", (req, res) => {
-//    const paisDeseado = 'Albania'; // Puedes cambiar el país si lo deseas
-//    const mediaViewCountPaisDeseado = calcularMediaViewCount(data_VEG, paisDeseado);
-//    res.send(`<html><body><h1>La media de view_count para ${paisDeseado} es: ${mediaViewCountPaisDeseado}</h1></body></html>`);
-//});
 // API v1
 api_VEG(app, db);
 // API v2
