@@ -1,7 +1,7 @@
 <script>
     import {onMount} from "svelte";
     import { page } from '$app/stores';
-    import { Button, ListGroup, ListGroupItem, NavLink } from '@sveltestrap/sveltestrap';
+    import { Button, ListGroup, ListGroupItem, Container, Row, Col } from '@sveltestrap/sveltestrap';
     import { dev } from "$app/environment";
     
     let title = $page.params.title;
@@ -32,25 +32,20 @@
         
     }
 
-    async function putMovie(clave, valor) {
-        try {
-
-        } catch (error) {
-            errorMsg = error;
-        }
-    }
-
 </script>
-
-<Button size="sm" href="/movies-dataset">Volver a la API </Button>
-
-<p>Detalles de {title}</p>
-
-<ul>
-    <ListGroup>
-        {#each Object.keys(movie) as campo} 
-        <ListGroupItem>
-            <strong>{campo}</strong> : {movie[campo]}</ListGroupItem>
-        {/each}
-    </ListGroup>
-</ul>
+<Container>
+    <Row>
+        <Col  xs="6" sm="4"><Button size="sm" href="/movies-dataset">Volver a la API </Button></Col>
+    </Row>
+    <Row>
+        <h2>Detalles de {title}</h2>
+    </Row>
+    <Row>
+        <ListGroup>
+            {#each Object.keys(movie) as campo} 
+            <ListGroupItem>
+                <strong>{campo}</strong> : {movie[campo]}</ListGroupItem>
+            {/each}
+        </ListGroup>
+    </Row>
+</Container>
