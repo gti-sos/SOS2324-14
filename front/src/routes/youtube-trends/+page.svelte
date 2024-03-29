@@ -9,7 +9,7 @@
         API = "http://localhost:10002"+ API;
 
     let videos = [];
-    let newVideo = {"ranking": 12,
+    let newVideo = {"ranking": 11,
                     "country": "España", 
                     "title": "Prueba", 
                     "published_at": "2022-11-26T22:00:12Z",
@@ -18,99 +18,108 @@
                     "trending_date": '22.11.26', 
                     "view_count": 5130167, 
                     "comment_count": 3641}
+
     let errorMsg = ""
+    let successMsg = ""; // Mensaje de éxito
+
 
     onMount(()=>{
         getVideos();
     })
 
-    //Cargar datos iniciales
     async function loadInitialData() {
         try {
-            let response = await    fetch(API+"/loadInitialData", {
-                                        method: "GET"
-                                    });
-            if (response.status == 201)
+            let response = await fetch(API + "/loadInitialData", {
+                method: "GET"
+            });
+            if (response.status == 201) {
                 getVideos();
-            else
-                errorMsg = "code: "+ response.status;
+                successMsg = "Datos inicial cargados exitosamente"; // Actualizar el mensaje de éxito
+            } else {
+                errorMsg = "code: " + response.status +"(Error al cargar los datos iniciales)";
+            }
         } catch (error) {
             errorMsg = error;
         }
     }
 
-    //GET básico
-    async function getVideos(){
-        try{
+    async function getVideos() {
+        try {
             let response = await fetch(API, {
-                            method:"GET"
-                        });
-        let data = await response.json();
-        videos = data;
-
-        }catch(error){
+                method: "GET"
+            });
+            let data = await response.json();
+            videos = data;
+        } catch (error) {
             errorMsg = error;
         }
-        
     }
 
-    //POST básico
     async function createVideo() {
         try {
-            let response = await    fetch(API, {
-                                        method: "POST",
-                                        headers:{
-                                            "Content-Type":"application/json"
-                                        },
-                                        body: JSON.stringify(newVideo)
-                                    });
+            let response = await fetch(API, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newVideo)
+            });
             let status = await response.status;
-    
-            if (status == 201)
+
+            if (status == 201) {
                 getVideos();
-            else
-                errorMsg = "code: "+ status;
+                successMsg = "Se ha creado un video exitosamente"; // Actualizar el mensaje de éxito
+            } else {
+                errorMsg = "code: " + status +"(Error al crear el video)";
+            }
         } catch (error) {
             errorMsg = error;
         }
-        
     }
 
-    //DELETE por ranking
     async function deleteVideo(ranking) {
         try {
-
-            let response = await    fetch(API+`/${ranking}`, {
-                                        method: "DELETE"
-                                    });
-            if (response.status == 200)
+            let response = await fetch(API + `/${ranking}`, {
+                method: "DELETE"
+            });
+            if (response.status == 200) {
                 getVideos();
-            else
-                errorMsg = "code: "+ response.status;
+                successMsg = "El video se ha borrado exitosamente"; // Actualizar el mensaje de éxito
+            } else {
+                errorMsg = "code: " + response.status + "(Error al borrar el video)";
+            }
         } catch (error) {
             errorMsg = error;
         }
-        
     }
 
-    //DELETE coleccion
-    async function deleteColection() {
+    async function deleteCollection() {
         try {
-            
-            let response = await    fetch(API, {
+            let response = await fetch(API, {
                 method: "DELETE"
             });
-            if (response.status == 200)
+            if (response.status == 200) {
                 getVideos();
-            else
-                errorMsg = "code: "+ response.status;
-
+                successMsg = "Los videos se han borrado exitosamente"; // Actualizar el mensaje de éxito
+            } else {
+                errorMsg = "code: " + response.status +"(Error al borrar todos los videos)";
+            }
         } catch (error) {
             errorMsg = error;
         }
     }
 
 </script>
+
+<button on:click={loadInitialData}>Cargar Datos Iniciales</button>
+
+<hr>
+
+<ul>
+    {#each videos as video}
+        <li><a href="/youtube-trends/{video.ranking}">{video.ranking}</a>,{video.country}, {video.title}, {video.published_at}, {video.channel_title}, {video.category_id}, {video.trending_date}, {video.view_count}, {video.comment_count} <button on:click="{deleteVideo(video.ranking)}">Delete</button></li>
+    {/each}
+</ul>
 
 <table>
     <thead>
@@ -187,16 +196,18 @@
 
 </table>
 
-<ul>
-    {#each videos as video}
-        <li><a href="/youtube-trends/{video.ranking}">{video.ranking}</a>,{video.country}, {video.title}, {video.published_at}, {video.channel_title}, {video.category_id}, {video.trending_date}, {video.view_count}, {video.comment_count} <button on:click="{deleteVideo(video.ranking)}">Delete</button></li>
-    {/each}
-</ul>
-
 <button on:click="{createVideo}">Create</button>
 
-<button on:click="{deleteColection}">Borrar todo</button>
+<button on:click="{deleteCollection}">Borrar todo</button>
 
 {#if errorMsg != ""}
-ERROR: {errorMsg}
+    <div class="alert alert-danger" role="alert">
+        {errorMsg}
+    </div>
+{/if}
+
+{#if successMsg != ""}
+    <div class="alert alert-success" role="alert">
+        {successMsg}
+    </div>
 {/if}
