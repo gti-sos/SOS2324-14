@@ -1,7 +1,3 @@
-<script>
-
-</script>
-  
 <h1>SOS2324-14</h1>
 
 <p><strong>Project Description:</strong> Our information sources are aimed at analyzing the reach of different ways of entertainment in the world.</p>
