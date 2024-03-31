@@ -54,33 +54,6 @@
             compruebaError(error);
         }
     }
-    
-    // async function createMovie() {
-    //     //let addedMovie = {}
-        
-    //     try {
-    //         let response = await    fetch(API, {
-    //                                     method: "POST",
-    //                                     headers:{
-    //                                         "Content-Type": "application/json"
-    //                                     },
-    //                                     body: JSON.stringify(newMovie)
-    //                                 });
-    //         let status = await response.status;
-    //         console.log(`Creation response status ${status}`);
-    //         if(newMovie.original_title != "Superman Returns"){
-    //             window.location.href = `movies-dataset/${newMovie.original_title}`;
-    //         } 
-            
-    //         if (status == 201)
-    //             getMovies();
-    //         else
-    //             compruebaError(status);
-    //     } catch (error) {
-    //         compruebaError(error);
-    //     }
-        
-    // }
 
     async function deleteMovie(title) {
         try {
@@ -115,30 +88,37 @@
     }
 </script>
 <Container>
-    <Row>
         <h1><strong>Lista de Películas</strong></h1>
-    </Row>
     <Row>
         {#if movies.length == 0}
             <p>La lista está vacía</p>
             <p>Para insertar datos pulsa este botón <Button size="md" outline color="primary" on:click={loadInitialData}>Rellenar</Button></p>
         {/if}
     </Row>
-    <Row>
+    <div>
         <ListGroup>
-            {#each movies as movie} 
+            {#each movies as movie}
             <ListGroupItem>
-                <NavLink active href="movies-dataset/{movie.original_title}">
-                    {movie.original_title}</NavLink><strong>Director:</strong> {movie.director}, <strong>Estreno:</strong> {movie.release_date} <Button size="sm" color="danger" on:click={deleteMovie(movie.original_title)}>Borrar</Button></ListGroupItem>
+                <Row>
+                    <Col xs=10>
+                        <NavLink active href="movies-dataset/{movie.original_title}">{movie.original_title}</NavLink>
+                        
+                        <strong>Director:</strong> {movie.director}, <strong>Estreno:</strong> {movie.release_date}
+                    </Col>
+                    
+                    <Col xs="2" class="d-flex justify-content-center"><Button size="sm" color="danger" on:click={deleteMovie(movie.original_title)}>Borrar</Button></Col> 
+                </Row>
+            </ListGroupItem>
             {/each}
         </ListGroup>
-    </Row>
+    </div>
+    
     {#if !movies.length == 0}
     <Row>
-        <Col xs="auto">Añade una nueva película <Button href="movies-dataset/añadirPelicula" size="md" color="warning">Añadir</Button></Col>
+        <Col xs="auto">Añade una nueva película <Button href="movies-dataset/añadirPelicula" size="sm" color="warning">Añadir</Button></Col>
     </Row>
     <Row>
-        <Col xs="auto">Eliminar la coleccion <Button outline size="md" color="danger" on:click={deleteColection}>Borrar Todo</Button></Col>
+        <Col xs="auto">Eliminar la coleccion <Button outline size="sm" color="danger" on:click={deleteColection}>Borrar Todo</Button></Col>
     </Row>
     {/if}
     

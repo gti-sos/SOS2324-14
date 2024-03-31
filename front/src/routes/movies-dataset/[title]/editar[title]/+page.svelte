@@ -1,23 +1,26 @@
 <script>
-    import {onMount} from "svelte";
     import { page } from '$app/stores';
-    import { Button, ListGroup, ListGroupItem, Container, Row, Col } from '@sveltestrap/sveltestrap';
+    import { Button, Input, Container, Row, Col } from '@sveltestrap/sveltestrap';
     import { dev } from "$app/environment";
     
     let title = $page.params.title;
 
-    
-
     let API = "/api/v1/movies-dataset";
+
     if(dev)
         API = "http://localhost:10002"+API
 
     let movie = {}
     let errorMsg = ""
 
-    onMount(() => {
-        getMovieObject(title);
-    });
+    function compruebaError(error) {
+        if(error==409)
+            errorMsg = "Estás intentando introducir datos que ya estan en la base de datos."
+        else if (error == 400) 
+            errorMsg = "Mala petición. Has introducido valores erroneos."
+        else if (error==201 || error == 200)
+            errorMsg = ""
+    }
 
     async function getMovieObject(title) {
         try {
@@ -33,16 +36,17 @@
         
     }
 
-    async function actualizaPelicula(titulo) {
-        let actualMovie = getMovieObject(titulo);
+    movie = getMovieObject(title);
+
+    async function actualizaPelicula() {
         
         try {
-            let response = await    fetch(API+`/${titulo}`, {
+            let response = await    fetch(API+`/${title}`, {
                                         method: "PUT",
                                         headers:{
                                             "Content-Type": "application/json"
                                         },
-                                        body: JSON.stringify(placeholderMovie)
+                                        body: JSON.stringify(movie)
                                     });
             let status = await response.status;
             console.log(`Creation response status ${status}`); 
@@ -57,25 +61,20 @@
         
     }
 
-export { getMovieObject }
 </script>
 <Container>
-    <Row>
-        <Col  xs="6" sm="4"><Button color="danger" size="sm" href="/movies-dataset">Volver a la API </Button></Col>
-    </Row>
-    <Row>
-        <Col><h2>Detalles de {title}</h2></Col> 
-        <Col class="d-flex justify-content-end">
-            <Button href="/movies-dataset/{title}/editar{title}" size="md" color="warning">Editar recurso</Button>
-        </Col>
-    </Row>
-    <ListGroup>
-        {#each Object.keys(movie) as campo} 
-            <ListGroupItem>
-                <Row>
-                    <Col><strong>{campo}</strong> : {movie[campo]} </Col>
-                </Row>
-            </ListGroupItem>
+    <h1>Editar Película</h1>
+    <Row cols={4}>
+        {#each Object.keys(movie) as clave}
+            <Col><strong>{clave}:</strong> <Input bind:value={movie[clave]}/></Col>
         {/each}
-    </ListGroup>
+    </Row>
+    <Row>
+        <Col xs="auto"><Button size="md" color="success" on:click={actualizaPelicula}>Confirmar</Button></Col>
+    </Row>
+    <Row>
+        {#if errorMsg != ""}
+            ERROR: {errorMsg}
+        {/if}
+    </Row>
 </Container>

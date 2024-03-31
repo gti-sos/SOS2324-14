@@ -44,7 +44,7 @@
         }
         
     }
-
+// tienes que añadir despes del boton añadir una comprobacion de si no da error volver y si da error permanecer
 </script>
 <Container>
     <Row>
