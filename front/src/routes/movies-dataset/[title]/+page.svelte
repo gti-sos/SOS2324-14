@@ -56,8 +56,6 @@
         }
         
     }
-
-export { getMovieObject }
 </script>
 <Container>
     <Row>
