@@ -19,6 +19,7 @@
                     "view_count": 5130167, 
                     "comment_count": 3641}
 
+
     let errorMsg = ""
     let successMsg = ""; // Mensaje de éxito
 
@@ -26,6 +27,15 @@
     onMount(()=>{
         getVideos();
     })
+
+    function compruebaError(error) {
+        if(error==409)
+            errorMsg = "Estás intentando introducir datos que ya estan en la base de datos."
+        else if (error == 400)
+            errorMsg = "Mala petición. Has introducido valores erroneos."
+        else if (error==201 || error == 200)
+            errorMsg = ""
+    }
 
     async function loadInitialData() {
         try {
@@ -49,75 +59,39 @@
         }
     }
 
+    async function getVideos() {
+        try {
+            let response = await fetch(API, {
+                method: "GET"
+            });
+            let data = await response.json();
+            videos = data;
+        } catch (error) {
+            errorMsg = error;
+        }
+    }
+
 
     async function createVideo() {
-    try {
-        // Verificar si el ranking del nuevo video ya existe
-        const existingVideoResponse = await fetch(`${API}/${newVideo.ranking}`, {
-            method: "GET"
-        });
-
-        if (existingVideoResponse.status === 200) {
-            errorMsg = "El video con el mismo ranking ya existe. No se puede crear otro.";
-            setTimeout(() => {
-                errorMsg = "";
-            }, 3000);
-            return; // Salir de la función si el video ya existe
+        try {
+            let response = await    fetch(API, {
+                                        method: "POST",
+                                        headers:{
+                                            "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify(newVideo)
+                                    });
+            let status = await response.status;
+            
+            if (status == 201)
+                window.location.href = "/youtube-trends"
+            else
+                compruebaError(status);
+        } catch (error) {
+            compruebaError(error);
         }
-
-        // Si el video no existe, crearlo
-        const response = await fetch(API, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newVideo)
-        });
-        const status = response.status;
-
-        if (status === 201) {
-            // Obtener la lista actualizada de videos después de crear el nuevo video
-            await getVideos();
-
-            successMsg = "Se ha creado un video exitosamente";
-            setTimeout(() => {
-                successMsg = "";
-            }, 3000);
-        } else {
-            errorMsg = "code: " + status + "(Error al crear el video)";
-            setTimeout(() => {
-                errorMsg = "";
-            }, 3000);
-        }
-    } catch (error) {
-        errorMsg = error;
+        
     }
-}
-
-
-async function deleteVideo(ranking) {
-    try {
-        let response = await fetch(`${API}/${ranking}`, {
-            method: "DELETE"
-        });
-        if (response.status == 200) {
-            // Eliminar el video de la lista de videos
-            videos = videos.filter(video => video.ranking !== ranking);
-
-            successMsg = "El video se ha borrado exitosamente";
-            setTimeout(() => {
-                successMsg = "";
-            }, 3000);
-        } else {
-            errorMsg = "code: " + response.status + "(Error al borrar el video)";
-            setTimeout(() => {
-                errorMsg = "";
-            }, 3000);
-        }
-    } catch (error) {
-        errorMsg = error;
-    }
-}
 
     async function deleteCollection() {
         try {
@@ -141,19 +115,8 @@ async function deleteVideo(ranking) {
         }
     }
 
-    async function getVideos() {
-        try {
-            let response = await fetch(API, {
-                method: "GET"
-            });
-            let data = await response.json();
-            videos = data;
-        } catch (error) {
-            errorMsg = error;
-        }
-    }
-
 </script>
+
 
 <button on:click={loadInitialData}>Cargar Datos Iniciales</button>
 
@@ -161,8 +124,10 @@ async function deleteVideo(ranking) {
 
 <ul>
     {#each videos as video}
-    <li><a href="/youtube-trends/{video.ranking}">{video.ranking}</a>,{video.country}, {video.title}, {video.published_at}, {video.channel_title}, {video.category_id}, {video.trending_date}, {video.view_count}, {video.comment_count} <button on:click="{() => deleteVideo(video.ranking)}">Delete</button></li>
-{/each}
+    <li>
+        <a href="/youtube-trends/{video.ranking}">{video.ranking}</a>,{video.country}, {video.title}, {video.published_at}, {video.channel_title}, {video.category_id}, {video.trending_date}, {video.view_count}, {video.comment_count}
+    </li>
+    {/each}
 </ul>
 
 <table>
@@ -240,7 +205,7 @@ async function deleteVideo(ranking) {
 
 </table>
 
-<button on:click="{createVideo}">Crear</button>
+<button on:click="{createVideo}">Añadir</button>
 
 <button on:click="{deleteCollection}">Borrar todo</button>
 

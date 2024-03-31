@@ -3,9 +3,7 @@
     import { dev } from "$app/environment";
     import { page } from '$app/stores';
 
-
     let ranking = $page.params.ranking;
-
     let API = "/api/v1/youtube-trends";
     if (dev) API = "http://localhost:10002" + API;
 
@@ -13,52 +11,70 @@
     let errorMsg = "";
     let successMsg = "";
 
-    // Función para cargar los detalles del video
     async function cargarDetalles(ranking) {
         try {
             const response = await fetch(`${API}/${ranking}`);
-            video = await response.json();
+            if (response.ok) {
+                video = await response.json();
+            } else {
+                throw new Error(`Error al obtener los detalles del video: ${response.status}`);
+            }
         } catch (error) {
             console.error(error);
+            errorMsg = "Error al cargar los detalles del video";
         }
     }
 
     // Obtener los detalles del video al montar el componente
     onMount(() => {
-        cargarDetalles(ranking);
+        if (Object.keys(video).length === 0) { // Verificar si el objeto video está vacío
+            cargarDetalles(ranking);
+        }
     });
 
-    // Función para guardar cambios en el video
+    async function deleteVideo(ranking) {
+        try {
+            let response = await    fetch(API+`/${ranking}`, {
+                                        method: "DELETE"
+                                    });
+            if (response.status == 200){
+                successMsg = "El dato se ha borrado correctamente";
+                setTimeout(() => {
+                    successMsg = "";
+                    window.location.href = '/youtube-trends';
+                }, 3000);
+            }
+            else
+                compruebaError(response.status);
+        } catch (error) {
+            compruebaError(error);
+        }
+        
+    }
+
     async function guardarCambios() {
-    try {
-        const response = await fetch(`${API}/${ranking}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(video)
-        });
-        if (response.status === 200) {
+        try {
+            const response = await fetch(`${API}/${ranking}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(video)
+            });
+            if (response.ok) {
                 successMsg = "Los cambios se guardaron correctamente.";
                 setTimeout(() => {
                     successMsg = "";
                     window.location.href = '/youtube-trends';
                 }, 3000);
             } else {
+                throw new Error(`Error al guardar los cambios: ${response.status}`);
+            }
+        } catch (error) {
+            console.error(error);
             errorMsg = "Error al guardar los cambios";
-            setTimeout(() => {
-                errorMsg = "";
-            }, 3000);
         }
-    } catch (error) {
-        console.error(error);
-        errorMsg = "Error al guardar los cambios";
-        setTimeout(() => {
-            errorMsg = "";
-        }, 3000); 
     }
-}
-
 </script>
 
 <h1>Editar video con ranking = {ranking}</h1>
@@ -93,6 +109,7 @@
 </table>
 
 <button on:click="{guardarCambios}">Guardar Cambios</button>
+<button on:click={() => deleteVideo(ranking)}>Eliminar</button>
 
 {#if errorMsg != ""}
     <div class="alert alert-danger" role="alert">
