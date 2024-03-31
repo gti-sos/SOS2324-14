@@ -39,11 +39,12 @@
             body: JSON.stringify(video)
         });
         if (response.status === 200) {
-            successMsg = "Los cambios se guardaron correctamente.";
-            setTimeout(() => {
-                successMsg = "";
-            }, 3000);
-        } else {
+                successMsg = "Los cambios se guardaron correctamente.";
+                setTimeout(() => {
+                    successMsg = "";
+                    window.location.href = '/youtube-trends';
+                }, 3000);
+            } else {
             errorMsg = "Error al guardar los cambios";
             setTimeout(() => {
                 errorMsg = "";
@@ -91,7 +92,7 @@
     </tbody>
 </table>
 
-<button on:click="{guardarCambios}">Save Changes</button>
+<button on:click="{guardarCambios}">Guardar Cambios</button>
 
 {#if errorMsg != ""}
     <div class="alert alert-danger" role="alert">
