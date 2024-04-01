@@ -40,7 +40,7 @@
                     successMsg = "";
                 }, 3000);
             } else {
-                errorMsg = "code: " + response.status +"(Error al cargar los datos iniciales)";
+                errorMsg = "Error al cargar los datos iniciales";
                 setTimeout(() => {
                     errorMsg = "";
                 }, 3000);
@@ -82,7 +82,7 @@
             }, 3000);
         }
         else {
-            errorMsg = "Error al crear el video (Código: " + status + ")";
+            errorMsg = "Error al crear el video";
             setTimeout(() => {
                 errorMsg = "";
             }, 3000);
@@ -104,7 +104,7 @@
                     successMsg = "";
                 }, 3000);
             } else {
-                errorMsg = "code: " + response.status +"(Error al borrar todos los videos)";
+                errorMsg = "Error al borrar todos los videos";
                 setTimeout(() => {
                     errorMsg = "";
                 }, 3000);
