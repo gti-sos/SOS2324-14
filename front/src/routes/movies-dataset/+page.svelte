@@ -10,37 +10,33 @@
 
     let movies = []
     let errorMsg = ""
-
-    function compruebaError(error) {
-        if(error==409)
-            errorMsg = "Estás intentando introducir datos que ya estan en la base de datos."
-        else if (error == 400)
-            errorMsg = "Mala petición. Has introducido valores erroneos."
-        else if (error==201 || error == 200)
-            errorMsg = ""
-    }
+    let successMsg = ""
 
     onMount(() => {
         getMovies();
     });
 
     async function loadInitialData() {
+        successMsg, errorMsg = "", "";
         try {
             let response = await    fetch(API+"/loadInitialData", {
                                         method: "GET"
                                     });
             console.log(`Exito cargando peliculas.`);
             response.type
-            if (response.status == 201)
-                getMovies();
-            else
-                compruebaError(response.status);
+            if (response.status == 201){
+                getMovies(); 
+                successMsg = "Datos iniciales cargados con exito."
+            } else { 
+                errorMsg = "La base de datos esta llena, no se puede volver a cargar."
+            }
         } catch (error) {
-            compruebaError(error);
+            errorMsg = error;
         }
     }
 
     async function getMovies() {
+        successMsg, errorMsg = "", "";
         try {
             let response = await    fetch(API, {
                                         method: "GET"
@@ -49,50 +45,72 @@
             movies = data;
             console.log(movies);
             
-            compruebaError(response.status);
+            if (response.status != 200) {
+                errorMsg = "No se ha encontrado la colección."
+            }
         } catch (error) {
-            compruebaError(error);
+            errorMsg = error;
         }
     }
 
     async function deleteMovie(title) {
+        successMsg, errorMsg = "", "";
         try {
             console.log(`Deleting movie with title ${title}`);
 
             let response = await    fetch(API+`/${title}`, {
                                         method: "DELETE"
                                     });
-            if (response.status == 200)
+            if (response.status == 200){
                 getMovies();
+                successMsg = `La pelicula ${title} se ha borrado correctamente.`
+            }
             else
-                compruebaError(response.status);
+                errorMsg = `No se ha podido borrar la pelicula ${title}. \nSeguramente no exista`
         } catch (error) {
-            compruebaError(error);
+            errorMsg = error;
         }
         
     }
 
     async function deleteColection() {
+        successMsg, errorMsg = "", "";
         try {
             let response = await    fetch(API, {
                                         method: "DELETE"
                                     });
             console.log(`Deleted`);
-            if (response.status == 200)
+            if (response.status == 200){
                 getMovies();
-            else
-                compruebaError(response.status);
+                successMsg = "Colección borrada con exito."
+            } else
+                errorMsg = "La colección ya estaba vacía."
         } catch (error) {
-            compruebaError(error);
+            errorMsg = error;
         }
     }
 </script>
 <Container>
+    <Row>
+        {#if errorMsg != ""}
+            <Alert color="danger">
+                <h4>Error</h4>
+                {errorMsg}
+            </Alert>
+        {:else if successMsg != ""}
+            <Alert color="success">
+                <h4>Exito</h4>
+                {successMsg}
+            </Alert>
+        {/if}
+    </Row>
+    <Row>
         <h1><strong>Lista de Películas</strong></h1>
+    </Row>
     <Row>
         {#if movies.length == 0}
             <p>La lista está vacía</p>
-            <p>Para insertar datos pulsa este botón <Button size="md" outline color="primary" on:click={loadInitialData}>Rellenar</Button></p>
+            <p>Para insertar datos pulsa este botón -> <Button size="md" outline color="primary" on:click={loadInitialData}>Rellenar</Button></p>
         {/if}
     </Row>
     <div>
@@ -121,10 +139,4 @@
         <Col xs="auto">Eliminar la coleccion <Button outline size="sm" color="danger" on:click={deleteColection}>Borrar Todo</Button></Col>
     </Row>
     {/if}
-    
-    <Row>
-        {#if errorMsg != ""}
-            ERROR: {errorMsg}
-        {/if}
-    </Row>
 </Container>

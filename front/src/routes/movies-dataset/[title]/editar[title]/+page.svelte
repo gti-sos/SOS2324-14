@@ -1,7 +1,8 @@
 <script>
     import { page } from '$app/stores';
-    import { Button, Input, Container, Row, Col } from '@sveltestrap/sveltestrap';
+    import { Button, Input, Container, Row, Col, Alert } from '@sveltestrap/sveltestrap';
     import { dev } from "$app/environment";
+	import { onMount } from 'svelte';
     
     let title = $page.params.title;
 
@@ -10,17 +11,13 @@
     if(dev)
         API = "http://localhost:10002"+API
 
+    onMount(() => {
+        getMovieObject(title);
+    })
+
     let movie = {}
     let errorMsg = ""
-
-    function compruebaError(error) {
-        if(error==409)
-            errorMsg = "Estás intentando introducir datos que ya estan en la base de datos."
-        else if (error == 400) 
-            errorMsg = "Mala petición. Has introducido valores erroneos."
-        else if (error==201 || error == 200)
-            errorMsg = ""
-    }
+    let successMsg = ""
 
     async function getMovieObject(title) {
         try {
@@ -33,13 +30,10 @@
         } catch (error) {
             errorMsg = error;
         }
-        
     }
 
-    movie = getMovieObject(title);
-
     async function actualizaPelicula() {
-        
+        successMsg, errorMsg = "", "";
         try {
             let response = await    fetch(API+`/${title}`, {
                                         method: "PUT",
@@ -51,19 +45,36 @@
             let status = await response.status;
             console.log(`Creation response status ${status}`); 
             
-            if (status == 201)
-                window.location.href = "/movies-dataset"
+            if (status == 201){
+                successMsg = "Pelicula actualizada correctamente."
+                setTimeout(() => {
+                    window.location.href = `/movies-dataset/${title}`
+                }, 2000)
+            }
             else
-                compruebaError(status);
+                errorMsg = "No esta permitido cambiar el titulo original de la película al editar"
         } catch (error) {
-            compruebaError(error);
-        }
-        
+            errorMsg = error;
+        }   
     }
-
 </script>
 <Container>
-    <h1>Editar Película</h1>
+    <Row>
+        {#if errorMsg != ""}
+            <Alert color="danger">
+                <h4>Error</h4>
+                {errorMsg}
+            </Alert>
+        {:else if successMsg != ""}
+            <Alert color="success">
+                <h4>Exito</h4>
+                {successMsg}
+            </Alert>
+        {/if}
+    </Row>
+    <Row>
+        <h1>Editar {title}</h1><hr>
+    </Row>
     <Row cols={4}>
         {#each Object.keys(movie) as clave}
             <Col><strong>{clave}:</strong> <Input bind:value={movie[clave]}/></Col>
@@ -71,10 +82,5 @@
     </Row>
     <Row>
         <Col xs="auto"><Button size="md" color="success" on:click={actualizaPelicula}>Confirmar</Button></Col>
-    </Row>
-    <Row>
-        {#if errorMsg != ""}
-            ERROR: {errorMsg}
-        {/if}
     </Row>
 </Container>

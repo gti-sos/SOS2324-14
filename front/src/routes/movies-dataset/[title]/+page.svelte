@@ -12,12 +12,14 @@
 
     let movie = {}
     let errorMsg = ""
+    let successMsg = ""
 
     onMount(() => {
-        getMovieObject(title);
+        getMovieObject();
     });
 
-    async function getMovieObject(title) {
+    async function getMovieObject() {
+        successMsg, errorMsg = "", "";
         try {
             let response = await    fetch(API+`/${title}`, {
                                         method: "GET"
@@ -25,6 +27,9 @@
             let data = await response.json();
             movie = data;
             console.log(movie);
+            if (response.status != 200) {
+                errorMsg = `No se ha podido encontrar la pelicula ${title}.`
+            }
         } catch (error) {
             errorMsg = error;
         }
