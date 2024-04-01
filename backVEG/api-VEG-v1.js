@@ -60,7 +60,7 @@ function api_VEG(app, db) {
         if ('ranking' in queryParams) {
             return res.sendStatus(400, "Bad Request");
         }
-        if(limit && offset){
+        if(req.query.limit && req.query.offset){
             db.find(query).sort({ ranking: 1 }).skip(offset).limit(limit).exec((err, data_VEG) => {
                 if (err) {
                     res.sendStatus(500, "Internal Error");
