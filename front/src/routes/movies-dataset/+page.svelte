@@ -1,7 +1,7 @@
 <script>
     import {onMount} from "svelte";
     import { dev } from "$app/environment";
-    import { Button, ListGroup, ListGroupItem, NavLink, Container, Row, Col } from '@sveltestrap/sveltestrap';
+    import { Button, ListGroup, ListGroupItem, NavLink, Container, Row, Col, Alert } from '@sveltestrap/sveltestrap';
 
     let API = "/api/v1/movies-dataset";
 

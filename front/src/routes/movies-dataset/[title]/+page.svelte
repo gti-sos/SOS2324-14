@@ -6,8 +6,6 @@
     
     let title = $page.params.title;
 
-    
-
     let API = "/api/v1/movies-dataset";
     if(dev)
         API = "http://localhost:10002"+API
@@ -29,30 +27,6 @@
             console.log(movie);
         } catch (error) {
             errorMsg = error;
-        }
-        
-    }
-
-    async function actualizaPelicula(titulo) {
-        let actualMovie = getMovieObject(titulo);
-        
-        try {
-            let response = await    fetch(API+`/${titulo}`, {
-                                        method: "PUT",
-                                        headers:{
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify(placeholderMovie)
-                                    });
-            let status = await response.status;
-            console.log(`Creation response status ${status}`); 
-            
-            if (status == 201)
-                window.location.href = "/movies-dataset"
-            else
-                compruebaError(status);
-        } catch (error) {
-            compruebaError(error);
         }
         
     }

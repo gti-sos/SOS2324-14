@@ -9,9 +9,6 @@ import cors from "cors";
 import {api_EGO} from './backEGO/indexAPI-EGOv1.js';
 import {api_VEG} from './backVEG/api-VEG-v1.js';
 import {api_NRM} from './Nico/index-api-v1.js';
-import {loadBackendEGO} from "./backEGO/indexAPI-EGOv2.js";
-import {loadBackendVEG} from "./backVEG/api-VEG-v2.js";
-import {loadBackendNRM} from "./Nico/index-api-v2.js";
 
 let dbMovies = new dataStore();
 let db = new dataStore();
@@ -47,19 +44,13 @@ app.listen(PORT,()=>{
 // });
 // API v1
 api_NRM(app, dbUfc);
-// API v2
-loadBackendNRM(app, dbUfc);
 
 // Enrique Garcia Olivares
 // API v1
 api_EGO(app, dbMovies);
-// API v2
-loadBackendEGO(app, dbMovies);
 
 // Víctor Escalera García
 // API v1
 api_VEG(app, db);
-// API v2
-loadBackendVEG(app, db);
 
 app.use(handler);
