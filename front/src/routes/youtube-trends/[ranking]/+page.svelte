@@ -18,7 +18,7 @@
             if (response.ok) {
                 video = await response.json();
             } else {
-                throw new Error(`Error al obtener los detalles del video: ${response.status}`);
+                throw new Error(`Error al obtener los detalles del video`);
             }
         } catch (error) {
             console.error(error);
@@ -26,9 +26,8 @@
         }
     }
 
-    // Obtener los detalles del video al montar el componente
     onMount(() => {
-        if (Object.keys(video).length === 0) { // Verificar si el objeto video está vacío
+        if (Object.keys(video).length === 0) { 
             cargarDetalles(ranking);
         }
     });
@@ -46,9 +45,10 @@
                 }, 3000);
             }
             else
-                compruebaError(response.status);
+            throw new Error(`Error al borrar el video`);
         } catch (error) {
-            compruebaError(error);
+            console.error(error);
+            errorMsg = "Error al borrar el vídeo";
         }
         
     }
