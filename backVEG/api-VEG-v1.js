@@ -41,8 +41,6 @@ function api_VEG(app, db) {
     // GET para obtener datos con paginación
     app.get(API_BASE + "/youtube-trends", (req, res) => {
         const queryParams = req.query;
-        const limit = parseInt(queryParams.limit) || 10;
-        const offset = parseInt(queryParams.offset) || 0;
 
         let query = {};
 
@@ -61,6 +59,9 @@ function api_VEG(app, db) {
             return res.sendStatus(400, "Bad Request");
         }
         if(req.query.limit && req.query.offset){
+
+            const limit = parseInt(queryParams.limit);
+            const offset = parseInt(queryParams.offset) || 0;
             db.find(query).sort({ ranking: 1 }).skip(offset).limit(limit).exec((err, data_VEG) => {
                 if (err) {
                     res.sendStatus(500, "Internal Error");
