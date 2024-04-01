@@ -60,18 +60,31 @@ function api_VEG(app, db) {
         if ('ranking' in queryParams) {
             return res.sendStatus(400, "Bad Request");
         }
-
-        db.find(query).sort({ ranking: 1 }).skip(offset).limit(limit).exec((err, data_VEG) => {
-            if (err) {
-                res.sendStatus(500, "Internal Error");
-            } else {
-                const datosFinal = data_VEG.map(d => {
-                    const { _id, ...datosSin_id } = d;
-                    return datosSin_id;
-                });
-                res.status(200).json(datosFinal);
-            }
-        });
+        if(limit && offset){
+            db.find(query).sort({ ranking: 1 }).skip(offset).limit(limit).exec((err, data_VEG) => {
+                if (err) {
+                    res.sendStatus(500, "Internal Error");
+                } else {
+                    const datosFinal = data_VEG.map(d => {
+                        const { _id, ...datosSin_id } = d;
+                        return datosSin_id;
+                    });
+                    res.status(200).json(datosFinal);
+                }
+            });
+        }else{
+            db.find(query).sort({ ranking: 1 }).exec((err, data_VEG) => {
+                if (err) {
+                    res.sendStatus(500, "Internal Error");
+                } else {
+                    const datosFinal = data_VEG.map(d => {
+                        const { _id, ...datosSin_id } = d;
+                        return datosSin_id;
+                    });
+                    res.status(200).json(datosFinal);
+                }
+            }); 
+        }
     });
 
     // GET para obtener un recurso por su ranking

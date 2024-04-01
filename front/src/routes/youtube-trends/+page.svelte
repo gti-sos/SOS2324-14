@@ -1,7 +1,7 @@
 <script>
     import {onMount} from "svelte";
     import { dev } from "$app/environment";
-    import { Button, ListGroup, ListGroupItem, NavLink } from '@sveltestrap/sveltestrap';
+    import { Button, Container, ListGroup, ListGroupItem, NavLink } from '@sveltestrap/sveltestrap';
 
     let API = "/api/v1/youtube-trends";
 
@@ -83,8 +83,10 @@
                                     });
             let status = await response.status;
             
-            if (status == 201)
+            if (status == 201){
                 window.location.href = "/youtube-trends"
+                getVideos();
+            }
             else
                 compruebaError(status);
         } catch (error) {
@@ -117,7 +119,7 @@
 
 </script>
 
-
+<Container>
 <button on:click={loadInitialData}>Cargar Datos Iniciales</button>
 
 <hr>
@@ -166,7 +168,7 @@
     <tbody>
         <tr>
             <td>
-                <input bind:value = {newVideo.ranking}>
+                <input type= number bind:value = {newVideo.ranking}>
             </td>
 
             <td>
@@ -186,7 +188,7 @@
             </td>
 
             <td>
-                <input bind:value = {newVideo.category_id}>
+                <input type= number bind:value = {newVideo.category_id}>
             </td>
 
             <td>
@@ -194,11 +196,11 @@
             </td>
 
             <td>
-                <input bind:value = {newVideo.view_count}>
+                <input type= number bind:value = {newVideo.view_count}>
             </td>
 
             <td>
-                <input bind:value = {newVideo.comment_count}>
+                <input type= number bind:value = {newVideo.comment_count}>
             </td>
         </tr>
     </tbody>
@@ -220,3 +222,4 @@
         {successMsg}
     </div>
 {/if}
+</Container>
