@@ -69,7 +69,7 @@
                     window.location.href = '/youtube-trends';
                 }, 3000);
             } else {
-                throw new Error(`Error al guardar los cambios: ${response.status}`);
+                throw new Error(`Error al guardar los cambios`);
             }
         } catch (error) {
             console.error(error);
