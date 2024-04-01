@@ -28,15 +28,6 @@
         getVideos();
     })
 
-    function compruebaError(error) {
-        if(error==409)
-            errorMsg = "Estás intentando introducir datos que ya estan en la base de datos."
-        else if (error == 400)
-            errorMsg = "Mala petición. Has introducido valores erroneos."
-        else if (error==201 || error == 200)
-            errorMsg = ""
-    }
-
     async function loadInitialData() {
         try {
             let response = await fetch(API + "/loadInitialData", {
@@ -44,7 +35,7 @@
             });
             if (response.status == 201) {
                 getVideos();
-                successMsg = "Datos inicial cargados exitosamente";
+                successMsg = "Datos iniciales cargados exitosamente";
                 setTimeout(() => {
                     successMsg = "";
                 }, 3000);
@@ -73,27 +64,33 @@
 
 
     async function createVideo() {
-        try {
-            let response = await    fetch(API, {
-                                        method: "POST",
-                                        headers:{
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify(newVideo)
-                                    });
-            let status = await response.status;
-            
-            if (status == 201){
-                window.location.href = "/youtube-trends"
-                getVideos();
-            }
-            else
-                compruebaError(status);
-        } catch (error) {
-            compruebaError(error);
-        }
+    try {
+        let response = await fetch(API, {
+            method: "POST",
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newVideo)
+        });
+        let status = await response.status;
         
+        if (status == 201){
+            getVideos();
+            successMsg = "El video se ha creado exitosamente";
+            setTimeout(() => {
+                successMsg = "";
+            }, 3000);
+        }
+        else {
+            errorMsg = "Error al crear el video (Código: " + status + ")";
+            setTimeout(() => {
+                errorMsg = "";
+            }, 3000);
+        }
+    } catch (error) {
+        errorMsg = error;
     }
+}
 
     async function deleteCollection() {
         try {
@@ -120,105 +117,73 @@
 </script>
 
 <Container>
-<button on:click={loadInitialData}>Cargar Datos Iniciales</button>
+<button on:click={loadInitialData} class="btn btn-primary">Cargar Datos Iniciales</button>
 
 <hr>
-
-<ul>
-    {#each videos as video}
-    <li>
-        <a href="/youtube-trends/{video.ranking}">{video.ranking}</a>,{video.country}, {video.title}, {video.published_at}, {video.channel_title}, {video.category_id}, {video.trending_date}, {video.view_count}, {video.comment_count}
-    </li>
-    {/each}
-</ul>
-
+<h1><strong>Lista de Vídeos</strong></h1>
+{#if videos.length === 0}
+        <p>La lista está vacía actualmente.</p>
+    {:else}
+        <ul>
+            {#each videos as video}
+            <li>
+                <a href="/youtube-trends/{video.ranking}">{video.ranking}</a>,{video.country}, {video.title}, {video.published_at}, {video.channel_title}, {video.category_id}, {video.trending_date}, {video.view_count}, {video.comment_count}
+            </li>
+            {/each}
+        </ul>
+    {/if}
+<hr>
+<h5><strong>Añadir Vídeos</strong></h5>
 <table>
     <thead>
         <tr>
-            <th>
-                Ranking
-            </th>
-            <th>
-                Country    
-            </th>
-            <th>
-                Title
-            </th>
-            <th>
-                Published_at   
-            </th>
-            <th>
-                Channel_title  
-            </th>
-            <th>
-                Category_id
-            </th>
-            <th>
-                Trending_date 
-            </th>
-            <th>
-                View_count
-            </th>
-            <th>
-                Comment_count
-            </th>
-            
+            <th>Ranking</th>
+            <th>Country</th>
+            <th>Title</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td>
-                <input type= number bind:value = {newVideo.ranking}>
-            </td>
-
-            <td>
-                <input bind:value = {newVideo.country}>
-            </td>
-
-            <td>
-                <input bind:value = {newVideo.title}>
-            </td>
-
-            <td>
-                <input bind:value = {newVideo.published_at}>
-            </td>
-
-            <td>
-                <input bind:value = {newVideo.channel_title}>
-            </td>
-
-            <td>
-                <input type= number bind:value = {newVideo.category_id}>
-            </td>
-
-            <td>
-                <input bind:value = {newVideo.trending_date}>
-            </td>
-
-            <td>
-                <input type= number bind:value = {newVideo.view_count}>
-            </td>
-
-            <td>
-                <input type= number bind:value = {newVideo.comment_count}>
-            </td>
+            <td><input type="number" bind:value={newVideo.ranking}></td>
+            <td><input bind:value={newVideo.country}></td>
+            <td><input bind:value={newVideo.title}></td>
+        </tr>
+        <tr>
+            <th>Published_at</th>
+            <th>Channel_title</th>
+            <th>Category_id</th>
+        </tr>
+        <tr>
+            <td><input bind:value={newVideo.published_at}></td>
+            <td><input bind:value={newVideo.channel_title}></td>
+            <td><input type="number" bind:value={newVideo.category_id}></td>
+        </tr>
+        <tr>
+            <th>Trending_date</th>
+            <th>View_count</th>
+            <th>Comment_count</th>
+        </tr>
+        <tr>
+            <td><input bind:value={newVideo.trending_date}></td>
+            <td><input type="number" bind:value={newVideo.view_count}></td>
+            <td><input type="number" bind:value={newVideo.comment_count}></td>
         </tr>
     </tbody>
-
 </table>
 
-<button on:click="{createVideo}">Añadir</button>
-
-<button on:click="{deleteCollection}">Borrar todo</button>
+<div style="margin-top: 20px;">
+    <button on:click="{createVideo}" class="btn btn-success">Añadir</button>
+    <button on:click="{deleteCollection}" class="btn btn-danger">Borrar todo</button>
+</div>
 
 {#if errorMsg != ""}
-    <div class="alert alert-danger" role="alert">
+    <div style="margin-top: 10px;" class="alert alert-danger" role="alert">
         {errorMsg}
     </div>
 {/if}
 
 {#if successMsg != ""}
-    <div class="alert alert-success" role="alert">
+    <div style="margin-top: 10px;" class="alert alert-success" role="alert">
         {successMsg}
     </div>
 {/if}

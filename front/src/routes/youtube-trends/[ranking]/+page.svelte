@@ -2,6 +2,7 @@
     import { onMount } from "svelte";
     import { dev } from "$app/environment";
     import { page } from '$app/stores';
+	import { Container } from "@sveltestrap/sveltestrap";
 
     let ranking = $page.params.ranking;
     let API = "/api/v1/youtube-trends";
@@ -77,48 +78,64 @@
     }
 </script>
 
-<h1>Editar video con ranking = {ranking}</h1>
+<Container>
+<h1><strong>Editar video con ranking = {ranking}</strong></h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Ranking</th>
-            <th>Country</th>
-            <th>Title</th>
-            <th>Published at</th>
-            <th>Channel title</th>
-            <th>Category ID</th>
-            <th>Trending date</th>
-            <th>View count</th>
-            <th>Comment count</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{video.ranking}</td>
-            <td><input type="text" bind:value="{video.country}"></td>
-            <td><input type="text" bind:value="{video.title}"></td>
-            <td><input type="text" bind:value="{video.published_at}"></td>
-            <td><input type="text" bind:value="{video.channel_title}"></td>
-            <td><input type="number" bind:value="{video.category_id}"></td>
-            <td><input type="text" bind:value="{video.trending_date}"></td>
-            <td><input type="number" bind:value="{video.view_count}"></td>
-            <td><input type="number" bind:value="{video.comment_count}"></td>
-        </tr>
-    </tbody>
-</table>
+<Container>
+    <table>
+        <thead>
+            <tr>
+                <th>Ranking</th>
+                <th>Country</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{video.ranking}</td>
+                <td><input type="text" bind:value="{video.country}"></td>
+                <td><input type="text" bind:value="{video.title}"></td>
+            </tr>
+            <tr>
+                <th>Published at</th>
+                <th>Channel title</th>
+                <th>Category ID</th>
+            </tr>
+            <tr>
+                <td><input type="text" bind:value="{video.published_at}"></td>
+                <td><input type="text" bind:value="{video.channel_title}"></td>
+                <td><input type="number" bind:value="{video.category_id}"></td>
+            </tr>
+            <tr>
+                <th>Trending date</th>
+                <th>View count</th>
+                <th>Comment count</th>
+            </tr>
+            <tr>
+                <td><input type="text" bind:value="{video.trending_date}"></td>
+                <td><input type="number" bind:value="{video.view_count}"></td>
+                <td><input type="number" bind:value="{video.comment_count}"></td>
+            </tr>
+        </tbody>
+    </table>
 
-<button on:click="{guardarCambios}">Guardar Cambios</button>
-<button on:click={() => deleteVideo(ranking)}>Eliminar</button>
+    <div style="margin-top: 20px;">
+        <button on:click="{guardarCambios}" class="btn btn-success">Guardar Cambios</button>
+        <button on:click={() => deleteVideo(ranking)} class="btn btn-danger">Eliminar</button>
+    </div>
+</Container>
+
 
 {#if errorMsg != ""}
-    <div class="alert alert-danger" role="alert">
+    <div style="margin-top: 10px;" class="alert alert-danger" role="alert">
         {errorMsg}
     </div>
 {/if}
 
 {#if successMsg != ""}
-    <div class="alert alert-success" role="alert">
+    <div style="margin-top: 10px;" class="alert alert-success" role="alert">
         {successMsg}
     </div>
 {/if}
+
+</Container>
