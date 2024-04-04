@@ -11,6 +11,7 @@
   
     let events = [];
     let errorMsg = "";
+    let successMsg="";
   
     function checkError(error) {
       if (error === 409)
@@ -36,40 +37,45 @@
     }
   
     async function getEvents() {
-      try {
-        let response = await fetch(API, { method: "GET" });
-        if (response.ok) {
-          let eventData = await response.json();
-          events = eventData.map(item => ({
-            id: `${item.fighter1}/${item.fighter2}/${item.date}`, // Crear ID único
-            name: `${item.fighter1} vs ${item.fighter2}`,
-            date: item.date,
-            location: item.location
-          }));
-          console.log(events);
-          checkError(response.status);
-        } else {
-          checkError(response.status);
+        successMsg, errorMsg = "", "";
+        try {
+            let response = await fetch(API, { method: "GET" });
+            if (response.ok) {
+            events = await response.json(); // Update events with fetched data
+            console.log(events);
+            checkError(response.status);
+            }
+            else if (response.status != 200) {
+                errorMsg = "No se ha encontrado la colección."
+            } 
+
+        } catch (error) {
+            checkError(error);
         }
-      } catch (error) {
-        checkError(error);
-      }
     }
  
-    async function deleteEvent(id) {
-  try {
-    // console.log(`Deleting event with fighter1: ${fighter1}, fighter2: ${fighter2}, date: ${date}`); // Mensaje de registro para verificar los datos de entrada
-    let response = await fetch(`${API}/stats/${id}`, { method: "DELETE" });
-    console.log("Response status:", response.status); // Mensaje de registro para verificar el estado de la respuesta
-    if (response.ok) {
-      getEvents();
-    } else {
-      checkError(response.status);
+    async function deleteEvent(fighter1, fighter2, date) {
+        try {
+        // Encode fighter names and date for URL safety
+            const encodedFighter1 = encodeURIComponent(fighter1);
+            const encodedFighter2 = encodeURIComponent(fighter2);
+            const encodedDate = encodeURIComponent(date);
+
+            const response = await fetch(`${API}/stats/${encodedFighter1}/${encodedFighter2}/${encodedDate}`, {
+                method: "DELETE",
+            });
+
+            console.log("Response status:", response.status);
+
+            if (response.ok) {
+                getEvents(); // Refresh the event list after successful deletion
+            } else {
+                checkError(response.status);
+            }
+        } catch (error) {
+            checkError(error);
+        }
     }
-  } catch (error) {
-    checkError(error);
-  }
-}
 
   
     async function deleteAllEvents() {
@@ -109,17 +115,17 @@
   </Row>
   <div class="event-box">
     <ListGroup>
-        {#each events as event (event.id)}
+        {#each events as event }
           <ListGroupItem>
             <Row class="event-box">
               <Col xs="10">
-                <NavLink href="ufc-events-data/{event.id}">
-                  <strong>{event.name}</strong><br>
+                <NavLink href="ufc-events-data/{encodeURIComponent(event.fighter1)}/{encodeURIComponent(event.fighter2)}/{encodeURIComponent(event.date)}">
+                  <strong>{event.fighter1} vs {event.fighter2} </strong><br>
                   <span><strong>Fecha:</strong> {event.date}, <strong>Lugar:</strong> {event.location}</span>
                 </NavLink>
               </Col>
               <Col xs="2">
-                <Button size="sm" color="danger" on:click={deleteEvent(event.id)}>Borrar</Button>
+                <Button size="sm" color="danger" on:click={deleteEvent(event.fighter1, event.fighter2, event.date)}>Borrar</Button>
 
               </Col>
             </Row>
