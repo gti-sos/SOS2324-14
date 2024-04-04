@@ -9,56 +9,38 @@
     let fighter2 = $page.params.fighter2;
     let date = $page.params.date;
     let name = `${fighter1}/${fighter2}/${date}`
-    let title = `${fighter1} vs ${fighter2}`;
+    let fight = `${fighter1} vs ${fighter2}`;
 
     let API = "/api/v1/ufc-events-data";
     if(dev)
         API = "http://localhost:10002" + API;
 
     let event = {};
-    let errorMsg = "";
+    let errorMsg = "";ç
+    let successMsg = ""
 
     onMount(() => {
-        getEventDetails(fighter1, fighter2, date);
+        getEventObject();
     });
 
-    async function getEventDetails(fighter1, fighter2, date) {
+    async function getEventObject() {
+        successMsg, errorMsg = "", "";
+        const encodedFighter1 = encodeURIComponent(fighter1);
+        const encodedFighter2 = encodeURIComponent(fighter2);
+        const encodedDate = encodeURIComponent(date);
         try {
-            let response = await fetch(`${API}/stats/${fighter1}/${fighter2}/${date}`, {
+            let response = await fetch(API+`/stats/${name}`, {
                 method: "GET"
             });
-            if (response.ok) {
-                event = await response.json();
-            } else {
-                errorMsg = `Error: ${response.status}`;
-            }
-        } catch (error) {
-            errorMsg = `Error: ${error.message}`;
-        }
-    }
-
-    async function updateEvent(fighter1, fighter2, date) {
-        await getEventDetails(fighter1, fighter2, date);
-        
-        try {
-            let response = await fetch(`${API}/stats/${fighter1}/${fighter2}/${date}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(event)
-            });
+            let data = await response.json();
+            event = data;
+            console.log(event);
+            if (!response.ok) {
             
-            let status = await response.status;
-            console.log(`Update response status ${status}`);
-            
-            if (status === 200) {
-                window.location.href = "/ufc-events-data";
-            } else {
-                checkError(status);
-            }
+                errorMsg = `Error al obtener el evento: ${response.status}`;
+            }           
         } catch (error) {
-            checkError(error);
+            errorMsg = error;
         }
     }
 </script>
@@ -68,26 +50,18 @@
         <Col xs="6" sm="4"><Button color="danger" size="sm" href="/ufc-events-data">Volver a la API</Button></Col>
     </Row>
     <Row>
-        <Col><h2>{title}</h2></Col> 
+        <Col><h2>{fighter1} vs {fighter2}</h2></Col> 
         <Col class="d-flex justify-content-end">
-            <Button href="/ufc-events-data/{fighter1}/editar{fighter2}" size="md" color="warning">Editar recurso</Button>
+            <Button href="/ufc-events-data/${fighter1}/${fighter2}/${date}/edit" size="md" color="warning">Editar recurso</Button>
         </Col>
     </Row>
     <ListGroup>
-        {#if Object.keys(event).length > 0}
-            {#each Object.keys(event) as field} 
-                <ListGroupItem>
-                    <Row>
-                        <Col><strong>{field}</strong> : {event[field]} </Col>
-                    </Row>
-                </ListGroupItem>
-            {/each}
-        {:else}
+        {#each Object.keys(event) as dato} 
             <ListGroupItem>
                 <Row>
-                    <Col>Error: {errorMsg}</Col>
+                    <Col><strong>{dato}</strong> : {event[dato]} </Col>
                 </Row>
             </ListGroupItem>
-        {/if}
+        {/each}
     </ListGroup>
 </Container>
