@@ -18,7 +18,8 @@
     //if (!paged===true)
     /*let offset= $page.url.searchParams.get('offset'); */let limit = 10;   // Almacenar los valores necesarios para paginar
     // if(!$page.url.searchParams.get('offset'))
-    //     offset=0;
+    let offset=0;
+    let pagina = "";
     let cantidadPeliculas = 0;               // Saber cuantas peliculas hay, mas de 10 habra que paginar
     let listaPags = []
 
@@ -49,9 +50,9 @@
     async function getMovies() {
         listaPags = []
         successMsg, errorMsg = "", "";
-        let offset= $page.url.searchParams.get('offset');// Almacenar los valores necesarios para paginar
-        if(!$page.url.searchParams.get('offset'))
-            offset=0;
+        //let offset= 0;// Almacenar los valores necesarios para paginar
+        if($page.url.searchParams.get('offset'))
+            offset=$page.url.searchParams.get('offset');
         console.log("offset:"+offset);
         try {
             // Contar cuantas paginas hay en el front
@@ -81,10 +82,31 @@
         }
     }
 
+    function anteriorPagina(ofs) {
+        if(ofs > 0) {
+            window.location.href = `?offset=${ofs-10}&limit=10`
+            getMovies();
+        } else {
+            errorMsg = "Esta es la primera página, no puedes retroceder mas"
+        }   
+    }
+
     function siguientePagina(ofs) {
-        num = Math.ceil(cantidadPeliculas / 10)
-        sigPag = num * ofs
-        getMovies();
+        if (parseInt(ofs) >= Math.trunc(cantidadPeliculas / 10)*10 || cantidadPeliculas === 10) {
+            errorMsg = "Esta es la última página, no puedes avanzar mas"
+        } else {
+            ofs = parseInt(ofs) + 10
+            window.location.href = `?offset=${ofs}&limit=10`
+        }
+        //getMovies();
+    }
+
+    function firstOlast(pagina) {
+        console.log("Estamos en la "+pagina)
+        if (pagina === "Primera")
+            window.location.href = "/movies-dataset?offset=0&llimit=10"
+        else if (pagina == "Ultima")
+            window.location.href = `/movies-dataset?offset=${Math.ceil(cantidadPeliculas / 10)*10}&llimit=10`
     }
 
     function paginar(pagina) {
@@ -105,7 +127,9 @@
                                         method: "DELETE"
                                     });
             if (response.status == 200){
-                getMovies();
+                await getMovies();
+                if (cantidadPeliculas === 10)
+                    window.location.href = "/movies-dataset"
                 successMsg = `La pelicula ${title} se ha borrado correctamente.`
             }
             else
@@ -124,6 +148,7 @@
                                     });
             console.log(`Deleted`);
             if (response.status == 200){
+                window.location.href = "/movies-dataset"
                 getMovies();
                 successMsg = "Colección borrada con exito."
             } else
@@ -163,7 +188,7 @@
             <ListGroupItem>
                 <Row>
                     <Col xs=10>
-                        <NavLink active href="movies-dataset/{movie.original_title}">{movie.index}. {movie.original_title}</NavLink>
+                        <NavLink active href="movies-dataset/{movie.original_title}">{movie.index+1}. {movie.original_title}</NavLink>
                         
                         <strong>Director:</strong> {movie.director}, <strong>Estreno:</strong> {movie.release_date}
                     </Col>
@@ -185,7 +210,10 @@
         <Row>
             <Pagination size="md" ariaLabel="Paginacion del front-end">
                 <PaginationItem>
-                    <PaginationLink first href="?offset=0&limit={limit}" />
+                    <PaginationLink first on:click={firstOlast}/>
+                </PaginationItem>
+                <PaginationItem>
+                    <PaginationLink previous on:click={anteriorPagina(offset)}/>
                 </PaginationItem>
                 {#each listaPags as pagina}
                 <PaginationItem>
@@ -193,10 +221,10 @@
                 </PaginationItem>
                 {/each}
                 <PaginationItem>
-                    <PaginationLink next  href="" on:click={siguientePagina($page.url.searchParams.get('offset'))}/>
+                    <PaginationLink next on:click={siguientePagina(offset)}/>
                 </PaginationItem>
                 <PaginationItem>
-                    <PaginationLink last href="?offset={(listaPags.length-1)*limit}&limit={limit}" />
+                    <PaginationLink last on:click={firstOlast}/>
                 </PaginationItem>
             </Pagination>
         </Row>

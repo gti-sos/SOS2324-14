@@ -4,7 +4,6 @@
     import { dev } from "$app/environment";
 
     let API = "/api/v1/movies-dataset";
-
     if(dev)
         API = "http://localhost:10002"+API
 
