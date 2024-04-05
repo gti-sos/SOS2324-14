@@ -66,7 +66,7 @@
         if (status == 200) {
             successMsg = "Evento actualizado correctamente.";
             setTimeout(() => {
-                window.location.href = `ufc-events-data/stats/${encodedFighter1}/${encodedFighter2}/${encodedDate}`;
+                history.back();
             }, 2000);
         } else {
             console.log(status);
@@ -75,7 +75,7 @@
     } catch (error) {
         errorMsg = error;
     }
-    history.back();
+    
 }
 </script>
 
@@ -101,7 +101,8 @@
             <Col><strong>{key}:</strong> <Input bind:value={event[key]}/></Col>
         {/each}
     </Row>
-    <Row>
+    <Row class="justify-content-center">
         <Col xs="auto"><Button size="md" color="success" on:click={updateFight}>Confirmar</Button></Col>
+        <Col xs="auto"><Button color="danger" size="md" href="/ufc-events-data/{fighter1}/{fighter2}/{date}">Volver</Button></Col>
     </Row>
 </Container>

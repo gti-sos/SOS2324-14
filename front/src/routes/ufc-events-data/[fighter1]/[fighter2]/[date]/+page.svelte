@@ -49,9 +49,6 @@
 
 <Container>
     <Row>
-        <Col xs="6" sm="4"><Button color="danger" size="sm" href="/ufc-events-data">Volver a la API</Button></Col>
-    </Row>
-    <Row>
         <Col><h2>{fighter1} vs {fighter2}</h2></Col> 
         <Col class="d-flex justify-content-end">
             <Button href="/ufc-events-data/{fighter1}/{fighter2}/{date}/edit" size="md" color="warning">Editar recurso</Button>
@@ -66,4 +63,7 @@
             </ListGroupItem>
         {/each}
     </ListGroup>
+    <Row>
+        <Col xs="6" sm="4"><Button color="danger" size="sm" href="/ufc-events-data">Volver a la API</Button></Col>
+    </Row>
 </Container>
