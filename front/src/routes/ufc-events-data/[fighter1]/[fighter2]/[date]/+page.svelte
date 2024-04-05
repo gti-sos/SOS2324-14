@@ -8,15 +8,18 @@
     let fighter1 = $page.params.fighter1;
     let fighter2 = $page.params.fighter2;
     let date = $page.params.date;
-    let name = `${fighter1}/${fighter2}/${date}`
-    let fight = `${fighter1} vs ${fighter2}`;
+    const encodedFighter1 = encodeURIComponent(fighter1);
+    const encodedFighter2 = encodeURIComponent(fighter2);
+    const encodedDate = date;
+    
+    
 
     let API = "/api/v1/ufc-events-data";
     if(dev)
         API = "http://localhost:10002" + API;
 
     let event = {};
-    let errorMsg = "";ç
+    let errorMsg = "";
     let successMsg = ""
 
     onMount(() => {
@@ -25,13 +28,12 @@
 
     async function getEventObject() {
         successMsg, errorMsg = "", "";
-        const encodedFighter1 = encodeURIComponent(fighter1);
-        const encodedFighter2 = encodeURIComponent(fighter2);
-        const encodedDate = encodeURIComponent(date);
+        
         try {
-            let response = await fetch(API+`/stats/${name}`, {
+            let response = await fetch(`${API}/stats/${encodedFighter1}/${encodedFighter2}/${encodedDate}`, {
                 method: "GET"
             });
+            console.log("Response status:", response.status);
             let data = await response.json();
             event = data;
             console.log(event);
@@ -52,7 +54,7 @@
     <Row>
         <Col><h2>{fighter1} vs {fighter2}</h2></Col> 
         <Col class="d-flex justify-content-end">
-            <Button href="/ufc-events-data/${fighter1}/${fighter2}/${date}/edit" size="md" color="warning">Editar recurso</Button>
+            <Button href="/ufc-events-data/{fighter1}/{fighter2}/{date}/edit" size="md" color="warning">Editar recurso</Button>
         </Col>
     </Row>
     <ListGroup>
