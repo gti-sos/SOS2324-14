@@ -43,6 +43,7 @@
     async function createMovie() {
         successMsg, errorMsg = "", "";
         try {
+            placeholderMovie.index = cantidadPeliculas
             let response = await    fetch(API, {
                                         method: "POST",
                                         headers:{
@@ -57,7 +58,7 @@
                 successMsg = "Pelicula añadida correctamente."
                 setTimeout(() => {
                     window.location.href = "/movies-dataset"
-                }, 2000);
+                }, 1000);
             }
             else
                 errorMsg = `Ya existe una pelicula con titulo ${placeholderMovie.original_title}.`

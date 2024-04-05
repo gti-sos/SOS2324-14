@@ -42,7 +42,7 @@ function api_EGO(app, dbMovies) {
 
     // GET Base
     app.get(API_BASE+"/movies-dataset", (req, res) => {
-        dbMovies.find({}, (err, movies) => {
+        dbMovies.find({}).sort({ index: 1 }).exec((err, movies) => {
             if(err){
                 res.sendStatus(500, "Internal Error");    
             } else {
@@ -51,13 +51,13 @@ function api_EGO(app, dbMovies) {
                     return c
                 });
                 if (!(Object.keys(req.query).length === 0)) {
-
+                    
                     // Si hay una query para paginar, pagina el recurso
                     if (req.query.limit && req.query.offset) {
                         let limit = req.query.limit;
                         let offset = req.query.offset;
 
-                        res.send(JSON.stringify(sinIdMovies.slice(offset, limit)));
+                        res.send(JSON.stringify(sinIdMovies.slice(offset, offset+limit)));
                     // Si solo esta el campo limit, muestra la cantidad de elementos que indica limit
                     } else if (req.query.limit && !req.query.offset) {
                         let limit = req.query.limit;
