@@ -14,7 +14,7 @@
     
     
 
-    let API = "/api/v1/ufc-events-data";
+    let API = "/api/v2/ufc-events-data";
     if(dev)
         API = "http://localhost:10002" + API;
 
