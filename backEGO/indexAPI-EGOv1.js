@@ -51,7 +51,7 @@ function api_EGO(app, dbMovies) {
                     return c
                 });
                 if (!(Object.keys(req.query).length === 0)) {
-                    
+
                     // Si hay una query para paginar, pagina el recurso
                     if (req.query.limit && req.query.offset) {
                         let limit = req.query.limit;
@@ -304,7 +304,6 @@ function api_EGO(app, dbMovies) {
         });
     });
 
-    
     // DELETE El recurso por su titulo
     app.delete(API_BASE+"/movies-dataset/:title", (req, res) => {
         let title = req.params.title;
