@@ -8,7 +8,7 @@ import cors from "cors";
 //APIs
 import {api_EGO} from './backEGO/indexAPI-EGOv1.js';
 import {api_VEG} from './backVEG/api-VEG-v1.js';
-import {api_NRM} from './BackNRM/index-api-v1.js';
+import {api_NRM} from './BackNRM/index-api-v2.js';
 
 let dbMovies = new dataStore();
 let db = new dataStore();
