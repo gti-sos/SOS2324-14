@@ -151,8 +151,6 @@
   <Row>
     {#if events.length === 0}
       <p>La lista está vacía</p>
-      <p>Crea los datos pulsando aquí</p>
-      <p><Button size="s" outline color="primary" on:click={loadInitialData}>Insertar</Button></p>
     {/if}
   </Row>
   <div class="event-box">
@@ -179,6 +177,12 @@
   {#if events.length !== 0}
     <Row class="justify-content-center">
       <Col xs="auto">Eliminar todos los eventos -> <Button outline size="sm" color="danger" on:click={deleteAllEvents}>Borrar Todo</Button></Col>
+      <Col xs="auto">Crear un nuevo evento -> <Button href="/ufc-events-data/postEvent" outline size="sm" color="success">Crear Evento</Button></Col>
+    </Row>
+  {/if}
+  {#if events.length === 0}
+    <Row class="justify-content-center">
+      <Col xs="auto">Insertar datos -> <Button size="sm" outline color="primary" on:click={loadInitialData}>Insertar</Button></Col>
       <Col xs="auto">Crear un nuevo evento -> <Button href="/ufc-events-data/postEvent" outline size="sm" color="success">Crear Evento</Button></Col>
     </Row>
   {/if}
