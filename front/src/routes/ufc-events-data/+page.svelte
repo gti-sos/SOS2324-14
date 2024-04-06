@@ -155,6 +155,11 @@
       window.location.href = `/ufc-events-data?offset=${ofs}&limit=10`;
     }
 
+    let filterDropdownOpen = false; // Variable para controlar si el menú desplegable de filtros está abierto o cerrado
+
+    function toggleFilterDropdown() {
+      filterDropdownOpen = !filterDropdownOpen;
+    }
     
   
     
@@ -166,6 +171,14 @@
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
+  }
+
+  .filter-dropdown {
+    display: none;
+  }
+
+  .filter-dropdown.open {
+    display: block;
   }
 </style>
 
@@ -218,6 +231,24 @@
       
   </div>
   {#if events.length !== 0}
+  <Button color="primary" on:click={toggleFilterDropdown} class="filter-dropdown-toggle">Filtrar</Button>
+  <Row class="justify-content-center">
+    <div class="filter-dropdown" class:open={filterDropdownOpen}>
+    <ul>
+      <li>
+        <label for="nombre">Filtrar por nombre:</label>
+        <input type="text" id="nombre" placeholder="Escribe un nombre">
+      </li>
+      <li>
+        <label for="fecha">Filtrar por fecha:</label>
+        <input type="date" id="fecha">
+      </li>
+      <!-- Puedes agregar más elementos de lista según tus necesidades -->
+    </ul>
+  </div>
+    
+  </Row>
+  
   <Row class="justify-content-center">
     <!-- <Col xs="auto">Página actual: {currentPage}</Col> -->
     <Col xs="auto">Total de eventos: {cantPeleas}</Col>
