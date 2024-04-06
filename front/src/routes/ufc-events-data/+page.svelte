@@ -1,8 +1,8 @@
 <script>
     import { onMount } from "svelte";
     import { dev } from "$app/environment";
-    
-    import { Button, Container, Row, Col, ListGroup, ListGroupItem, NavLink, Alert } from '@sveltestrap/sveltestrap';
+    import { page } from '$app/stores';
+    import { Button, Container, Row, Col, ListGroup, ListGroupItem, NavLink, Alert, Pagination, PaginationItem, PaginationLink } from '@sveltestrap/sveltestrap';
   
     let API = "/api/v2/ufc-events-data";
   
@@ -13,7 +13,12 @@
     let errorMsg = "";
     let successMsg="";
     
-  
+    let limit = 10; 
+    
+    let listaPeleas = [];
+    let cantPeleas = 0;
+
+    onMount(getEvents);
 
     function clearSuccessMsg() {
         successMsg = "";
@@ -56,21 +61,44 @@
     }
   
     async function getEvents() {
-        successMsg, errorMsg = "", "";
-        try {
-            let response = await fetch(API, { method: "GET" });
-            if (response.ok) {
-            events = await response.json(); // Update events with fetched data
-            console.log(events);
-            checkError(response.status);
-            }
-            else if (response.status != 200) {
-                errorMsg = "No se ha encontrado la colección."
-            } 
+      successMsg, errorMsg = "", "";
+      listaPeleas = []
+      let offset = $page.url.searchParams.get('offset');
 
-        } catch (error) {
-            checkError(error);
-        }
+      if (!offset)
+        offset = 0;
+      console.log("offset: "+offset);
+      try {
+
+        let cantidad = await fetch(API, { 
+          method: "GET" 
+        });
+        let cant = await cantidad.json();
+        cantPeleas = cant.length;
+
+        console.log("peleas:"+cantPeleas + " y offset "+offset);
+        console.log(Math.ceil(cantPeleas / 10));
+
+        for (let i = 1; i <= Math.ceil(cantPeleas / 10); i++) {
+            listaPeleas.push(i);
+        };
+        console.log(listaPeleas)
+        let response = await fetch(`${API}?offset=${offset}limit=${limit}}`, { 
+          method: "GET" 
+        });
+        let data = await response.json();
+        events = data; // Update events with fetched data
+        console.log(events);
+        console.log(response.status);
+        // checkError(response.status);            
+        if($page.url.searchParams.get('offset')){
+          window.location.reload;
+        } else if (response.status != 200) {
+          errorMsg = "No se ha encontrado la colección."
+        } 
+      } catch (error) {
+        checkError(error);
+      }
     }
  
     async function deleteEvent(fighter1, fighter2, date) {
@@ -113,8 +141,23 @@
         checkError(error);
       }
     }
+
+    function siguientePagina(ofs) {
+        let sigPag = parseInt(ofs) + 10;
+        paginar(sigPag);
+        getEvents();
+    }
+
+    function paginar(pagina) {
+      let ofs = $page.url.searchParams.get('offset');
+      ofs = (pagina - 1) * limit;
+      
+      window.location.href = `/ufc-events-data?offset=${ofs}&limit=10`;
+    }
+
+    
   
-    onMount(getEvents);
+    
 </script>
   
 <style>
@@ -175,10 +218,45 @@
       
   </div>
   {#if events.length !== 0}
-    <Row class="justify-content-center">
-      <Col xs="auto">Eliminar todos los eventos -> <Button outline size="sm" color="danger" on:click={deleteAllEvents}>Borrar Todo</Button></Col>
-      <Col xs="auto">Crear un nuevo evento -> <Button href="/ufc-events-data/postEvent" outline size="sm" color="success">Crear Evento</Button></Col>
+  <Row class="justify-content-center">
+    <!-- <Col xs="auto">Página actual: {currentPage}</Col> -->
+    <Col xs="auto">Total de eventos: {cantPeleas}</Col>
+  </Row>
+  <Row class="justify-content-center">
+    <Col xs="auto">Eliminar todos los eventos -> <Button outline size="sm" color="danger" on:click={deleteAllEvents}>Borrar Todo</Button></Col>
+    <Col xs="auto">Crear un nuevo evento -> <Button href="/ufc-events-data/postEvent" outline size="sm" color="success">Crear Evento</Button></Col>
+  </Row>
+  <Row>
+    {#if listaPeleas.length != 0}
+    <Row>
+      <Pagination size="md" ariaLabel="Paginacion del front-end">
+          <PaginationItem>
+            <PaginationLink first on:click={() => {
+              getEvents();
+              window.location.href = `?offset=0&limit=${limit}`;
+          }}/>
+          </PaginationItem>
+          {#each listaPeleas as pelea}
+          <PaginationItem>
+              <PaginationLink on:click={paginar(pelea)}>{pelea}</PaginationLink>
+          </PaginationItem>
+          {/each}
+          <PaginationItem>
+            <PaginationLink next on:click={() => {
+              getEvents();
+              window.location.href = `?offset=${parseInt($page.url.searchParams.get('offset'))+10}&limit=${limit}`;
+            }}/>
+          </PaginationItem>
+          <PaginationItem>
+              <PaginationLink last on:click={() => {
+                getEvents();
+                window.location.href = `?offset=${-((listaPeleas.length - 1) * limit)}&limit=${limit}`;
+            }}/>
+          </PaginationItem>
+      </Pagination>
     </Row>
+    {/if}
+</Row>
   {/if}
   {#if events.length === 0}
     <Row class="justify-content-center">
