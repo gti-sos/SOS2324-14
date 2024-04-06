@@ -18,7 +18,12 @@
     let listaPeleas = [];
     let cantPeleas = 0;
 
-    onMount(getEvents);
+    let filters = [];
+
+    onMount(() => {
+      getEvents();
+      loadFilters();
+    });
 
     function clearSuccessMsg() {
         successMsg = "";
@@ -160,6 +165,33 @@
     function toggleFilterDropdown() {
       filterDropdownOpen = !filterDropdownOpen;
     }
+
+    async function loadFilters() {
+    try {
+      let response = await fetch(API, { method: "GET" });
+      if (response.ok) {
+        let data = await response.json();
+        console.log(data);
+        // Iterar sobre las claves de la primera entrada para obtener los nombres de los filtros
+        Object.keys(data[0]).forEach(key => {
+          filters.push({ name: key, value: '' }); // Agregar cada filtro al array
+        });
+        console.log(filters);
+      }
+    } catch (error) {
+      console.error("Error al cargar los filtros:", error);
+    }
+  }
+
+    async function applyFilters() {
+      let queryParams = filters
+        .filter(filter => filter.value !== '') // Filtrar los filtros con valores no vacíos
+        .map(filter => `${filter.name}=${filter.value}`) // Crear un array de cadenas "clave=valor"
+        .join('&'); // Unir los elementos del array con el signo "&"
+    
+      // Redirigir a la página con los filtros aplicados
+      window.location.href = `${API}?${queryParams}`;
+  }
     
   
     
@@ -235,16 +267,14 @@
   <Row class="justify-content-center">
     <div class="filter-dropdown" class:open={filterDropdownOpen}>
     <ul>
-      <li>
-        <label for="nombre">Filtrar por nombre:</label>
-        <input type="text" id="nombre" placeholder="Escribe un nombre">
-      </li>
-      <li>
-        <label for="fecha">Filtrar por fecha:</label>
-        <input type="date" id="fecha">
-      </li>
-      <!-- Puedes agregar más elementos de lista según tus necesidades -->
+      {#each filters as filter}
+        <li>
+          <label for={filter.name}>{filter.name}</label>
+          <input type="text" id={filter.name} bind:value={filter.value}>
+        </li>
+      {/each}
     </ul>
+    <Button color="primary" on:click={applyFilters}>Aplicar filtros</Button>
   </div>
     
   </Row>
