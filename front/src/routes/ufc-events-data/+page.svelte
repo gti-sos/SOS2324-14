@@ -21,7 +21,6 @@
 
     let allFilters = ['location','fighter1','fighter2','fighter_1_kd','fighter_2_kd','fighter_1_str','fighter_2_str','fighter_1_td','fighter_2_td','fighter_1_sub','fighter_2_sub','weight_class','method','round','time','event_name','date','winner'];
     let numericFilters = ['fighter_1_kd','fighter_2_kd','fighter_1_str','fighter_2_str','fighter_1_td','fighter_2_td','fighter_1_sub','fighter_2_sub','round']
-    let filters = [];
     let filterParams = {};
 
     onMount(getEvents);
@@ -94,8 +93,9 @@
           method: "GET" 
         });
         let data = await response.json();
-        events = data; // Update events with fetched data
-        console.log(events);
+        console.log('data-> '+data)
+        events = data.slice(0,10); // Update events with fetched data
+        console.log('events-> '+events);
         console.log(response.status);
         // checkError(response.status);            
         if($page.url.searchParams.get('offset')){
@@ -157,9 +157,10 @@
 
     function paginar(pagina) {
       let ofs = $page.url.searchParams.get('offset');
+
       ofs = (pagina - 1) * limit;
       
-      window.location.href = `/ufc-events-data?offset=${ofs}&limit=10`;
+      window.location.href = `/ufc-events-data?offset=${ofs}&limit=${limit}`;
     }
 
     let filterDropdownOpen = false; // Variable para controlar si el menú desplegable de filtros está abierto o cerrado
