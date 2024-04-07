@@ -13,17 +13,18 @@
     let errorMsg = "";
     let successMsg="";
     
-    let limit = 10; 
+    let offset = 0;
+    let limit = 10;
     
     let listaPeleas = [];
     let cantPeleas = 0;
 
+    let allFilters = ['location','fighter1','fighter2','fighter_1_kd','fighter_2_kd','fighter_1_str','fighter_2_str','fighter_1_td','fighter_2_td','fighter_1_sub','fighter_2_sub','weight_class','method','round','time','event_name','date','winner'];
+    let numericFilters = ['fighter_1_kd','fighter_2_kd','fighter_1_str','fighter_2_str','fighter_1_td','fighter_2_td','fighter_1_sub','fighter_2_sub','round']
     let filters = [];
+    let filterParams = {};
 
-    onMount(() => {
-      getEvents();
-      loadFilters();
-    });
+    onMount(getEvents);
 
     function clearSuccessMsg() {
         successMsg = "";
@@ -68,26 +69,27 @@
     async function getEvents() {
       successMsg, errorMsg = "", "";
       listaPeleas = []
-      let offset = $page.url.searchParams.get('offset');
+      
+      if($page.url.searchParams.get('offset'))
+            offset=$page.url.searchParams.get('offset');
 
       if (!offset)
         offset = 0;
       console.log("offset: "+offset);
       try {
-
         let cantidad = await fetch(API, { 
           method: "GET" 
         });
         let cant = await cantidad.json();
         cantPeleas = cant.length;
-
         console.log("peleas:"+cantPeleas + " y offset "+offset);
         console.log(Math.ceil(cantPeleas / 10));
-
         for (let i = 1; i <= Math.ceil(cantPeleas / 10); i++) {
             listaPeleas.push(i);
         };
         console.log(listaPeleas)
+        console.log('off-> '+offset)
+        console.log(limit)
         let response = await fetch(`${API}?offset=${offset}limit=${limit}}`, { 
           method: "GET" 
         });
@@ -166,32 +168,46 @@
       filterDropdownOpen = !filterDropdownOpen;
     }
 
-    async function loadFilters() {
-    try {
-      let response = await fetch(API, { method: "GET" });
-      if (response.ok) {
-        let data = await response.json();
-        console.log(data);
-        // Iterar sobre las claves de la primera entrada para obtener los nombres de los filtros
-        Object.keys(data[0]).forEach(key => {
-          filters.push({ name: key, value: '' }); // Agregar cada filtro al array
-        });
-        console.log(filters);
-      }
-    } catch (error) {
-      console.error("Error al cargar los filtros:", error);
-    }
-  }
-
     async function applyFilters() {
-      let queryParams = filters
-        .filter(filter => filter.value !== '') // Filtrar los filtros con valores no vacíos
-        .map(filter => `${filter.name}=${filter.value}`) // Crear un array de cadenas "clave=valor"
-        .join('&'); // Unir los elementos del array con el signo "&"
+
+      try {
+        filterParams = {};
+        // Obtener todos los inputs dentro del ul
+  
+        const inputs = document.querySelectorAll('.filter-dropdown input');
+        console.log('inputs: '+inputs);
+        
+        let filterString = '';
+        inputs.forEach(input => {
+            
+            const key = input.id;
+            console.log(key)
+            const value = input.value;
+            console.log(value)
+            filterParams[key] = value;
+            if (value !== '') {
+              filterString += `&${key}=${encodeURIComponent(value)}`;
+            }
+        });
+        console.log('params: '+filterParams);
     
-      // Redirigir a la página con los filtros aplicados
-      window.location.href = `${API}?${queryParams}`;
-  }
+        console.log(filterString);
+
+        let response = await fetch(`${API}?${filterString}`, {
+          method: "GET"
+        });
+        console.log(response)
+        let data = await response.json();
+        events = data;
+        console.log('Eventos filtrados: ', events);
+        if (!response.ok) {
+          errorMsg = "No se ha encontrado la colección.";
+          console.error("Error al obtener eventos:", response.status);
+        }
+      } catch (error) {
+        
+      }
+    }
     
   
     
@@ -262,22 +278,29 @@
       </ListGroup>
       
   </div>
-  {#if events.length !== 0}
   <Button color="primary" on:click={toggleFilterDropdown} class="filter-dropdown-toggle">Filtrar</Button>
   <Row class="justify-content-center">
     <div class="filter-dropdown" class:open={filterDropdownOpen}>
-    <ul>
-      {#each filters as filter}
-        <li>
-          <label for={filter.name}>{filter.name}</label>
-          <input type="text" id={filter.name} bind:value={filter.value}>
-        </li>
-      {/each}
-    </ul>
-    <Button color="primary" on:click={applyFilters}>Aplicar filtros</Button>
-  </div>
-    
-  </Row>
+        <ul>
+            {#each allFilters as filter}
+            {#if numericFilters.includes(filter)}
+              <li>
+                <label for={filter}>{filter}</label>
+                <input type="number" id={filter} placeholder="0">
+              </li>
+            {:else}
+                <li>
+                    <label for={filter}>{filter}</label>
+                    <input type="text" id={filter} placeholder="example">
+                </li>
+            {/if}
+            {/each}
+        </ul>
+        <Button color="primary" on:click={applyFilters}>Aplicar filtros</Button>
+    </div>
+</Row>
+  {#if events.length !== 0}
+  
   
   <Row class="justify-content-center">
     <!-- <Col xs="auto">Página actual: {currentPage}</Col> -->
@@ -291,37 +314,46 @@
     {#if listaPeleas.length != 0}
     <Row>
       <Pagination size="md" ariaLabel="Paginacion del front-end">
-          <PaginationItem>
-            <PaginationLink first on:click={() => {
-              getEvents();
-              window.location.href = `?offset=0&limit=${limit}`;
+        <PaginationItem>
+          <PaginationLink first on:click={() => {
+            window.location.href = `?offset=0&limit=${limit}`;
+            getEvents();
+            
+            // paginar(1);
+        }}/>
+        </PaginationItem>
+        {#each listaPeleas as pelea}
+        <PaginationItem>
+            <PaginationLink on:click={paginar(pelea)}>{pelea}</PaginationLink>
+        </PaginationItem>
+        {/each}
+        <PaginationItem>
+          <PaginationLink next on:click={() => {
+            window.location.href = `?offset=${parseInt($page.url.searchParams.get('offset'))+10}&limit=${limit}`;
+            getEvents();
+            
+            //const currentPage = parseInt($page.url.searchParams.get('offset')) || 0;
+            //const nextPage = currentPage + limit;
+            //paginar(nextPage)
           }}/>
-          </PaginationItem>
-          {#each listaPeleas as pelea}
-          <PaginationItem>
-              <PaginationLink on:click={paginar(pelea)}>{pelea}</PaginationLink>
-          </PaginationItem>
-          {/each}
-          <PaginationItem>
-            <PaginationLink next on:click={() => {
+        </PaginationItem>
+        <PaginationItem>
+            <PaginationLink last on:click={() => {
               getEvents();
-              window.location.href = `?offset=${parseInt($page.url.searchParams.get('offset'))+10}&limit=${limit}`;
-            }}/>
-          </PaginationItem>
-          <PaginationItem>
-              <PaginationLink last on:click={() => {
-                getEvents();
-                window.location.href = `?offset=${-((listaPeleas.length - 1) * limit)}&limit=${limit}`;
-            }}/>
-          </PaginationItem>
-      </Pagination>
+              window.location.href = `?offset=${-((listaPeleas.length - 1) * limit)}&limit=${limit}`;
+              // const totalPages = Math.ceil(cantPeleas / limit);
+              // const lastPageOffset = (totalPages - 1) * limit;
+              // paginar(lastPageOffset); // Ir a la última página
+          }}/>
+        </PaginationItem>
+    </Pagination>
     </Row>
     {/if}
 </Row>
   {/if}
   {#if events.length === 0}
     <Row class="justify-content-center">
-      <Col xs="auto">Insertar datos -> <Button size="sm" outline color="primary" on:click={loadInitialData}>Insertar</Button></Col>
+      <Col xs="auto">Insertar datos -> <Button size="sm" outline color="primary" href="/ufc-events-data?offset=0&limit=10" on:click={loadInitialData}>Insertar</Button></Col>
       <Col xs="auto">Crear un nuevo evento -> <Button href="/ufc-events-data/postEvent" outline size="sm" color="success">Crear Evento</Button></Col>
     </Row>
   {/if}
