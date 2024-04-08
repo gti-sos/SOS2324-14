@@ -94,7 +94,7 @@
         });
         let data = await response.json();
         console.log('data-> '+data)
-        events = data.slice(0,10); // Update events with fetched data
+        events = data.slice(0,limit); // Update events with fetched data
         console.log('events-> '+events);
         console.log(response.status);
         // checkError(response.status);            
@@ -231,6 +231,9 @@
   }
 </style>
 
+<svelte:head>
+  <title>UFC Events</title>
+</svelte:head>
 <Container>
   <Row>
     {#if errorMsg != ""}
@@ -261,7 +264,7 @@
   <div class="event-box">
     <ListGroup>
         {#each events as event }
-          <ListGroupItem>
+          <ListGroupItem class=fightItem>
             <Row class="event-box">
               <Col xs="10">
                 <NavLink href="ufc-events-data/{encodeURIComponent(event.fighter1)}/{encodeURIComponent(event.fighter2)}/{encodeURIComponent(event.date)}">
