@@ -3,7 +3,7 @@ const API_BASE = "/api/v2";
 
 
 
-function loadBackendNRM(app, dbUfc) {
+function api_NRM(app, dbUfc) {
 
     let dataset = [];
 
@@ -53,6 +53,10 @@ function loadBackendNRM(app, dbUfc) {
         res.status(301).redirect("https://documenter.getpostman.com/view/32992444/2sA2xnxpmQ")
     });
 
+    app.get(API_BASE + "/ufc-events-data/docs-v2", (req, res) => {
+        res.status(301).redirect("https://documenter.getpostman.com/view/32992444/2sA35MzK15")
+    });
+
     // Validar campos requeridos para POST y PUT
     function validateFields(fields, requiredFields) {
         for (const field of requiredFields) {
@@ -64,50 +68,62 @@ function loadBackendNRM(app, dbUfc) {
     }
     
 
-    // GET Base
-app.get(API_BASE+"/ufc-events-data", (req, res) => {
-    dbUfc.find({}, (err, events) => {
-        if (err) {
-            res.sendStatus(500, 'Internal Error');
-        } else {
-            events.forEach(event => delete event._id);
-            // Consultas con parámetros
-            if (!(Object.keys(req.query).length === 0)) {
-
-                if (req.query.limit && req.query.offset) {
-                    let limit = parseInt(req.query.limit);
-                    let offset = parseInt(req.query.offset);
-                    res.send(JSON.stringify(events.slice(offset, limit)));
-                } else if(req.query.limit && !req.query.offset){
-                    let limit = parseInt(req.query.limit);
-                    res.send(JSON.stringify(events.slice(0, limit)));
-                } else if (!req.query.limit && req.query.offset) {
-                    let offset = parseInt(req.query.offset);
-                    res.send(JSON.stringify(events.slice(offset)));
-                } else {
-                    let mostrar = []
-                    let queryParams = Object.keys(req.query);
-                    for (let i = 0; i < events.length; i++) {
-                        let match = true;
-                        for (let j = 0; j < queryParams.length; j++) {
-                            if (events[i][queryParams[j]] !== req.query[queryParams[j]]) {
-                                match = false;
-                                break;
+    // GET BASE
+    app.get(API_BASE+"/ufc-events-data", (req, res) => {
+        dbUfc.find({}, (err, events) => {
+            if (err) {
+                res.sendStatus(500, 'Internal Error');
+            } else {
+                events.forEach(event => delete event._id);
+                // Consultas con parámetros
+                if (!(Object.keys(req.query).length === 0)) {
+    
+                    if (req.query.limit && req.query.offset) {
+                        let limit = parseInt(req.query.limit);
+                        let offset = parseInt(req.query.offset);
+                        res.send(JSON.stringify(events.slice(offset, limit)));
+                    } else if(req.query.limit && !req.query.offset){
+                        let limit = parseInt(req.query.limit);
+                        res.send(JSON.stringify(events.slice(0, limit)));
+                    } else if (!req.query.limit && req.query.offset) {
+                        let offset = parseInt(req.query.offset);
+                        res.send(JSON.stringify(events.slice(offset)));
+                    } else {
+                        let mostrar = []
+                        let queryParams = Object.keys(req.query);
+                        let valoresNumericos = ['fighter_1_kd', 'fighter_2_kd', 'fighter_1_str', 'fighter_2_str', 'fighter_1_td', 'fighter_2_td', 'fighter_1_sub', 'fighter_2_sub', 'round'];
+    
+                        for (let i = 0; i < events.length; i++) {
+                            let match = true;
+                            for (let j = 0; j < queryParams.length; j++) {
+    
+                                let paramName = queryParams[j]; 
+                                let paramValue = req.query[paramName];
+                                if (valoresNumericos.includes(paramName)) {
+                                    paramValue = parseInt(paramValue);
+                                    console.log(typeof paramValue)
+                                    // console.log("-----------------")
+                                }
+                                if (events[i][paramName] !== paramValue) {
+                                    match = false;
+                                    break;
+                                }
+                                // console.log("1 ->"+events[i][paramName]) // También corregido aquí
+                                // console.log("2 ->"+paramValue)
+                            }
+                            if (match) {
+                                mostrar.push(events[i]);
                             }
                         }
-                        if (match) {
-                            mostrar.push(events[i]);
-                        }
+                        res.send(JSON.stringify(mostrar));
                     }
-                    res.send(JSON.stringify(mostrar));
+                // Consultas sin parámetros
+                } else {
+                    res.send(JSON.stringify(events));
                 }
-            // Consultas sin parámetros
-            } else {
-                res.send(JSON.stringify(events));
             }
-        }
+        })
     })
-})
     
     // POST Nuevo evento
     app.post(API_BASE + "/ufc-events-data", (req, res) => {
@@ -310,6 +326,10 @@ app.get(API_BASE+"/ufc-events-data", (req, res) => {
             }
         });
     });
+
+
+    
+
 }
 
-export { loadBackendNRM };
+export { api_NRM };

@@ -3,11 +3,14 @@ const { test, expect } = require('@playwright/test');
 
 //---------------Verifica si la página tiene un título esperado---------------
 test('tiene título', async ({ page }) => {
+
   await page.goto('http://localhost:10002/movies-dataset');
+
 
   // Espera que el título "contenga" una subcadena.
   await expect(page).toHaveTitle(/APIs Grupo 14/);
 });
+
 
 /*
 //---------------Verifica la funcionalidad de carga de datos iniciales---------------
@@ -22,7 +25,9 @@ test('cargar datos iniciales', async ({ page }) => {
   const successMsg = await page.textContent('.alert');
 
   // Verifica si el mensaje de éxito contiene el texto esperado
+
   expect(successMsg).toContain('Exito Datos iniciales cargados con exito.');
+
 });
 
 //---------------Verifica la funcionalidad de búsqueda---------------
@@ -76,3 +81,4 @@ test('funcionalidad "Borrar todo"', async ({ page }) => {
 });
 
 */
+

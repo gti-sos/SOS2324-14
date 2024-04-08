@@ -1,6 +1,7 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 
+
 //---------------Verifica si la página tiene un título esperado---------------
 test('tiene título', async ({ page }) => {
   await page.goto('http://localhost:10002/ufc-events-data');
@@ -76,3 +77,4 @@ test('funcionalidad "Borrar todo"', async ({ page }) => {
 });
 
 */
+
