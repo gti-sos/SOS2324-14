@@ -3,6 +3,10 @@
     import Header from './Header.svelte';
 </script>
 
+<svelte:head>
+    <title>APIs Manager</title>
+</svelte:head>
+
 <Header/>
 <hr>
 <slot></slot>
