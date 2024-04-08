@@ -1,9 +1,11 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 
-//---------------Verifica si la página tiene un título esperado---------------
+//---------------Verifica si la página tiene un título esperado----------------
 test('tiene título', async ({ page }) => {
-  await page.goto('http://localhost:10002');
+
+  await page.goto('http:/localhost:10002');
+
 
   // Espera que el título "contenga" una subcadena.
   await expect(page).toHaveTitle(/APIs Grupo 14/);
@@ -11,7 +13,9 @@ test('tiene título', async ({ page }) => {
 
 //---------------Verifica la funcionalidad de carga de datos iniciales---------------
 test('cargar datos iniciales', async ({ page }) => {
-  await page.goto('http://localhost:10002/youtube-trends');
+
+  await page.goto('http:/localhost:10002/youtube-trends');
+
 
   // Haz clic en el botón "Cargar Datos Iniciales"
   await page.click('button:text("Cargar Datos Iniciales")');
@@ -26,7 +30,9 @@ test('cargar datos iniciales', async ({ page }) => {
 
 //---------------Verifica la funcionalidad de búsqueda---------------
 test('funcionalidad de búsqueda', async ({ page }) => {
-  await page.goto('http://localhost:10002/youtube-trends');
+
+  await page.goto('http:/localhost:10002/youtube-trends');
+
 
   // Ingresa un término de búsqueda y espera que la lista se actualice
   await page.fill('input[type="text"]', 'Prueba');
@@ -40,7 +46,9 @@ test('funcionalidad de búsqueda', async ({ page }) => {
 
 //---------------Verifica la funcionalidad de paginación---------------
 test('funcionalidad de paginación', async ({ page }) => {
-  await page.goto('http://localhost:10002/youtube-trends');
+
+  await page.goto('http:/localhost:10002/youtube-trends');
+
 
   // Espera que los botones de paginación estén presentes
   await page.waitForSelector('button');
@@ -60,7 +68,9 @@ test('funcionalidad de paginación', async ({ page }) => {
 
 //---------------Verifica la funcionalidad del botón "Borrar todo"---------------
 test('funcionalidad "Borrar todo"', async ({ page }) => {
-  await page.goto('http://localhost:10002/youtube-trends');
+
+  await page.goto('http:/localhost:10002/youtube-trends');
+
 
   // Haz clic en el botón "Borrar todo"
   await page.click('button:text("Borrar todo")');

@@ -25,7 +25,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/loadInitialData",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/loadInitialData",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -34,7 +34,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"loadInitialData"
 					]
@@ -73,7 +73,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -82,7 +82,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data"
 					]
 				}
@@ -117,7 +117,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -126,7 +126,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						""
 					]
@@ -162,7 +162,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -171,7 +171,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data"
 					]
 				}
@@ -206,7 +206,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -215,7 +215,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data"
 					]
 				}
@@ -241,7 +241,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/Lightweight",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/Lightweight",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -250,7 +250,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"Lightweight"
 					]
@@ -277,7 +277,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/Welterweight",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/Welterweight",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -286,7 +286,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"Welterweight"
 					]
@@ -323,7 +323,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -332,7 +332,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"stats",
 						"Arman%20Tsarukyan",
@@ -362,7 +362,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/Welterweight",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/Welterweight",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -371,7 +371,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"Welterweight"
 					]
@@ -407,7 +407,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/Welterweight",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/Welterweight",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -416,7 +416,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"Welterweight"
 					]
@@ -453,7 +453,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -462,7 +462,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"stats",
 						"Arman%20Tsarukyan",
@@ -493,7 +493,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -502,7 +502,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"stats",
 						"Arman%20Tsarukyan",
@@ -533,7 +533,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -542,7 +542,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"stats",
 						"Arman%20Tsarukyan",
@@ -573,7 +573,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -582,7 +582,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"stats",
 						"Arman%20Tsarukyan",
@@ -613,7 +613,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -622,7 +622,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"stats",
 						"Arman%20Tsarukyan",
@@ -661,7 +661,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -670,7 +670,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data"
 					]
 				}
@@ -696,7 +696,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v1/ufc-events-data",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -705,7 +705,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data"
 					]
 				}
