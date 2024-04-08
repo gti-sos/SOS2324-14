@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-    <title>APIs Manager</title>
+    <title>APIs Grupo 14</title>
 </svelte:head>
 
 <Header/>
