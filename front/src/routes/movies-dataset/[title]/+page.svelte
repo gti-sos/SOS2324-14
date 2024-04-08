@@ -43,7 +43,9 @@
     <Row>
         <Col><h2>Detalles de {title}</h2></Col> 
         <Col class="d-flex justify-content-end">
-            <Button href="/movies-dataset/{title}/editar{title}" size="md" color="warning">Editar recurso</Button>
+            <div class="d-flex justify-content-center align-items-center">
+                <Button style="margin-top: auto;" size="sm" color="warning" href="/movies-dataset/{title}/editar{title}">Editar recurso</Button>
+            </div>
         </Col>
     </Row>
     <ListGroup>

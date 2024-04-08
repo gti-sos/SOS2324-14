@@ -2,7 +2,9 @@
     import {onMount} from "svelte";
     import { dev } from "$app/environment";
     import { page } from '$app/stores';
-    import { Button, ListGroup, ListGroupItem, NavLink, Container, Row, Col, Alert, Pagination, PaginationItem, PaginationLink } from '@sveltestrap/sveltestrap';
+    import { Button, ListGroup, ListGroupItem, NavLink, Container, Row, Col, Alert, Pagination, PaginationItem, PaginationLink, Input } from '@sveltestrap/sveltestrap';
+
+
 
     let API = "/api/v1/movies-dataset";
 
@@ -14,12 +16,13 @@
     // Variables necesarias 
     let movies = []                         // Almacenar las peliculas a mostrar
     let errorMsg = ""; let successMsg = ""  // Almacenar los mensajes de error o exito de la pagina
-    let paged = false
+
     //if (!paged===true)
     /*let offset= $page.url.searchParams.get('offset'); */let limit = 10;   // Almacenar los valores necesarios para paginar
     // if(!$page.url.searchParams.get('offset'))
     let offset=0;
-    let pagina = "";
+    let camposPelicula = []
+    // let objBusqueda = {}
     let cantidadPeliculas = 0;               // Saber cuantas peliculas hay, mas de 10 habra que paginar
     let listaPags = []
 
@@ -36,7 +39,6 @@
             
             if (response.status == 201){
                 console.log(`Exito cargando peliculas.`);
-                console.log(await response.data);
                 getMovies(); 
                 successMsg = "Datos iniciales cargados con exito."
             } else { 
@@ -50,10 +52,31 @@
     async function getMovies() {
         listaPags = []
         successMsg, errorMsg = "", "";
-        //let offset= 0;// Almacenar los valores necesarios para paginar
+        let parametros = "";
+        let data = []
+        // Almacenar los valores necesarios para paginar
         if($page.url.searchParams.get('offset'))
             offset=$page.url.searchParams.get('offset');
-        console.log("offset:"+offset);
+        // Comprobar si hay que paginar
+        if ($page.url.searchParams.get('offset') || !document.getElementById('campoBusqueda')) {
+            // Si hay que paginar, construimos la query que vamos añadir a la url
+            parametros = `?offset=${offset}&limit=${limit}`;
+        // En caso contrario, es busqueda por campo, si es que esta esa query en la url
+        } else if(document.getElementById('valorBusqueda').value) {
+            // Almacenamos los parametros de busqueda que se han introducido en el filtro de busqueda
+            let campo = document.getElementById('campoBusqueda').value;
+            let valor = document.getElementById('valorBusqueda').value;
+            
+            //window.location.href = `?${campo}=${valor}`
+            // En caso que se pulse el boton buscar sin indicar el valor se indicará al usuario
+            if(valor === "") {
+                errorMsg = "No has introducido ningun valor a buscar"
+            } else {
+                // Si todo va bien, construimos la query que vamos a añadir a la url
+                parametros = `?${campo}=${valor}`;
+            }
+        }
+        
         try {
             // Contar cuantas paginas hay en el front
             let cantidad = await    fetch(API, {
@@ -61,24 +84,59 @@
                                     });
             let cant = await cantidad.json();
             cantidadPeliculas = cant.length;
-            console.log("peliculas"+cantidadPeliculas +"y offset"+offset);
-            console.log(Math.ceil(cantidadPeliculas / 10));
+            // Actualizamos listaPags, añadiendo un valor de 1 hasta la cantidad de paginas que necesitamos
             for(let i = 1; i <= Math.ceil(cantidadPeliculas / 10); i++) {listaPags.push(i)};
-            console.log(listaPags)
+            // Esto nos sireve para hacer la paginacion por paginas
+
             // Obtener las peliculas a mostrar por cada pagina
-            let response = await    fetch(API+`?offset=${offset}&limit=${limit}`, {
+            let response = await    fetch(API+parametros, { // En caso de haber querys se añadiran a la busqueda en la API
                                         method: "GET"
                                     });
-            let data = await response.json();
-            movies = data;
-            console.log(movies);
-            if($page.url.searchParams.get('offset'))
+            data = await response.json();
+            console.log(data)
+            console.log(data[0])
+            // Cabe la posibilidad que al hacer una busqueda, dicha busqueda devuelva unn array vacio de datos
+            if (data[0] instanceof Object && cantidadPeliculas != 0) {
+                // Almacenamos las peliculas que vamos a mostrar
+                movies = data;
+                // Almacenamos las claves para hacer el select de la 
+                if (movies[0] instanceof Object) {
+                    console.log("Por lo que sea si que da true"); 
+                    camposPelicula = Object.keys(movies[0]);
+                }
+                else
+                    console.log("Si esta vacio no es true")
+                console.log(movies);
+            }else if(cantidadPeliculas != 0) {
+                // Si los datos obtenidos estan vacios informa al usuario
+                errorMsg = "No hay registrados datos relacionados con esta búsqueda";
+            }
+            // En caso de hacer paginación, recargamos la pagina, sino, lo tendría que hacer el usuario
+            if($page.url.searchParams.get('offset') || document.getElementById('valorBusqueda'))
                 window.location.reload;
             if (response.status != 200) {
                 errorMsg = "No se ha encontrado la colección."
             }
         } catch (error) {
-            errorMsg = error;
+            errorMsg = error+"L118";
+        }
+    }
+
+    function bucarCampos() {
+        // Para tener un select con todos los campos 
+        camposPelicula = Object.keys(movies[0])
+        // Almacenamos los parametros de busqueda que se han introducido en el filtro de busqueda
+        let campo = document.getElementById('campoBusqueda').value;
+        let valor = document.getElementById('valorBusqueda').value;
+            
+        //window.location.href = `?${campo}=${valor}`
+        // En caso que se pulse el boton buscar sin indicar el valor se indicará al usuario
+        if(valor === "") {
+            errorMsg = "No has introducido ningun valor a buscar"
+        } else {
+            // Si todo va bien, construimos la query que vamos a añadir a la url
+            // parametros = `?${campo}=${valor}`;
+            window.location.href = `?${campo}=${valor}`;
         }
     }
 
@@ -98,15 +156,6 @@
             ofs = parseInt(ofs) + 10
             window.location.href = `?offset=${ofs}&limit=10`
         }
-        //getMovies();
-    }
-
-    function firstOlast(pagina) {
-        console.log("Estamos en la "+pagina)
-        if (pagina === "Primera")
-            window.location.href = "/movies-dataset?offset=0&llimit=10"
-        else if (pagina == "Ultima")
-            window.location.href = `/movies-dataset?offset=${Math.ceil(cantidadPeliculas / 10)*10}&llimit=10`
     }
 
     function paginar(pagina) {
@@ -157,6 +206,20 @@
             errorMsg = error;
         }
     }
+    // Codigo para futuro
+    // function firstOlast(pagina) {
+    //     console.log("Estamos en la "+pagina)
+    //     if (pagina === "Primera")
+    //         window.location.href = "/movies-dataset?offset=0&llimit=10"
+    //     else if (pagina == "Ultima")
+    //         window.location.href = `/movies-dataset?offset=${Math.ceil(cantidadPeliculas / 10)*10}&llimit=10`
+    // }
+    //             <PaginationItem>
+    //                 <PaginationLink first on:click={firstOlast}/>
+    //             </PaginationItem>
+    //             <PaginationItem>
+    //                 <PaginationLink last on:click={firstOlast}/>
+    //             </PaginationItem>
 </script>
 
 <Container>
@@ -180,10 +243,27 @@
         {#if movies.length == 0}
             <p>La lista está vacía</p>
             <p>Para insertar datos pulsa este botón -> <Button size="md" outline color="primary" on:click={loadInitialData}>Rellenar</Button></p>
+        {:else}
+            <Col>
+                Búsqueda por campos 
+            </Col>
+            <Col xs=2>
+                <Input bsSize=sm type="select" id="campoBusqueda">
+                    {#each camposPelicula as campo}
+                      <option>{campo}</option>
+                    {/each}
+                </Input>
+            </Col>
+            <Col xs=2>
+                <Input bsSize=sm id="valorBusqueda"></Input>
+            </Col>
+            <Col xs=2>
+                <Button class="buscarCampo" on:click={getMovies}>Buscar</Button>
+            </Col>
         {/if}
     </Row>
     <div>
-        <ListGroup>
+        <ListGroup class="movieList">
             {#each movies as movie}
             <ListGroupItem>
                 <Row>
@@ -193,7 +273,11 @@
                         <strong>Director:</strong> {movie.director}, <strong>Estreno:</strong> {movie.release_date}
                     </Col>
                     
-                    <Col xs="2" class="d-flex justify-content-center"><Button size="sm" color="danger" on:click={deleteMovie(movie.original_title)}>Borrar</Button></Col> 
+                    <Col sm="12" md={{ size: 2, offset: 'auto' }}>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <Button style="margin-top: auto;" size="sm" color="danger" on:click={deleteMovie(movie.original_title)}>Borrar</Button>
+                        </div>
+                    </Col> 
                 </Row>
             </ListGroupItem>
             {/each}
@@ -208,25 +292,21 @@
     </Row>
         {#if listaPags.length != 0}
         <Row>
-            <Pagination size="md" ariaLabel="Paginacion del front-end">
-                <PaginationItem>
-                    <PaginationLink first on:click={firstOlast}/>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink previous on:click={anteriorPagina(offset)}/>
-                </PaginationItem>
-                {#each listaPags as pagina}
-                <PaginationItem>
-                    <PaginationLink on:click={paginar(pagina)}>{pagina}</PaginationLink>
-                </PaginationItem>
-                {/each}
-                <PaginationItem>
-                    <PaginationLink next on:click={siguientePagina(offset)}/>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink last on:click={firstOlast}/>
-                </PaginationItem>
-            </Pagination>
+            <Col sm="12" md={{ size: 4, offset: 4 }} class="d-flex justify-content-center">
+                <Pagination size="md" ariaLabel="Paginacion del front-end">
+                    <PaginationItem>
+                        <PaginationLink class="AnteriorPag" previous on:click={anteriorPagina(offset)}/>
+                    </PaginationItem>
+                    {#each listaPags as pagina}
+                    <PaginationItem>
+                        <PaginationLink class="BotonPagina{pagina}" on:click={paginar(pagina)}>{pagina}</PaginationLink>
+                    </PaginationItem>
+                    {/each}
+                    <PaginationItem>
+                        <PaginationLink class="SiguientePag" next on:click={siguientePagina(offset)}/>
+                    </PaginationItem>
+                </Pagination>
+            </Col>
         </Row>
         {/if}
     {/if}
