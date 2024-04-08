@@ -1,8 +1,13 @@
 <script>
     import { onMount } from "svelte";
     import { dev } from "$app/environment";
+<<<<<<< HEAD
     
     import { Button, Container, Row, Col, ListGroup, ListGroupItem, NavLink, Alert } from '@sveltestrap/sveltestrap';
+=======
+    import { page } from '$app/stores';
+    import { Button, Container, Row, Col, ListGroup, ListGroupItem, NavLink, Alert, Pagination, PaginationItem, PaginationLink } from '@sveltestrap/sveltestrap';
+>>>>>>> devNico
   
     let API = "/api/v2/ufc-events-data";
   
@@ -13,7 +18,21 @@
     let errorMsg = "";
     let successMsg="";
     
+<<<<<<< HEAD
   
+=======
+    let offset = 0;
+    let limit = 10;
+    
+    let listaPeleas = [];
+    let cantPeleas = 0;
+
+    let allFilters = ['location','fighter1','fighter2','fighter_1_kd','fighter_2_kd','fighter_1_str','fighter_2_str','fighter_1_td','fighter_2_td','fighter_1_sub','fighter_2_sub','weight_class','method','round','time','event_name','date','winner'];
+    let numericFilters = ['fighter_1_kd','fighter_2_kd','fighter_1_str','fighter_2_str','fighter_1_td','fighter_2_td','fighter_1_sub','fighter_2_sub','round']
+    let filterParams = {};
+
+    onMount(getEvents);
+>>>>>>> devNico
 
     function clearSuccessMsg() {
         successMsg = "";
@@ -56,6 +75,7 @@
     }
   
     async function getEvents() {
+<<<<<<< HEAD
         successMsg, errorMsg = "", "";
         try {
             let response = await fetch(API, { method: "GET" });
@@ -71,6 +91,48 @@
         } catch (error) {
             checkError(error);
         }
+=======
+      successMsg, errorMsg = "", "";
+      listaPeleas = []
+      
+      if($page.url.searchParams.get('offset'))
+            offset=$page.url.searchParams.get('offset');
+
+      if (!offset)
+        offset = 0;
+      console.log("offset: "+offset);
+      try {
+        let cantidad = await fetch(API, { 
+          method: "GET" 
+        });
+        let cant = await cantidad.json();
+        cantPeleas = cant.length;
+        console.log("peleas:"+cantPeleas + " y offset "+offset);
+        console.log(Math.ceil(cantPeleas / 10));
+        for (let i = 1; i <= Math.ceil(cantPeleas / 10); i++) {
+            listaPeleas.push(i);
+        };
+        console.log(listaPeleas)
+        console.log('off-> '+offset)
+        console.log(limit)
+        let response = await fetch(`${API}?offset=${offset}limit=${limit}}`, { 
+          method: "GET" 
+        });
+        let data = await response.json();
+        console.log('data-> '+data)
+        events = data.slice(0,limit); // Update events with fetched data
+        console.log('events-> '+events);
+        console.log(response.status);
+        // checkError(response.status);            
+        if($page.url.searchParams.get('offset')){
+          window.location.reload;
+        } else if (response.status != 200) {
+          errorMsg = "No se ha encontrado la colección."
+        } 
+      } catch (error) {
+        checkError(error);
+      }
+>>>>>>> devNico
     }
  
     async function deleteEvent(fighter1, fighter2, date) {
@@ -113,8 +175,70 @@
         checkError(error);
       }
     }
+
+    function siguientePagina(ofs) {
+        let sigPag = parseInt(ofs) + 10;
+        paginar(sigPag);
+        getEvents();
+    }
+
+    function paginar(pagina) {
+      let ofs = $page.url.searchParams.get('offset');
+
+      ofs = (pagina - 1) * limit;
+      
+      window.location.href = `/ufc-events-data?offset=${ofs}&limit=${limit}`;
+    }
+
+    let filterDropdownOpen = false; // Variable para controlar si el menú desplegable de filtros está abierto o cerrado
+
+    function toggleFilterDropdown() {
+      filterDropdownOpen = !filterDropdownOpen;
+    }
+
+    async function applyFilters() {
+
+      try {
+        filterParams = {};
+        // Obtener todos los inputs dentro del ul
   
-    onMount(getEvents);
+        const inputs = document.querySelectorAll('.filter-dropdown input');
+        console.log('inputs: '+inputs);
+        
+        let filterString = '';
+        inputs.forEach(input => {
+            
+            const key = input.id;
+            console.log(key)
+            const value = input.value;
+            console.log(value)
+            filterParams[key] = value;
+            if (value !== '') {
+              filterString += `&${key}=${encodeURIComponent(value)}`;
+            }
+        });
+        console.log('params: '+filterParams);
+    
+        console.log(filterString);
+
+        let response = await fetch(`${API}?${filterString}`, {
+          method: "GET"
+        });
+        console.log(response)
+        let data = await response.json();
+        events = data;
+        console.log('Eventos filtrados: ', events);
+        if (!response.ok) {
+          errorMsg = "No se ha encontrado la colección.";
+          console.error("Error al obtener eventos:", response.status);
+        }
+      } catch (error) {
+        
+      }
+    }
+    
+  
+    
 </script>
   
 <style>
@@ -124,8 +248,19 @@
     margin-bottom: 10px;
     border-radius: 5px;
   }
+
+  .filter-dropdown {
+    display: none;
+  }
+
+  .filter-dropdown.open {
+    display: block;
+  }
 </style>
 
+<svelte:head>
+  <title>UFC Events</title>
+</svelte:head>
 <Container>
   <Row>
     {#if errorMsg != ""}
@@ -156,7 +291,11 @@
   <div class="event-box">
     <ListGroup>
         {#each events as event }
+<<<<<<< HEAD
           <ListGroupItem>
+=======
+          <ListGroupItem class=fightItem>
+>>>>>>> devNico
             <Row class="event-box">
               <Col xs="10">
                 <NavLink href="ufc-events-data/{encodeURIComponent(event.fighter1)}/{encodeURIComponent(event.fighter2)}/{encodeURIComponent(event.date)}">
@@ -174,7 +313,29 @@
       </ListGroup>
       
   </div>
+  <Button color="primary" on:click={toggleFilterDropdown} class="filter-dropdown-toggle">Filtrar</Button>
+  <Row class="justify-content-center">
+    <div class="filter-dropdown" class:open={filterDropdownOpen}>
+        <ul>
+            {#each allFilters as filter}
+            {#if numericFilters.includes(filter)}
+              <li>
+                <label for={filter}>{filter}</label>
+                <input type="number" id={filter} placeholder="0">
+              </li>
+            {:else}
+                <li>
+                    <label for={filter}>{filter}</label>
+                    <input type="text" id={filter} placeholder="example">
+                </li>
+            {/if}
+            {/each}
+        </ul>
+        <Button color="primary" on:click={applyFilters}>Aplicar filtros</Button>
+    </div>
+</Row>
   {#if events.length !== 0}
+<<<<<<< HEAD
     <Row class="justify-content-center">
       <Col xs="auto">Eliminar todos los eventos -> <Button outline size="sm" color="danger" on:click={deleteAllEvents}>Borrar Todo</Button></Col>
       <Col xs="auto">Crear un nuevo evento -> <Button href="/ufc-events-data/postEvent" outline size="sm" color="success">Crear Evento</Button></Col>
@@ -183,6 +344,62 @@
   {#if events.length === 0}
     <Row class="justify-content-center">
       <Col xs="auto">Insertar datos -> <Button size="sm" outline color="primary" on:click={loadInitialData}>Insertar</Button></Col>
+=======
+  
+  
+  <Row class="justify-content-center">
+    <!-- <Col xs="auto">Página actual: {currentPage}</Col> -->
+    <Col xs="auto">Total de eventos: {cantPeleas}</Col>
+  </Row>
+  <Row class="justify-content-center">
+    <Col xs="auto">Eliminar todos los eventos -> <Button outline size="sm" color="danger" on:click={deleteAllEvents}>Borrar Todo</Button></Col>
+    <Col xs="auto">Crear un nuevo evento -> <Button href="/ufc-events-data/postEvent" outline size="sm" color="success">Crear Evento</Button></Col>
+  </Row>
+  <Row>
+    {#if listaPeleas.length != 0}
+    <Row>
+      <Pagination size="md" ariaLabel="Paginacion del front-end">
+        <PaginationItem>
+          <PaginationLink first on:click={() => {
+            window.location.href = `?offset=0&limit=${limit}`;
+            getEvents();
+            
+            // paginar(1);
+        }}/>
+        </PaginationItem>
+        {#each listaPeleas as pelea}
+        <PaginationItem>
+            <PaginationLink on:click={paginar(pelea)}>{pelea}</PaginationLink>
+        </PaginationItem>
+        {/each}
+        <PaginationItem>
+          <PaginationLink next on:click={() => {
+            window.location.href = `?offset=${parseInt($page.url.searchParams.get('offset'))+10}&limit=${limit}`;
+            getEvents();
+            
+            //const currentPage = parseInt($page.url.searchParams.get('offset')) || 0;
+            //const nextPage = currentPage + limit;
+            //paginar(nextPage)
+          }}/>
+        </PaginationItem>
+        <PaginationItem>
+            <PaginationLink last on:click={() => {
+              getEvents();
+              window.location.href = `?offset=${-((listaPeleas.length - 1) * limit)}&limit=${limit}`;
+              // const totalPages = Math.ceil(cantPeleas / limit);
+              // const lastPageOffset = (totalPages - 1) * limit;
+              // paginar(lastPageOffset); // Ir a la última página
+          }}/>
+        </PaginationItem>
+    </Pagination>
+    </Row>
+    {/if}
+</Row>
+  {/if}
+  {#if events.length === 0}
+    <Row class="justify-content-center">
+      <Col xs="auto">Insertar datos -> <Button size="sm" outline color="primary" href="/ufc-events-data?offset=0&limit=10" on:click={loadInitialData}>Insertar</Button></Col>
+>>>>>>> devNico
       <Col xs="auto">Crear un nuevo evento -> <Button href="/ufc-events-data/postEvent" outline size="sm" color="success">Crear Evento</Button></Col>
     </Row>
   {/if}

@@ -94,6 +94,6 @@
     </Row>
     <Row>
         <Col xs="auto"><Button size="md" color="success" on:click={createEvent}>Crear</Button></Col>
-        <Col xs="6" sm="4"><Button color="danger" size="sm" href="/ufc-events-data">Volver a la API</Button></Col>
+        <Col xs="auto"><Button color="danger" size="md" href="/ufc-events-data">Volver a la API</Button></Col>
     </Row>
 </Container>
