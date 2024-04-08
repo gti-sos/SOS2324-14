@@ -1,7 +1,7 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 
-//---------------Verifica si la página tiene un título esperado---------------
+//---------------Verifica si la página tiene un título esperado----------------
 test('tiene título', async ({ page }) => {
   await page.goto('http:/sos2324-14.appspot.com');
 
