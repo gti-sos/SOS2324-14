@@ -43,7 +43,7 @@
             <ul>
                 <li><NavLink href="{BASE}/api/v1/movies-dataset/docs">/api/v1/movies-dataset/docs (developed by Enrique García Olivares)</NavLink></li>
                 <li><NavLink href="https://documenter.getpostman.com/view/32992444/2sA2xh3tEg">/api/v1/ufc-events-data/docs (developed by Nicolás Redondo Moreno)</NavLink></li>
-                <li><NavLink href="https://documenter.getpostman.com/view/32992444/2sA2xh3tEg">/api/v2/ufc-events-data/docs (developed by Nicolás Redondo Moreno)</NavLink></li>
+                <li><NavLink href="https://documenter.getpostman.com/view/32992444/2sA35MzK15">/api/v2/ufc-events-data/docs (developed by Nicolás Redondo Moreno)</NavLink></li>
                 <li><NavLink href="{BASE}/api/v1/youtube-trends/docs">/api/v1/youtube-trends/docs (developed by Víctor Escalera García)</NavLink></li>
             </ul>
         </Col>
