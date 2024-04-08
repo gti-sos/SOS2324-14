@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node index.js",
-    "test": "npm run test-movies-dataset && npm run test-ufc-events-data && npm run test-youtube-trends",
+    "pretest":"npm start &",
+    "test-integration": "npm run test-movies-dataset && npm run test-ufc-events-data && npm run test-youtube-trends",
     "test-movies-dataset": "npx newman run ./backEGO/tests/CollectionAPIEGO.json -e ./backEGO/tests/enviroments/GCloudEnv.json",
-    "test-ufc-events-data": "npx newman run ./tests/apiNRM-gcloud.json",
-    "test-youtube-trends": "npx newman run ./tests/apiVEG-gcloud.json -e ./tests/enviroments/gcloud.json"
+    "test-ufc-events-data": "npx newman run ./tests/integration/apiNRM-gcloud.json",
+    "test-youtube-trends": "npx newman run ./tests/integration/apiVEG-gcloud.json -e ./tests/integration/enviroments/gcloud.json",
+    "test-e2e": "npx playwright test",
+    "test": "npm run test-integration && npm run test-e2e",
+    "posttest": "kill `ps -uax | grep \"node index\" | grep -v \"grep\" | grep -v \"sh\" | awk '{print $2}'`"
   },
   "dependencies": {
     "@sveltestrap/sveltestrap": "^6.2.7",
@@ -17,5 +21,9 @@
     "nedb": "^1.8.0",
     "svelte": "^4.2.12"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@playwright/test": "^1.42.1",
+    "@types/node": "^20.12.4"
+  }
 }
