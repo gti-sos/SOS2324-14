@@ -17,7 +17,8 @@
 							"    pm.response.to.have.status(201);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -34,7 +35,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"loadInitialData"
 					]
@@ -53,7 +54,8 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -82,7 +84,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data"
 					]
 				}
@@ -104,7 +106,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data"
 					],
 					"query": [
@@ -140,13 +142,15 @@
 				"header": [],
 				"url": {
 					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data?round=2",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"sos2324-14",
+						"appspot",
+						"com"
 					],
-					"port": "10002",
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data"
 					],
 					"query": [
@@ -170,7 +174,8 @@
 							"    pm.response.to.have.status(201);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -196,7 +201,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						""
 					]
@@ -215,7 +220,8 @@
 							"    pm.response.to.have.status(409);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -241,7 +247,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data"
 					]
 				}
@@ -259,7 +265,8 @@
 							"    pm.response.to.have.status(400);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -285,7 +292,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data"
 					]
 				}
@@ -303,7 +310,8 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -320,7 +328,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"Lightweight"
 					]
@@ -339,7 +347,8 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -356,7 +365,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"Welterweight"
 					]
@@ -402,7 +411,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"stats",
 						"Arman%20Tsarukyan",
@@ -424,7 +433,8 @@
 							"    pm.response.to.have.status(404);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -441,7 +451,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"Welterweight"
 					]
@@ -460,7 +470,8 @@
 							"    pm.response.to.have.status(405);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -486,7 +497,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"Welterweight"
 					]
@@ -532,7 +543,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"stats",
 						"Arman%20Tsarukyan",
@@ -572,7 +583,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"stats",
 						"Arman%20Tsarukyan",
@@ -612,7 +623,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"stats",
 						"Arman%20Tsarukyan",
@@ -652,7 +663,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"stats",
 						"Arman%20Tsarukyan",
@@ -692,7 +703,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data",
 						"stats",
 						"Arman%20Tsarukyan",
@@ -714,7 +725,8 @@
 							"    pm.response.to.have.status(405);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -740,7 +752,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data"
 					]
 				}
@@ -758,7 +770,8 @@
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -775,7 +788,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"ufc-events-data"
 					]
 				}

@@ -54,7 +54,7 @@ function api_NRM(app, dbUfc) {
     });
 
     app.get(API_BASE + "/ufc-events-data/docs-v2", (req, res) => {
-        res.status(301).redirect("https://documenter.getpostman.com/view/32992444/2sA35LWzXn")
+        res.status(301).redirect("https://documenter.getpostman.com/view/32992444/2sA35MzK15")
     });
 
     // Validar campos requeridos para POST y PUT
