@@ -1,13 +1,8 @@
 <script>
     import { onMount } from "svelte";
     import { dev } from "$app/environment";
-<<<<<<< HEAD
-    
-    import { Button, Container, Row, Col, ListGroup, ListGroupItem, NavLink, Alert } from '@sveltestrap/sveltestrap';
-=======
     import { page } from '$app/stores';
     import { Button, Container, Row, Col, ListGroup, ListGroupItem, NavLink, Alert, Pagination, PaginationItem, PaginationLink } from '@sveltestrap/sveltestrap';
->>>>>>> devNico
   
     let API = "/api/v2/ufc-events-data";
   
@@ -18,9 +13,6 @@
     let errorMsg = "";
     let successMsg="";
     
-<<<<<<< HEAD
-  
-=======
     let offset = 0;
     let limit = 10;
     
@@ -32,7 +24,6 @@
     let filterParams = {};
 
     onMount(getEvents);
->>>>>>> devNico
 
     function clearSuccessMsg() {
         successMsg = "";
@@ -75,23 +66,6 @@
     }
   
     async function getEvents() {
-<<<<<<< HEAD
-        successMsg, errorMsg = "", "";
-        try {
-            let response = await fetch(API, { method: "GET" });
-            if (response.ok) {
-            events = await response.json(); // Update events with fetched data
-            console.log(events);
-            checkError(response.status);
-            }
-            else if (response.status != 200) {
-                errorMsg = "No se ha encontrado la colección."
-            } 
-
-        } catch (error) {
-            checkError(error);
-        }
-=======
       successMsg, errorMsg = "", "";
       listaPeleas = []
       
@@ -132,7 +106,6 @@
       } catch (error) {
         checkError(error);
       }
->>>>>>> devNico
     }
  
     async function deleteEvent(fighter1, fighter2, date) {
@@ -291,11 +264,7 @@
   <div class="event-box">
     <ListGroup>
         {#each events as event }
-<<<<<<< HEAD
-          <ListGroupItem>
-=======
           <ListGroupItem class=fightItem>
->>>>>>> devNico
             <Row class="event-box">
               <Col xs="10">
                 <NavLink href="ufc-events-data/{encodeURIComponent(event.fighter1)}/{encodeURIComponent(event.fighter2)}/{encodeURIComponent(event.date)}">
@@ -335,16 +304,6 @@
     </div>
 </Row>
   {#if events.length !== 0}
-<<<<<<< HEAD
-    <Row class="justify-content-center">
-      <Col xs="auto">Eliminar todos los eventos -> <Button outline size="sm" color="danger" on:click={deleteAllEvents}>Borrar Todo</Button></Col>
-      <Col xs="auto">Crear un nuevo evento -> <Button href="/ufc-events-data/postEvent" outline size="sm" color="success">Crear Evento</Button></Col>
-    </Row>
-  {/if}
-  {#if events.length === 0}
-    <Row class="justify-content-center">
-      <Col xs="auto">Insertar datos -> <Button size="sm" outline color="primary" on:click={loadInitialData}>Insertar</Button></Col>
-=======
   
   
   <Row class="justify-content-center">
@@ -399,7 +358,6 @@
   {#if events.length === 0}
     <Row class="justify-content-center">
       <Col xs="auto">Insertar datos -> <Button size="sm" outline color="primary" href="/ufc-events-data?offset=0&limit=10" on:click={loadInitialData}>Insertar</Button></Col>
->>>>>>> devNico
       <Col xs="auto">Crear un nuevo evento -> <Button href="/ufc-events-data/postEvent" outline size="sm" color="success">Crear Evento</Button></Col>
     </Row>
   {/if}

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node index.js",
-    "pretest":"npm start &",
+    "pretest": "npm start &",
     "test-integration": "npm run test-movies-dataset && npm run test-ufc-events-data && npm run test-youtube-trends",
     "test-movies-dataset": "npx newman run ./backEGO/tests/CollectionAPIEGO.json -e ./backEGO/tests/enviroments/GCloudEnv.json",
     "test-ufc-events-data": "npx newman run ./tests/integration/apiNRM-gcloud-v2.json",
@@ -24,6 +24,7 @@
   "type": "module",
   "devDependencies": {
     "@playwright/test": "^1.42.1",
-    "@types/node": "^20.12.4"
+    "@types/node": "^20.12.5"
+
   }
 }
