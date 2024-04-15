@@ -1,84 +1,56 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 
-//---------------Verifica si la página tiene un título esperado---------------
-test('tiene título', async ({ page }) => {
+// Verifica si la página tiene un título esperado
+test('has general title', async ({ page }) => {
 
-  await page.goto('http://localhost:10002/movies-dataset');
+  await page.goto('http://localhost:10002');
 
 
   // Espera que el título "contenga" una subcadena.
   await expect(page).toHaveTitle(/APIs Grupo 14/);
 });
 
+// Comprobar el boton de cargar datos iniciales
+test('load initial movies', async ({page}) => {
+  await page.goto('http://localhost:10002/movies-dataset');
 
-/*
-//---------------Verifica la funcionalidad de carga de datos iniciales---------------
-test('cargar datos iniciales', async ({ page }) => {
-  await page.goto('http://localhost:5173/movies-dataset');
+  await page.getByText('Rellenar').click();
 
-  // Haz clic en el botón "Cargar Datos Iniciales"
-  await page.click('button:text("Rellenar")');
-
-  // Espera a que aparezca el mensaje de éxito después de cargar los datos iniciales
-  await page.waitForSelector('.alert', { timeout: 5000 }); // Espera a que aparezca cualquier elemento con la clase .alert
-  const successMsg = await page.textContent('.alert');
-
-  // Verifica si el mensaje de éxito contiene el texto esperado
-
-  expect(successMsg).toContain('Exito Datos iniciales cargados con exito.');
-
+  let response = await page.textContent('.alert')
+  //await window.location.reload();
+  expect(response).toContain('Datos iniciales cargados con exito.');
+  // let cuentaMovies =  (await page.locator('.list-group-item').all()).length;//.locator('.list-group-item').all()).length; 
+  // expect(cuentaMovies).toBeGreaterThan(0);
 });
 
-//---------------Verifica la funcionalidad de búsqueda---------------
-test('funcionalidad de búsqueda', async ({ page }) => {
-  await page.goto('http://localhost:5173/movies-dataset');
+test('has front title', async ({ page }) => {
 
-  // Ingresa un término de búsqueda y espera que la lista se actualice
-  await page.fill('input[id="campoBusqueda"]', 'index');
-  await page.fill('input[id="valorBusqueda"]', '1');
-  await page.click('button:class("buscarCampo")');
+  await page.goto('http://localhost:10002/movies-dataset');
 
-  // Espera que al menos haya un elemento en la lista de videos después de la búsqueda
-  await page.waitForSelector('.movieList');
-  const videos = await page.$$('.movieList');
-  expect(videos.length).toBeGreaterThanOrEqual(1);
+  // Espera que el título "contenga" una subcadena.
+  await expect(page).toHaveTitle(/Front Movies/);
 });
 
-//---------------Verifica la funcionalidad de paginación---------------
-test('funcionalidad de paginación', async ({ page }) => {
-  await page.goto('http://localhost:5173/movies-dataset');
+// Comprobar que se muestra correctamente la lista de peliculas
+test('list movies', async ({page}) => {
 
-  // Espera que los botones de paginación estén presentes
-  await page.waitForSelector('PaginationLink');
+  // await page.waitForTimeout(5000)
+  
+  await page.goto('http://localhost:10002/movies-dataset');
 
-  // Haz clic en el botón "Página Siguiente"
-  await Promise.all([
-    page.click('PaginationLink:class("SiguientePag")'),
-    page.waitForSelector('.movieList', { timeout: 30000 }), // Espera a que la lista de videos se actualice con la página siguiente
-  ]);
-
-  // Haz clic en el botón "Página Anterior"
-  await page.click('PaginationLink:class("AnteriorPag")');
-
-  // Espera a que la lista de videos se actualice con la página anterior
-  await page.waitForSelector('.movieList', { timeout: 30000 });
+  await expect(page).toHaveTitle(/Front Movies/);
+  
+  let cuentaMovies =  (await page.locator('.list-group-item').all()).length; 
+  expect(cuentaMovies).toBeGreaterThan(0);
 });
 
-//---------------Verifica la funcionalidad del botón "Borrar todo"---------------
-test('funcionalidad "Borrar todo"', async ({ page }) => {
-  await page.goto('http://localhost:5173/movies-dataset');
+test('delete all movies', async ({page}) => {
+  await page.goto('http://localhost:10002/movies-dataset');
+  await page.waitForTimeout(3000)
+  
+  await page.getByText('Borrar Todo').click();
 
-  // Haz clic en el botón "Borrar todo"
-  await page.click('button:text("Borrar Todo")');
-
-  // Espera a que se procese la eliminación de todos los datos
-  await page.waitForTimeout(2000);
-
-  // Verifica que la lista de videos esté vacía después de borrar todo
-  const videos = await page.$$('.movieList');
-  expect(videos.length).toBe(0);
+  let response = await page.textContent('.alert')
+  expect(response).toContain('Colección borrada con exito.');
 });
-
-*/
-

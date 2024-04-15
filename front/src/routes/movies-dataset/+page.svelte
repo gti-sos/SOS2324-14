@@ -16,10 +16,8 @@
     // Variables necesarias 
     let movies = []                         // Almacenar las peliculas a mostrar
     let errorMsg = ""; let successMsg = ""  // Almacenar los mensajes de error o exito de la pagina
-
-    //if (!paged===true)
-    /*let offset= $page.url.searchParams.get('offset'); */let limit = 10;   // Almacenar los valores necesarios para paginar
-    // if(!$page.url.searchParams.get('offset'))
+    
+    let limit = 10;   // Almacenar los valores necesarios para paginar
     let offset=0;
     let camposPelicula = []
     // let objBusqueda = {}
@@ -93,19 +91,13 @@
                                         method: "GET"
                                     });
             data = await response.json();
-            console.log(data)
-            console.log(data[0])
             // Cabe la posibilidad que al hacer una busqueda, dicha busqueda devuelva unn array vacio de datos
             if (data[0] instanceof Object && cantidadPeliculas != 0) {
                 // Almacenamos las peliculas que vamos a mostrar
                 movies = data;
                 // Almacenamos las claves para hacer el select de la 
-                if (movies[0] instanceof Object) {
-                    console.log("Por lo que sea si que da true"); 
+                if (movies[0] instanceof Object) 
                     camposPelicula = Object.keys(movies[0]);
-                }
-                else
-                    console.log("Si esta vacio no es true")
                 console.log(movies);
             }else if(cantidadPeliculas != 0) {
                 // Si los datos obtenidos estan vacios informa al usuario
@@ -114,11 +106,13 @@
             // En caso de hacer paginación, recargamos la pagina, sino, lo tendría que hacer el usuario
             if($page.url.searchParams.get('offset') || document.getElementById('valorBusqueda'))
                 window.location.reload;
+            if(response.method === "DELETE")
+                window.location.reload;
             if (response.status != 200) {
                 errorMsg = "No se ha encontrado la colección."
             }
         } catch (error) {
-            errorMsg = error+"L118";
+            errorMsg = error;
         }
     }
 
@@ -163,7 +157,6 @@
         // Si estoy en la pagina 1, tengo que usar offset=0, pagina(1)-1*ofs(0)=0
         // Si estoy en la pagina 2, tengo que usar offset=10, pagina(2)-1(1)*ofs(10)=10
         ofs = (pagina-1)*limit
-        console.log(`Cuanto coño vale ${ofs}`)
         window.location.href = `/movies-dataset?offset=${ofs}&llimit=10`
     }
 
@@ -185,8 +178,7 @@
                 errorMsg = `No se ha podido borrar la pelicula ${title}. \nSeguramente no exista`
         } catch (error) {
             errorMsg = error;
-        }
-        
+        }   
     }
 
     async function deleteColection() {
@@ -197,7 +189,10 @@
                                     });
             console.log(`Deleted`);
             if (response.status == 200){
-                window.location.href = "/movies-dataset"
+                setTimeout(()=>{
+                    window.location.href = "/movies-dataset"
+
+                },1000)
                 getMovies();
                 successMsg = "Colección borrada con exito."
             } else
@@ -221,7 +216,9 @@
     //                 <PaginationLink last on:click={firstOlast}/>
     //             </PaginationItem>
 </script>
-
+<svelte:head>
+    <title>Front Movies</title>
+</svelte:head>
 <Container>
     <Row>
         {#if errorMsg != ""}
@@ -242,7 +239,7 @@
     <Row>
         {#if movies.length == 0}
             <p>La lista está vacía</p>
-            <p>Para insertar datos pulsa este botón -> <Button size="md" outline color="primary" on:click={loadInitialData}>Rellenar</Button></p>
+            <p>Para insertar datos pulsa este botón -> <Button label="loadData" size="md" outline color="primary" on:click={loadInitialData}>Rellenar</Button></p>
         {:else}
             <Col>
                 Búsqueda por campos 
@@ -265,7 +262,7 @@
     <div>
         <ListGroup class="movieList">
             {#each movies as movie}
-            <ListGroupItem>
+            <ListGroupItem label="movieItem">
                 <Row>
                     <Col xs=10>
                         <NavLink active href="movies-dataset/{movie.original_title}">{movie.index+1}. {movie.original_title}</NavLink>

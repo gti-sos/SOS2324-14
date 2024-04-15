@@ -58,6 +58,9 @@
         }   
     }
 </script>
+<svelte:head>
+    <title>API Movies</title>
+</svelte:head>
 <Container>
     <Row>
         {#if errorMsg != ""}

@@ -7,6 +7,9 @@
     if(dev)
         BASE = "http://localhost:10002"+BASE
 </script>
+<svelte:head>
+    <title>APIs Grupo 14</title>
+</svelte:head>
 <Container>
     <h1>SOS2324-14</h1><hr>
     <Row>

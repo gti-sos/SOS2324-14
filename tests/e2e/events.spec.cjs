@@ -7,7 +7,7 @@ test('tiene título', async ({ page }) => {
   await page.goto('http://localhost:10002/ufc-events-data');
 
   // Espera que el título "contenga" una subcadena.
-  await expect(page).toHaveTitle(/APIs Grupo 14/);
+  await expect(page).toHaveTitle(/UFC Events/);
 });
 
 /*

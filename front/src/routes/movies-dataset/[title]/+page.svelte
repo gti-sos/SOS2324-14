@@ -36,6 +36,9 @@
         
     }
 </script>
+<svelte:head>
+    <title>API Movies</title>
+</svelte:head>
 <Container>
     <Row>
         <Col  xs="6" sm="4"><Button color="danger" size="sm" href="/movies-dataset">Volver a la API </Button></Col>
