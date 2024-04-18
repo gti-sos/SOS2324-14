@@ -227,10 +227,16 @@
 			document.querySelector('.next-page-btn').disabled = false;
 		}
 	}
+
+	function navigateToVistas() {
+        window.location.href = "/youtube-trends/vistas";
+    }
+
 </script>
 
 <Container>
 	<button on:click={loadInitialData} class="btn btn-primary">Cargar Datos Iniciales</button>
+	<button on:click={navigateToVistas} class="btn btn-warning text-white">Vistas</button>
 
 	{#if errorMsgSearch != ''}
 		<div style="margin-top: 10px;" class="alert alert-danger" role="alert">
