@@ -4,26 +4,29 @@
 
 <script>
     import { onMount } from "svelte";
+    import { dev } from '$app/environment';
     import { Container } from '@sveltestrap/sveltestrap';
 
-    let DATAAPI = "http://localhost:10002/api/v1/youtube-trends"; // Ruta de tu API
+    let API = '/api/v1/youtube-trends';
+
+	if (dev) API = 'http://localhost:10002' + API;
 
     async function getData(){
-        try{
-            const res = await fetch(DATAAPI);
-            const data = await res.json();
-            console.log(`Data received`);
-            if(data.length > 0) {
-                fillBarChart(data);
-                createScatterPlot(data);
-            } else {
-                console.log('No data available');
-                showNoDataMessage();
-            }
-        }catch(error){
-            console.log(`Error fetching data: ${error}`)
+    try{
+        const res = await fetch(API);
+        const data = await res.json();
+        console.log(`Dato recibido`);
+        if(data.length > 0) {
+            fillBarChart(data);
+            createScatterPlot(data);
+        } else {
+            console.log('No hay datos disponibles');
+            showNoDataMessage();
         }
+    } catch(error){
+        console.log(`Error: ${error}`)
     }
+}
 
     function fillBarChart(data){
         const countriesData = processDataForBarChart(data);
