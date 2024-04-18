@@ -313,6 +313,7 @@
   <Row class="justify-content-center">
     <Col xs="auto">Eliminar todos los eventos -> <Button outline size="sm" color="danger" on:click={deleteAllEvents}>Borrar Todo</Button></Col>
     <Col xs="auto">Crear un nuevo evento -> <Button href="/ufc-events-data/postEvent" outline size="sm" color="success">Crear Evento</Button></Col>
+    <Col xs="auto">Visualizar datos -> <Button href="/ufc-events-data/graph" outline size="sm" color="warning">Visualizar</Button></Col>
   </Row>
   <Row>
     {#if listaPeleas.length != 0}
