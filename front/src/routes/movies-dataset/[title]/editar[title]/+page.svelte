@@ -49,7 +49,7 @@
                 successMsg = "Pelicula actualizada correctamente."
                 setTimeout(() => {
                     window.location.href = `/movies-dataset/${title}`
-                }, 2000)
+                }, 1000)
             }
             else
                 errorMsg = "No esta permitido cambiar el titulo original de la película al editar"
@@ -58,6 +58,9 @@
         }   
     }
 </script>
+<svelte:head>
+    <title>API Movies</title>
+</svelte:head>
 <Container>
     <Row>
         {#if errorMsg != ""}

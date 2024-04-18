@@ -7,6 +7,9 @@
     if(dev)
         BASE = "http://localhost:10002"+BASE
 </script>
+<svelte:head>
+    <title>APIs Grupo 14</title>
+</svelte:head>
 <Container>
     <h1>SOS2324-14</h1><hr>
     <Row>
@@ -28,6 +31,7 @@
             <ul>
                 <li><NavLink href="/api/v1/movies-dataset">movies-dataset</NavLink></li>
                 <li><NavLink href="/api/v1/ufc-events-data">ufc-events-data</NavLink></li>
+                <li><NavLink href="/api/v2/ufc-events-data">ufc-events-data</NavLink></li>
                 <li><NavLink href="/api/v1/youtube-trends">youtube-trends</NavLink></li>
             </ul>
         </Col>
@@ -42,6 +46,7 @@
             <ul>
                 <li><NavLink href="{BASE}/api/v1/movies-dataset/docs">/api/v1/movies-dataset/docs (developed by Enrique García Olivares)</NavLink></li>
                 <li><NavLink href="https://documenter.getpostman.com/view/32992444/2sA2xh3tEg">/api/v1/ufc-events-data/docs (developed by Nicolás Redondo Moreno)</NavLink></li>
+                <li><NavLink href="https://documenter.getpostman.com/view/32992444/2sA35LWzXn">/api/v2/ufc-events-data/docs (developed by Nicolás Redondo Moreno)</NavLink></li>
                 <li><NavLink href="{BASE}/api/v1/youtube-trends/docs">/api/v1/youtube-trends/docs (developed by Víctor Escalera García)</NavLink></li>
             </ul>
         </Col>

@@ -160,7 +160,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/DON XHONI - KATILE/DON XHONI/2022-07-07T22:00:12Z",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/DON XHONI - KATILE/DON XHONI/2022-07-07",
 					"host": [
 						"{{gcloud}}"
 					],
@@ -170,7 +170,7 @@
 						"youtube-trends",
 						"DON XHONI - KATILE",
 						"DON XHONI",
-						"2022-07-07T22:00:12Z"
+						"2022-07-07"
 					]
 				},
 				"description": "Obtener un recurso dado un ID por 3 propiedades  \nTests: Debe devolver un recurso"
@@ -206,7 +206,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/España campeona del mundo/SEFutbol/2010-07-011T22:00:12Z",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/España campeona del mundo/SEFutbol/2010-07-11",
 					"host": [
 						"{{gcloud}}"
 					],
@@ -216,7 +216,7 @@
 						"youtube-trends",
 						"España campeona del mundo",
 						"SEFutbol",
-						"2010-07-011T22:00:12Z"
+						"2010-07-11"
 					]
 				},
 				"description": "PUT un recurso dado un ID por 3 propiedades"
@@ -243,7 +243,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends/MatoLale x Jongmen KOKAINA/MATOLALE/2022-07-05T16:30:27Z",
+					"raw": "{{gcloud}}/api/v1/youtube-trends/MatoLale x Jongmen KOKAINA/MATOLALE/2022-07-05",
 					"host": [
 						"{{gcloud}}"
 					],
@@ -253,7 +253,7 @@
 						"youtube-trends",
 						"MatoLale x Jongmen KOKAINA",
 						"MATOLALE",
-						"2022-07-05T16:30:27Z"
+						"2022-07-05"
 					]
 				},
 				"description": "Borrar un recurso dado un ID por 3 propiedades"
@@ -398,7 +398,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{gcloud}}/api/v1/youtube-trends?published_at=2010-07-011T22:00:12Z",
+					"raw": "{{gcloud}}/api/v1/youtube-trends?published_at=2010-07-11",
 					"host": [
 						"{{gcloud}}"
 					],
@@ -410,7 +410,7 @@
 					"query": [
 						{
 							"key": "published_at",
-							"value": "2010-07-011T22:00:12Z"
+							"value": "2010-07-11"
 						}
 					]
 				},
@@ -639,7 +639,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        //\"ranking\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        //\"ranking\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-11\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -682,7 +682,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"ranking\":11,\r\n        \"title\": \"España campeona del mundo\",\r\n        \"country\": \"España\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"ranking\":11,\r\n        \"title\": \"España campeona del mundo\",\r\n        \"country\": \"España\",\r\n        \"published_at\": \"2010-07-11\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -731,7 +731,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"ranking\":10,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo 2\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"ranking\":10,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo 2\",\r\n        \"published_at\": \"2010-07-11\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -774,7 +774,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"ranking\":1,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"ranking\":1,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-11\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -817,7 +817,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"ranking\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"raw": "{\r\n        \"ranking\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-11\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
