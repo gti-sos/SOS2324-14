@@ -327,6 +327,17 @@ function api_NRM(app, dbUfc) {
         });
     });
 
+    app.get("/data", (req, res) =>{
+        dbUfc.find({}, (err, data) => {
+            if (err) {
+                res.status(500).send('Internal Error');
+            } else {
+                console.log(data)
+                res.json(data);
+            }
+        });
+    });
+
 
     
 
