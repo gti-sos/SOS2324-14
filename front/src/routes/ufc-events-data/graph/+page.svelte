@@ -5,15 +5,18 @@
 <script>
 	import { onMount } from "svelte";
     import { Container, Button, Row, Col } from '@sveltestrap/sveltestrap';
+    import { dev } from "$app/environment";
     // import Highcharts from 'highcharts/highstock';
 
 
-    let DATAAPI = "http://localhost:10002/data";
+    let API = "/api/v2/ufc-events-data";
+    if(dev)
+        API = "http://localhost:10002" + API;
 
     async function getData() {
         
         try {
-            const res = await fetch(DATAAPI);
+            const res = await fetch(API);
             const dataJSON = await res.json();
             console.log(`fetched data: ${dataJSON}`)
             fillChart(dataJSON);
@@ -22,16 +25,16 @@
             console.log(`error => ${error}`)
         }
     }
-    async function getDataPie(){
-        try {
-            const res = await fetch(DATAAPI);
-            const dataJSON = await res.json();
-            console.log(`fetched data: ${dataJSON}`)
-            fillPieChart(dataJSON);
-        } catch (error) {
-            console.error('Error al obtener datos para el gráfico de tarta:', error);
-        }
-    }
+    // async function getDataPie(){
+    //     try {
+    //         const res = await fetch(DATAAPI);
+    //         const dataJSON = await res.json();
+    //         console.log(`fetched data: ${dataJSON}`)
+    //         fillPieChart(dataJSON);
+    //     } catch (error) {
+    //         console.error('Error al obtener datos para el gráfico de tarta:', error);
+    //     }
+    // }
 
     async function fillChart(dt) {
         
@@ -186,10 +189,11 @@
 
     })
 </script>
-
+<Container>
 <Row class="justify-content-center">
     <div id="container" style="width:100%; height:400px;"></div>
     <div id="pie-container" style="width:100%; height:400px;"></div>
     <Col xs="auto">Volver -> <Button href="/ufc-events-data" outline size="sm" color="danger">Volver</Button></Col>
 </Row>
+</Container>
 
