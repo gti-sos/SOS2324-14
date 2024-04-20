@@ -1,6 +1,6 @@
 <svelte:head>
     <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <!-- <script src="https://code.highcharts.com/stock/highstock.js"></script> -->
 </svelte:head>
 <script>
 	import { onMount } from "svelte";
@@ -17,9 +17,9 @@
             const dataJSON = await res.json();
             console.log(`fetched data: ${dataJSON}`)
             fillChart(dataJSON);
-            
+            fillPieChart(dataJSON);
         } catch (error) {
-            console.log(error)
+            console.log(`error => ${error}`)
         }
     }
     async function getDataPie(){
@@ -29,7 +29,7 @@
             console.log(`fetched data: ${dataJSON}`)
             fillPieChart(dataJSON);
         } catch (error) {
-            console.log(error)
+            console.error('Error al obtener datos para el gráfico de tarta:', error);
         }
     }
 
@@ -50,7 +50,7 @@
                 return victories;
             })
         }));
-        // console.log(`series -> ${seriesData}`)
+        console.log(`series -> ${seriesData}`)
 
         const chart = Highcharts.chart('container', {
             chart: {
@@ -133,9 +133,14 @@
         interval,
         fights
         }));
+
+        const dataPie = durationDistributionData.map(item => ({
+            name: item.interval,
+            y: item.fights
+        }));
         
-        console.log('durationDistributionData:');
-        console.log(durationDistributionData);
+        console.log('dataPie:');
+        console.log(dataPie);
 
         const charts = Highcharts.chart('pie-container', {
             chart: {
@@ -169,7 +174,7 @@
             series: [{
                 name:'Peleas',
                 colorByPoint: true,
-                data: durationDistributionData
+                data: dataPie
             }]
         });
     }
@@ -177,7 +182,7 @@
     onMount(() => {
 
         getData();
-        getDataPie();
+        // getDataPie();
 
     })
 </script>
