@@ -77,6 +77,9 @@
         }
     }
 </script>
+<svelte:head>
+    <title>YouTubeTrends</title>
+</svelte:head>
 
 <Container>
 <h1><strong>Editar video con ranking = {ranking}</strong></h1>

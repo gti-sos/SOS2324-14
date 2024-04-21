@@ -75,6 +75,10 @@ let movies_data = [
     ],
     "production_countries": [
       {
+        "iso_3166_1": "ALB",
+        "name": "Albania"
+      },
+      {
         "iso_3166_1": "US",
         "name": "United States of America"
       }
@@ -195,6 +199,10 @@ let movies_data = [
     ],
     "production_countries": [
       {
+        "iso_3166_1": "ALB",
+        "name": "Albania"
+      },
+      {
         "iso_3166_1": "US",
         "name": "United States of America"
       }
@@ -235,6 +243,10 @@ let movies_data = [
     ],
     "production_countries": [
       {
+        "iso_3166_1": "CRO",
+        "name": "Croacia"
+      },
+      {
         "iso_3166_1": "US",
         "name": "United States of America"
       }
@@ -269,7 +281,10 @@ let movies_data = [
         "id": 6125
       }
     ],
-    "production_countries": [
+    "production_countries": [{
+      "iso_3166_1": "ESP",
+      "name": "España"
+    },
       {
         "iso_3166_1": "US",
         "name": "United States of America"
@@ -310,6 +325,10 @@ let movies_data = [
       }
     ],
     "production_countries": [
+      {
+        "iso_3166_1": "FR",
+        "name": "Francia"
+      },
       {
         "iso_3166_1": "US",
         "name": "United States of America"
@@ -402,6 +421,10 @@ let movies_data = [
       }
     ],
     "production_countries": [
+      {
+        "iso_3166_1": "GB",
+        "name": "United Kingdom"
+      },
       {
         "iso_3166_1": "US",
         "name": "United States of America"

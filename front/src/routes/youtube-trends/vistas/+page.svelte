@@ -1,5 +1,6 @@
 <svelte:head>
     <script src="https://code.highcharts.com/highcharts.js"></script>
+    <title>YouTubeTrends</title>
 </svelte:head>
 
 <script>
@@ -151,6 +152,7 @@
     })
 
 </script>
+
 <Container>
     <h1><strong>Gráficas</strong></h1>
 </Container>

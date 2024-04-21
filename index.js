@@ -7,6 +7,7 @@ import cors from "cors";
 
 //APIs
 import {api_EGO} from './backEGO/indexAPI-EGOv1.js';
+import {api_EGO_v2} from './backEGO/indexAPI-EGOv2.js';
 import {api_VEG} from './backVEG/api-VEG-v1.js';
 import {api_NRM} from './BackNRM/index-api-v2.js';
 
@@ -35,6 +36,7 @@ api_NRM(app, dbUfc);
 // Enrique Garcia Olivares
 // API v1
 api_EGO(app, dbMovies);
+api_EGO_v2(app, dbMovies);
 
 // Víctor Escalera García
 // API v1

@@ -233,7 +233,9 @@
     }
 
 </script>
-
+<svelte:head>
+    <title>YouTubeTrends</title>
+</svelte:head>
 <Container>
 	<button on:click={loadInitialData} class="btn btn-primary">Cargar Datos Iniciales</button>
 	<button on:click={navigateToVistas} class="btn btn-warning text-white">Vistas</button>
