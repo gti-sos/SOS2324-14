@@ -27,6 +27,11 @@
           <NavLink href="/about">About</NavLink>
         </NavItem>
       </Col>
+      <Col xs=1>
+      <NavItem>
+        <NavLink href="/analytics">Analytics</NavLink>
+      </NavItem>
+      </Col>
     </Nav>
   </Row>
 </Container>
