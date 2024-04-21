@@ -93,6 +93,20 @@
 		},
 		{
 			"name": "ufc-events-data?fighter1=Joaquim%20Silva",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -184,7 +198,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"location\": \"Austin Texas USA\",\r\n        \"fighter1\": \"Nikolai\",\r\n        \"fighter2\": \"Wellington Kiu\",\r\n        \"fighter_1_kd\": 0,\r\n        \"fighter_2_kd\": 0,\r\n        \"fighter_1_str\": 53,\r\n        \"fighter_2_str\": 37,\r\n        \"fighter_1_td\": 1,\r\n        \"fighter_2_td\": 1,\r\n        \"fighter_1_sub\": 1,\r\n        \"fighter_2_sub\": 0,\r\n        \"weight_class\": \"Welterweight\",\r\n        \"method\": \"SUB Rear Naked Choke\",\r\n        \"round\": 2,\r\n        \"time\": \"1:11\",\r\n        \"event_name\": \"UFC Fight Night\",\r\n        \"date\": \"2-Dec-23\",\r\n        \"winner\": \"Nikolai\"\r\n    }",
+					"raw": "{\r\n        \"location\": \"Austin Texas USA\",\r\n        \"fighter1\": \"Nikolai\",\r\n        \"fighter2\": \"Wellington Kiu\",\r\n        \"fighter_1_kd\": 0,\r\n        \"fighter_2_kd\": 0,\r\n        \"fighter_1_str\": 53,\r\n        \"fighter_2_str\": 37,\r\n        \"fighter_1_td\": 1,\r\n        \"fighter_2_td\": 1,\r\n        \"fighter_1_sub\": 1,\r\n        \"fighter_2_sub\": 0,\r\n        \"weight_class\": \"Welterweight\",\r\n        \"method\": \"SUB Rear Naked Choke\",\r\n        \"round\": 2,\r\n        \"time\": \"1:11\",\r\n        \"event_name\": \"UFC Fight Night\",\r\n        \"date\": \"2-Dec-23\",\r\n        \"winner\": \"Nikolai\",\r\n        \"views\": 777653\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -230,7 +244,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"location\": \"Austin Texas USA\",\r\n        \"fighter1\": \"Nikolai\",\r\n        \"fighter2\": \"Wellington Kiu\",\r\n        \"fighter_1_kd\": 0,\r\n        \"fighter_2_kd\": 0,\r\n        \"fighter_1_str\": 53,\r\n        \"fighter_2_str\": 37,\r\n        \"fighter_1_td\": 1,\r\n        \"fighter_2_td\": 1,\r\n        \"fighter_1_sub\": 1,\r\n        \"fighter_2_sub\": 0,\r\n        \"weight_class\": \"Welterweight\",\r\n        \"method\": \"SUB Rear Naked Choke\",\r\n        \"round\": 2,\r\n        \"time\": \"1:11\",\r\n        \"event_name\": \"UFC Fight Night\",\r\n        \"date\": \"2-Dec-23\",\r\n        \"winner\": \"Nikolai\"\r\n    }",
+					"raw": "{\r\n        \"location\": \"Austin Texas USA\",\r\n        \"fighter1\": \"Nikolai\",\r\n        \"fighter2\": \"Wellington Kiu\",\r\n        \"fighter_1_kd\": 0,\r\n        \"fighter_2_kd\": 0,\r\n        \"fighter_1_str\": 53,\r\n        \"fighter_2_str\": 37,\r\n        \"fighter_1_td\": 1,\r\n        \"fighter_2_td\": 1,\r\n        \"fighter_1_sub\": 1,\r\n        \"fighter_2_sub\": 0,\r\n        \"weight_class\": \"Welterweight\",\r\n        \"method\": \"SUB Rear Naked Choke\",\r\n        \"round\": 2,\r\n        \"time\": \"1:11\",\r\n        \"event_name\": \"UFC Fight Night\",\r\n        \"date\": \"2-Dec-23\",\r\n        \"winner\": \"Nikolai\",\r\n        \"views\": 777653\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -526,7 +540,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"location\": \"Austin Texas USA\",\r\n        \"fighter1\": \"Arman Tsarukyan\",\r\n        \"fighter2\": \"Beneil Dariush\",\r\n        \"fighter_1_kd\": 5,\r\n        \"fighter_2_kd\": 0,\r\n        \"fighter_1_str\": 8,\r\n        \"fighter_2_str\": 2,\r\n        \"fighter_1_td\": 0,\r\n        \"fighter_2_td\": 0,\r\n        \"fighter_1_sub\": 0,\r\n        \"fighter_2_sub\": 0,\r\n        \"weight_class\": \"Lightweight\",\r\n        \"method\": \"KO/TKO Punch\",\r\n        \"round\": 1,\r\n        \"time\": \"1:04\",\r\n        \"event_name\": \"UFC Fight Night\",\r\n        \"date\": \"2-Dec-23\",\r\n        \"winner\": \"Ninguno\"\r\n    }",
+					"raw": "{\r\n        \"location\": \"Austin Texas USA\",\r\n        \"fighter1\": \"Arman Tsarukyan\",\r\n        \"fighter2\": \"Beneil Dariush\",\r\n        \"fighter_1_kd\": 5,\r\n        \"fighter_2_kd\": 0,\r\n        \"fighter_1_str\": 8,\r\n        \"fighter_2_str\": 2,\r\n        \"fighter_1_td\": 0,\r\n        \"fighter_2_td\": 0,\r\n        \"fighter_1_sub\": 0,\r\n        \"fighter_2_sub\": 0,\r\n        \"weight_class\": \"Lightweight\",\r\n        \"method\": \"KO/TKO Punch\",\r\n        \"round\": 1,\r\n        \"time\": \"1:04\",\r\n        \"event_name\": \"UFC Fight Night\",\r\n        \"date\": \"2-Dec-23\",\r\n        \"winner\": \"Ninguno\",\r\n        \"views\": 1000\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
