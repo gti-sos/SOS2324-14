@@ -15,7 +15,7 @@
     let placeholderEvent = {"location": "USA", "fighter1": "Rocky", "fighter2": "Balboa", "fighter_1_kd": 0, "fighter_2_kd": 1, 
     "fighter_1_str": 0, "fighter_2_str": 1, "fighter_1_td": 1, "fighter_2_td": 0, "fighter_1_sub": 0, "fighter_2_sub": 1, 
     "weight_class": "Welterweight", "method": "KO/TKO Punch", "round": 5, "time": "1:11", "event_name": "UFC Night", 
-    "date": "1-Jan-11", "winner": "Rocky"}
+    "date": "1-Jan-11", "winner": "Rocky", "views": "1111"}
     
     let events = []
     let errorMsg = ""

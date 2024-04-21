@@ -35,7 +35,8 @@ function api_NRM(app, dbUfc) {
                             time: fields[14],
                             event_name: fields[15],
                             date: fields[16],
-                            winner: fields[17]
+                            winner: fields[17],
+                            views: parseInt(fields[18])
                         }
                         dbUfc.insert(obj);
                     
@@ -91,7 +92,7 @@ function api_NRM(app, dbUfc) {
                     } else {
                         let mostrar = []
                         let queryParams = Object.keys(req.query);
-                        let valoresNumericos = ['fighter_1_kd', 'fighter_2_kd', 'fighter_1_str', 'fighter_2_str', 'fighter_1_td', 'fighter_2_td', 'fighter_1_sub', 'fighter_2_sub', 'round'];
+                        let valoresNumericos = ['fighter_1_kd', 'fighter_2_kd', 'fighter_1_str', 'fighter_2_str', 'fighter_1_td', 'fighter_2_td', 'fighter_1_sub', 'fighter_2_sub', 'round', 'views'];
     
                         for (let i = 0; i < events.length; i++) {
                             let match = true;
@@ -129,7 +130,7 @@ function api_NRM(app, dbUfc) {
     app.post(API_BASE + "/ufc-events-data", (req, res) => {
         const requiredFields = ['location', 'fighter1', 'fighter2', 'fighter_1_kd', 'fighter_2_kd', 
             'fighter_1_str', 'fighter_2_str', 'fighter_1_td', 'fighter_2_td', 'fighter_1_sub', 'fighter_2_sub', 
-            'weight_class', 'method', 'round', 'time', 'event_name', 'date', 'winner'];
+            'weight_class', 'method', 'round', 'time', 'event_name', 'date', 'winner','views'];
     
         // Verificar si el tipo de contenido es JSON
         if (req.headers['content-type'] !== 'application/json') {
@@ -235,7 +236,7 @@ function api_NRM(app, dbUfc) {
         // Validar si los campos enviados son válidos
         const isValid = validateFields(sw, ['location', 'fighter1', 'fighter2', 'fighter_1_kd', 'fighter_2_kd', 
         'fighter_1_str', 'fighter_2_str', 'fighter_1_td', 'fighter_2_td', 'fighter_1_sub', 'fighter_2_sub', 
-        'weight_class', 'method', 'round', 'time', 'event_name', 'date', 'winner']);
+        'weight_class', 'method', 'round', 'time', 'event_name', 'date', 'winner', 'views']);
         
         if (!isValid) {
             return res.status(400).send('Incorrect JSON or missing required fields');

@@ -1,12 +1,12 @@
-location;fighter1;fighter2;fighter_1_kd;fighter_2_kd;fighter_1_str;fighter_2_str;fighter_1_td;fighter_2_td;fighter_1_sub;fighter_2_sub;weight_class;method;round;time;event_name;date;winner
-Austin Texas USA;Arman Tsarukyan;Beneil Dariush;1.0;0.0;8.0;2.0;0.0;0.0;0.0;0.0;Lightweight;KO/TKO Punch;1.0;1:04;UFC Fight Night;2-Dec-23;Arman Tsarukyan
-Austin Texas USA;Jalin Turner;Bobby Green;1.0;0.0;33.0;15.0;0.0;0.0;0.0;0.0;Lightweight;KO/TKO Punches;1.0;2:49;UFC Fight Night;2-Dec-23;Jalin Turner
-Austin Texas USA;Deiveson Figueiredo;Rob Font;0.0;0.0;45.0;46.0;4.0;0.0;0.0;0.0;Bantamweight;U-DEC;3.0;5:00;UFC Fight Night;2-Dec-23;Deiveson Figueiredo
-Austin Texas USA;Sean Brady;Kelvin Gastelum;0.0;0.0;14.0;18.0;5.0;0.0;3.0;0.0;Welterweight;SUB Kimura;3.0;1:43;UFC Fight Night;2-Dec-23;Sean Brady
-Austin Texas USA;Joaquim Silva;Clay Guida;0.0;0.0;46.0;43.0;2.0;2.0;2.0;0.0;Lightweight;U-DEC;3.0;5:00;UFC Fight Night;2-Dec-23;Joaquim Silva
-Austin Texas USA;Dustin Stoltzfus;Punahele Soriano;1.0;0.0;64.0;31.0;4.0;0.0;1.0;0.0;Middleweight;SUB Rear Naked Choke;2.0;4:10;UFC Fight Night;2-Dec-23;Dustin Stoltzfus
-Austin Texas USA;Miesha Tate;Julia Avila;0.0;0.0;32.0;3.0;4.0;0.0;1.0;0.0;Women's Bantamweight;SUB Rear Naked Choke;3.0;1:15;UFC Fight Night;2-Dec-23;Miesha Tate
-Austin Texas USA;Cody Brundage;Zach Reese;0.0;0.0;9.0;4.0;1.0;0.0;0.0;1.0;Middleweight;KO/TKO Slam;1.0;1:49;UFC Fight Night;2-Dec-23;Cody Brundage
-Austin Texas USA;Drakkar Klose;Joe Solecki;0.0;0.0;2.0;1.0;0.0;1.0;0.0;0.0;Lightweight;KO/TKO Slam;1.0;1:41;UFC Fight Night;2-Dec-23;Drakkar Klose
-Austin Texas USA;Rodolfo Bellato;Ihor Potieria;0.0;1.0;80.0;73.0;1.0;0.0;0.0;0.0;Light Heavyweight;KO/TKO Punches;2.0;4:17;UFC Fight Night;2-Dec-23;Rodolfo Bellato
-Austin Texas USA;Jared Gooden;Wellington Turman;0.0;0.0;53.0;37.0;1.0;1.0;1.0;0.0;Welterweight;SUB Rear Naked Choke;2.0;1:11;UFC Fight Night;2-Dec-23;Jared Gooden
+location;fighter1;fighter2;fighter_1_kd;fighter_2_kd;fighter_1_str;fighter_2_str;fighter_1_td;fighter_2_td;fighter_1_sub;fighter_2_sub;weight_class;method;round;time;event_name;date;winner;views
+Austin Texas USA;Arman Tsarukyan;Beneil Dariush;1.0;0.0;8.0;2.0;0.0;0.0;0.0;0.0;Lightweight;KO/TKO Punch;1.0;1:04;UFC Fight Night;2-Dec-23;Arman Tsarukyan;341234
+Austin Texas USA;Jalin Turner;Bobby Green;1.0;0.0;33.0;15.0;0.0;0.0;0.0;0.0;Lightweight;KO/TKO Punches;1.0;2:49;UFC Fight Night;2-Dec-23;Jalin Turner;534746
+Austin Texas USA;Deiveson Figueiredo;Rob Font;0.0;0.0;45.0;46.0;4.0;0.0;0.0;0.0;Bantamweight;U-DEC;3.0;5:00;UFC Fight Night;2-Dec-23;Deiveson Figueiredo;2353461
+Austin Texas USA;Sean Brady;Kelvin Gastelum;0.0;0.0;14.0;18.0;5.0;0.0;3.0;0.0;Welterweight;SUB Kimura;3.0;1:43;UFC Fight Night;2-Dec-23;Sean Brady;754354
+Austin Texas USA;Joaquim Silva;Clay Guida;0.0;0.0;46.0;43.0;2.0;2.0;2.0;0.0;Lightweight;U-DEC;3.0;5:00;UFC Fight Night;2-Dec-23;Joaquim Silva;345247
+Austin Texas USA;Dustin Stoltzfus;Punahele Soriano;1.0;0.0;64.0;31.0;4.0;0.0;1.0;0.0;Middleweight;SUB Rear Naked Choke;2.0;4:10;UFC Fight Night;2-Dec-23;Dustin Stoltzfus;375969
+Austin Texas USA;Miesha Tate;Julia Avila;0.0;0.0;32.0;3.0;4.0;0.0;1.0;0.0;Women's Bantamweight;SUB Rear Naked Choke;3.0;1:15;UFC Fight Night;2-Dec-23;Miesha Tate;575677
+Austin Texas USA;Cody Brundage;Zach Reese;0.0;0.0;9.0;4.0;1.0;0.0;0.0;1.0;Middleweight;KO/TKO Slam;1.0;1:49;UFC Fight Night;2-Dec-23;Cody Brundage;908676
+Austin Texas USA;Drakkar Klose;Joe Solecki;0.0;0.0;2.0;1.0;0.0;1.0;0.0;0.0;Lightweight;KO/TKO Slam;1.0;1:41;UFC Fight Night;2-Dec-23;Drakkar Klose;875636
+Austin Texas USA;Rodolfo Bellato;Ihor Potieria;0.0;1.0;80.0;73.0;1.0;0.0;0.0;0.0;Light Heavyweight;KO/TKO Punches;2.0;4:17;UFC Fight Night;2-Dec-23;Rodolfo Bellato;1297687
+Austin Texas USA;Jared Gooden;Wellington Turman;0.0;0.0;53.0;37.0;1.0;1.0;1.0;0.0;Welterweight;SUB Rear Naked Choke;2.0;1:11;UFC Fight Night;2-Dec-23;Jared Gooden;4576432

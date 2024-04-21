@@ -19,8 +19,8 @@
     let listaPeleas = [];
     let cantPeleas = 0;
 
-    let allFilters = ['location','fighter1','fighter2','fighter_1_kd','fighter_2_kd','fighter_1_str','fighter_2_str','fighter_1_td','fighter_2_td','fighter_1_sub','fighter_2_sub','weight_class','method','round','time','event_name','date','winner'];
-    let numericFilters = ['fighter_1_kd','fighter_2_kd','fighter_1_str','fighter_2_str','fighter_1_td','fighter_2_td','fighter_1_sub','fighter_2_sub','round']
+    let allFilters = ['location','fighter1','fighter2','fighter_1_kd','fighter_2_kd','fighter_1_str','fighter_2_str','fighter_1_td','fighter_2_td','fighter_1_sub','fighter_2_sub','weight_class','method','round','time','event_name','date','winner','views'];
+    let numericFilters = ['fighter_1_kd','fighter_2_kd','fighter_1_str','fighter_2_str','fighter_1_td','fighter_2_td','fighter_1_sub','fighter_2_sub','round','views']
     let filterParams = {};
 
     onMount(getEvents);
