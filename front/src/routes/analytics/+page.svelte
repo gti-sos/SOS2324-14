@@ -5,13 +5,16 @@
 
 <script>
   import { onMount } from 'svelte';
-
+  import { dev } from "$app/environment";
   // Define las URLs de las dos APIs
   let ufcAPI = "/api/v2/ufc-events-data";
   let youtubeTrendsAPI = '/api/v1/youtube-trends';
-    if (dev)
+
+    if (dev){
       ufcAPI = "http://localhost:10002" + ufcAPI;
       youtubeTrendsAPI = 'http://localhost:10002' + youtubeTrendsAPI;
+    }
+      
   
   
 
