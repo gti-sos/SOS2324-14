@@ -408,7 +408,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"location\": \"Austin Texas USA\",\r\n        \"fighter1\": \"Arman Tsarukyan\",\r\n        \"fighter2\": \"Beneil Dariush\",\r\n        \"fighter_1_kd\": 5,\r\n        \"fighter_2_kd\": 0,\r\n        \"fighter_1_str\": 8,\r\n        \"fighter_2_str\": 2,\r\n        \"fighter_1_td\": 0,\r\n        \"fighter_2_td\": 0,\r\n        \"fighter_1_sub\": 0,\r\n        \"fighter_2_sub\": 0,\r\n        \"weight_class\": \"Lightweight\",\r\n        \"method\": \"KO/TKO Punch\"\r\n    }",
+					"raw": "{\r\n        \"location\": \"USA\",\r\n        \"fighter1\": \"Arman Tsarukyan\",\r\n        \"fighter2\": \"Beneil Dariush\",\r\n        \"fighter_1_kd\": 5,\r\n        \"fighter_2_kd\": 0,\r\n        \"fighter_1_str\": 8,\r\n        \"fighter_2_str\": 2,\r\n        \"fighter_1_td\": 0,\r\n        \"fighter_2_td\": 0,\r\n        \"fighter_1_sub\": 0,\r\n        \"fighter_2_sub\": 0,\r\n        \"weight_class\": \"Lightweight\",\r\n        \"method\": \"KO/TKO Punch\"\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -520,7 +520,7 @@
 			"response": []
 		},
 		{
-			"name": "ufc-events-data/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+			"name": "ufc-events-data/Arman%20Tsarukyan/Beneil%20Dariush/2023-05-05",
 			"event": [
 				{
 					"listen": "test",
@@ -540,7 +540,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"location\": \"Austin Texas USA\",\r\n        \"fighter1\": \"Arman Tsarukyan\",\r\n        \"fighter2\": \"Beneil Dariush\",\r\n        \"fighter_1_kd\": 5,\r\n        \"fighter_2_kd\": 0,\r\n        \"fighter_1_str\": 8,\r\n        \"fighter_2_str\": 2,\r\n        \"fighter_1_td\": 0,\r\n        \"fighter_2_td\": 0,\r\n        \"fighter_1_sub\": 0,\r\n        \"fighter_2_sub\": 0,\r\n        \"weight_class\": \"Lightweight\",\r\n        \"method\": \"KO/TKO Punch\",\r\n        \"round\": 1,\r\n        \"time\": \"1:04\",\r\n        \"event_name\": \"UFC Fight Night\",\r\n        \"date\": \"2-Dec-23\",\r\n        \"winner\": \"Ninguno\",\r\n        \"views\": 1000\r\n    }",
+					"raw": "{\r\n        \"location\": \"USA\",\r\n        \"fighter1\": \"Arman Tsarukyan\",\r\n        \"fighter2\": \"Beneil Dariush\",\r\n        \"fighter_1_kd\": 5,\r\n        \"fighter_2_kd\": 0,\r\n        \"fighter_1_str\": 8,\r\n        \"fighter_2_str\": 2,\r\n        \"fighter_1_td\": 0,\r\n        \"fighter_2_td\": 0,\r\n        \"fighter_1_sub\": 0,\r\n        \"fighter_2_sub\": 0,\r\n        \"weight_class\": \"Lightweight\",\r\n        \"method\": \"KO/TKO Punch\",\r\n        \"round\": 1,\r\n        \"time\": \"1:04\",\r\n        \"event_name\": \"UFC Fight Night\",\r\n        \"date\": \"2023-05-05\",\r\n        \"winner\": \"Ninguno\",\r\n        \"views\": 1000\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -548,7 +548,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2023-05-05",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -562,14 +562,14 @@
 						"stats",
 						"Arman%20Tsarukyan",
 						"Beneil%20Dariush",
-						"2-Dec-23"
+						"2023-05-05"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+			"name": "ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2023-05-05",
 			"event": [
 				{
 					"listen": "test",
@@ -584,11 +584,23 @@
 					}
 				}
 			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2023-05-05",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -602,14 +614,14 @@
 						"stats",
 						"Arman%20Tsarukyan",
 						"Beneil%20Dariush",
-						"2-Dec-23"
+						"2023-05-05"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+			"name": "ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2023-05-05",
 			"event": [
 				{
 					"listen": "test",
@@ -628,7 +640,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2-Dec-23",
+					"raw": "https://sos2324-14.appspot.com/api/v2/ufc-events-data/stats/Arman%20Tsarukyan/Beneil%20Dariush/2023-05-05",
 					"protocol": "https",
 					"host": [
 						"sos2324-14",
@@ -642,7 +654,7 @@
 						"stats",
 						"Arman%20Tsarukyan",
 						"Beneil%20Dariush",
-						"2-Dec-23"
+						"2023-05-05"
 					]
 				}
 			},
