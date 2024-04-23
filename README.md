@@ -1,6 +1,5 @@
 # SOS2324-14
 [![Snyk Vulnerabilities](https://snyk.io/test/github/gti-sos/SOS2324-14/badge.svg)](https://snyk.io/test/github/gti-sos/SOS2324-14)
-[![codecov](https://codecov.io/gh/gti-sos/SOS2324-14/graph/badge.svg?token=6YeJDcXfcs)](https://codecov.io/gh/gti-sos/SOS2324-14)
 
 - **Team:** 
   - [Enrique García Olivares](https://github.com/enrgaroli)
