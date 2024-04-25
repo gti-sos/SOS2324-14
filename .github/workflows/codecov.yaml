@@ -1,0 +1,7 @@
+name: Codecov coverage
+on: [push, pull_request]
+jobs:
+  steps:
+    uses: codecov/codecov-action@v4.0.1
+    with:
+      token: ${{ secrets.CODECOV_TOKEN }}

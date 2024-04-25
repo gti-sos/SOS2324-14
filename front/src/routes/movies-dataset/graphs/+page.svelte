@@ -30,7 +30,7 @@
 	function fillWordCloud(datos) {
 		let cadena = "";
 		datos.forEach(movie => {
-			cadena += movie.keywords+" "; // Tambien quedaría bien con keywords
+			cadena += movie.keywords+" ";
 		});
 		cadena = cadena.replace(/[():'?0-9]+/g, '').split(/[,\. ]+/g)
     	let data = cadena.reduce((arr, word) => {
