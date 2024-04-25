@@ -14,6 +14,13 @@
 - **URL:** [SOS2324-14.appspot.com](https://sos2324-14.appspot.com/)
 
 **APIs:** 
-- http://sos2324-14.appspot.com/api/v1/movies-dataset/docs (developed by Enrique García Olivares)
-- http://sos2324-14.appspot.com/api/v1/ufc-events-data/docs (developed by Nicolás Redondo Moreno)
-- [https://sos2324-14.appspot.com/api/v1/youtube-trends/docs](https://sos2324-14.appspot.com/api/v1/youtube-trends/docs) (developed by Víctor Escalera García)
+- [/v1/movies-dataset/docs] (http://sos2324-14.appspot.com/api/v1/movies-dataset/docs)
+- [/v2/movies-dataset/docs] (http://sos2324-14.appspot.com/api/v2/movies-dataset/docs) (developed by Enrique García Olivares)
+- [/v1/ufc-events-data/docs] (http://sos2324-14.appspot.com/api/v1/ufc-events-data/docs)
+- [/v2/ufc-events-data/docs] (http://sos2324-14.appspot.com/api/v2/ufc-events-data/docs) (developed by Nicolás Redondo Moreno)
+- [/v1/youtube-trends/docs](https://sos2324-14.appspot.com/api/v1/youtube-trends/docs) (developed by Víctor Escalera García)
+
+**FrontEnds:**
+- [movies-dataset](https://sos2324-14.appspot.com/movies-dataset) (developed by Enrique García Olivares)
+- [ufc-events-data](https://sos2324-14.appspot.com/ufc-events-data) (developed by Nicolás Redondo Moreno)
+- [youtube-trends](https://sos2324-14.appspot.com/youtube-trends) (developed by Víctor Escalera García)

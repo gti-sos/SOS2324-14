@@ -1,9 +1,15 @@
 <script>
 	import { onMount } from 'svelte';
+	import { dev } from "$app/environment";
 	import { Alert } from '@sveltestrap/sveltestrap';
 
+	let rutaAPI = "/api/v2/movies-dataset";
 
-	let rutaAPI = 'http://localhost:10002/api/v2/movies-dataset';
+    if(dev)
+        rutaAPI = "http://localhost:10002"+rutaAPI
+
+
+	//let rutaAPI = 'http://localhost:10002/api/v2/movies-dataset';
     let errorMsg = "";
 
 	async function getData() {
