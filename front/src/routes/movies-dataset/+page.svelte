@@ -237,6 +237,11 @@
         <h1><strong>Lista de Películas</strong></h1>
     </Row>
     <Row>
+        {#if !movies.length == 0}
+            <Col><Button href='movies-dataset/graphs' color='info'>Gráficas</Button></Col>
+        {/if}
+    </Row>
+    <Row>
         {#if movies.length == 0}
             <p>La lista está vacía</p>
             <p>Para insertar datos pulsa este botón -> <Button label="loadData" size="md" outline color="primary" on:click={loadInitialData}>Rellenar</Button></p>

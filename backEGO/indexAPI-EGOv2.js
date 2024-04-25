@@ -106,9 +106,9 @@ function api_EGO_v2(app, dbMovies) {
         });
     });
 
-    app.get(API_BASE+"/movies-dataset/dataHeat", (req, res) => {
+    app.get(API_BASE+"/movies-dataset/dataLollipop", (req, res) => {
         let graphData = []
-        dbMovies.find({}, (err, doc) => {
+        dbMovies.find({}).sort({ revenue: -1 }).limit(10).exec((err, doc) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
             } else {
@@ -117,11 +117,9 @@ function api_EGO_v2(app, dbMovies) {
                     return c
                 });
                 sinIdMovies.forEach(movie => {
-                    let añoMovie = new Date(movie.release_date)
                     graphData.push({
-                                    'genres':movie.genres,
-                                    'release_date':añoMovie.getFullYear(),
-                                    'revenue':movie.revenue
+                                    'name':movie.original_title,
+                                    'y':movie.revenue
                                     });
                 });
                 res.send(JSON.stringify(graphData));

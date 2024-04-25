@@ -1,108 +1,107 @@
 <script>
 	import { onMount } from 'svelte';
+	import { Alert } from '@sveltestrap/sveltestrap';
 
-	let rutaAPI = 'http://localhost:10002/api/v2/movies-dataset/dataHeat';
-    //let data;
+
+	let rutaAPI = 'http://localhost:10002/api/v2/movies-dataset';
+    let errorMsg = "";
 
 	async function getData() {
 		try {
 			const res = await    fetch(rutaAPI, {
                                         method: "GET"
                                     });
-			const data = await res.json();
-			console.log(`Data received: ${JSON.stringify(data, null, 2)}`);
-			//fillChart(data.map((o) => o.v));
-			fillHeatMap(data);
+			const dataWord = await res.json();
+			console.log(`Data received for WordCloud: ${JSON.stringify(dataWord, null, 2)}`);
+			fillWordCloud(dataWord);
+			const resL = await    fetch(rutaAPI+"/dataLollipop", {
+                                        method: "GET"
+                                    });
+			const dataLollipop = await resL.json();
+			if (dataWord.length === 0)
+				errorMsg = "No hay datos para mostrar.\nPor favor inserte datos iniciales."
+			console.log(`Data received for Lollipop Chart: ${JSON.stringify(dataLollipop, null, 2)}`);
+			fillLollipop(dataLollipop);
 		} catch (error) {
 			console.log(`Error fetching data: ${error}`);
 		}
 	}
 
-	async function fillHeatMap(d) {
-		// let categorias = await d.forEach(element => {
-		// 	categorias.push(element.release_date)
-		// });
-		console.log(d)
-		let chart = // Substring template helper for the responsive labels
-			(Highcharts.Templating.helpers.substr = (s, from, length) => s.substr(from, length));
+	function fillWordCloud(datos) {
+		let cadena = "";
+		datos.forEach(movie => {
+			cadena += movie.keywords+" "; // Tambien quedaría bien con keywords
+		});
+		cadena = cadena.replace(/[():'?0-9]+/g, '').split(/[,\. ]+/g)
+    	let data = cadena.reduce((arr, word) => {
+        	let obj = Highcharts.find(arr, obj => obj.name === word);
+        	if (obj) {
+            	obj.weight += 1;
+        	} else {
+            	obj = {
+                	name: word,
+                	weight: 1
+            	};
+            	arr.push(obj);
+        	}
+        	return arr;
+    	}, []);
 
-		// Create the chart
-		Highcharts.chart('container', {
-			chart: {
-				type: 'heatmap',
-				marginTop: 40,
-				marginBottom: 80,
-				plotBorderWidth: 1
-			},
+		Highcharts.chart('container-word', {
+    		accessibility: {
+        		screenReaderSection: {
+            		beforeChartFormat: '<h5>{chartTitle}</h5>' +
+                		'<div>{chartSubtitle}</div>' +
+                		'<div>{chartLongdesc}</div>' +
+                		'<div>{viewTableButton}</div>'
+        		}
+    		},
+    		series: [{
+        		type: 'wordcloud',
+        		data,
+        		name: 'Películas'
+    		}],
+    		title: {
+        		text: 'Palabras clave más frecuentes'
+    		},
+    		tooltip: {
+        		headerFormat: '<span style="font-size: 16px"><b>{point.key}</b></span><br>'
+    		}
+		});
+	}
 
-			title: {
-				text: 'Beneficios de peliculas por genero y año',
-				style: {
-					fontSize: '1em'
-				}
-			},
-
-			xAxis: { // Años
-				categories: [
-					2012
-				]
-			},
-
-			yAxis: { // Generos
-				title: {
-                    text: 'Beneficio'
-                }
-			},
-
-			accessibility: {
-				point: {
-					descriptionFormat:
-						'{(add index 1)}. ' +
-						'{series.xAxis.categories.(x)} sales ' +
-						'{series.yAxis.categories.(y)}, {value}.'
-				}
-			},
-
-			colorAxis: {
-				min: 0,
-				minColor: '#FFFFFF',
-				maxColor: Highcharts.getOptions().colors[0]
-			},
-
-			legend: {
-				align: 'right',
-				layout: 'vertical',
-				margin: 0,
-				verticalAlign: 'top',
-				y: 25,
-				symbolHeight: 280
-			},
-
-			tooltip: {
-				format:
-					'<b>{series.xAxis.categories.(point.x)}</b> sold<br>' +
-					'<b>{point.value}</b> items on <br>' +
-					'<b>{series.yAxis.categories.(point.y)}</b>'
-			},
-
-			series: d,
-
-			responsive: {
-				rules: [
-					{
-						condition: {
-							maxWidth: 500
-						},
-						chartOptions: {
-							yAxis: {
-								labels: {
-									format: '{substr value 0 1}'
-								}
-							}
-						}
-					}
-				]
+	function fillLollipop(datos) {
+		
+		Highcharts.chart('container-lollipop', {
+		chart: {
+			type: 'lollipop'
+		},
+		accessibility: {
+			point: {
+				valueDescriptionFormat: '{index}. {xDescription}, {point.y}.'
 			}
+		},
+		legend: {
+			enabled: false
+		},
+		title: {
+			text: 'Top 10 Películas con mas beneficios'
+		},
+		tooltip: {
+			shared: true
+		},
+		xAxis: {
+			type: 'category'
+		},
+		yAxis: {
+			title: {
+				text: 'Beneficio'
+			}
+		},
+		series: [{
+					name: 'Beneficio',
+					data: datos
+				}]
 		});
 	}
 
@@ -113,7 +112,19 @@
 
 <svelte:head>
 	<script src="https://code.highcharts.com/highcharts.js"></script>
-	<script src="https://code.highcharts.com/modules/heatmap.js"></script>
+	<script src="https://code.highcharts.com/modules/wordcloud.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts-more.js"></script>
+	<script src="https://code.highcharts.com/modules/dumbbell.js"></script>
+	<script src="https://code.highcharts.com/modules/lollipop.js"></script>
+	<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 </svelte:head>
-
-<div id="container" style="width:100%; height:400px;"></div>
+{#if errorMsg != ""}
+    <Alert color="danger">
+        <h4>Error</h4>
+        {errorMsg}
+    </Alert>
+{/if}
+<div id="container-word" style="width:100%; height:400px;"></div>
+<hr>
+<div id="container-lollipop" style="width:100%; height:400px;"></div>
