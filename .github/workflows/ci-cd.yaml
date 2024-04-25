@@ -13,6 +13,7 @@ jobs:
       
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
+        run: cat codecov.yml | curl --data-binary @- https://codecov.io/validate
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: gti-sos/SOS2324-14
