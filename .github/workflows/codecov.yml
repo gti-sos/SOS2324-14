@@ -15,7 +15,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 2
+          token: '${{ secrets.CODECOV_TOKEN }}'
+          slug: gti-sos/SOS2324-14
+          fetch-depth: 2
 
     - name: Set up Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
