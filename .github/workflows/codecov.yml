@@ -1,41 +1,8 @@
-name: Running Code Coverage
-
-on: [push, pull_request]
-
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 2
-
-    - name: Set up Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: playwright dependencies
-      run: npx playwright install --with-deps
-
-    - name: start
-      run: npm start &
-
-    - name: Run tests
-      run: npm run test-integration
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-          token: '${{ secrets.CODECOV_TOKEN }}'
-          slug: gti-sos/SOS2324-14
+coverage:
+  status:
+    project:
+      default:
+        target: 10%
+    patch:
+      default:
+        target: 10%
