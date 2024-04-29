@@ -9,6 +9,7 @@
     "test-ufc-events-data": "npx newman run ./tests/integration/apiNRM-gcloud-v2.json",
     "test-youtube-trends": "npx newman run ./tests/integration/apiVEG-gcloud.json -e ./tests/integration/enviroments/gcloud.json",
     "test-e2e": "npx playwright test",
+    "coverage": "nyc npm run test-integration",
     "test": "npm run test-integration && npm run test-e2e",
     "posttest": "kill `ps -uax | grep \"node index\" | grep -v \"grep\" | grep -v \"sh\" | awk '{print $2}'`"
   },
@@ -22,6 +23,7 @@
     "highcharts": "^11.4.1",
     "highcharts-stock": "^0.1.7",
     "nedb": "^1.8.0",
+    "nyc": "^15.1.0",
     "svelte": "^4.2.12"
   },
   "type": "module",
