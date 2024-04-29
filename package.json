@@ -9,7 +9,7 @@
     "test-ufc-events-data": "npx newman run ./tests/integration/apiNRM-gcloud-v2.json",
     "test-youtube-trends": "npx newman run ./tests/integration/apiVEG-gcloud.json -e ./tests/integration/enviroments/gcloud.json",
     "test-e2e": "npx playwright test",
-    "coverage": "nyc npm run test-integration",
+    "coverage": "nyc npm run test",
     "report-test": "nyc report --reporter=text-lcov > coverage.lcov",
     "test": "npm run test-integration && npm run test-e2e",
     "posttest": "kill `ps -uax | grep \"node index\" | grep -v \"grep\" | grep -v \"sh\" | awk '{print $2}'`"
