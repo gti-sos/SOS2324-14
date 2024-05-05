@@ -11,6 +11,9 @@ import {api_EGO_v2} from './backEGO/indexAPI-EGOv2.js';
 import {api_VEG} from './backVEG/api-VEG-v1.js';
 import {api_NRM} from './BackNRM/index-api-v2.js';
 
+//para el proxy
+import request from "request";
+
 let dbMovies = new dataStore();
 let db = new dataStore();
 let dbUfc = new dataStore();
@@ -20,6 +23,27 @@ let app = express();
 const PORT = (process.env.PORT || 10002);
 
 app.use(cors());
+
+//Proxy VEG
+app.use("/proxyVEG", function(req,res){
+    var url = "https://sos2324-14.appspot.com/api/v1/youtube-trends";
+    console.log("piped: " + req.url);
+    req.pipe(request(url)).pipe(res);
+});
+
+//Proxy NRM
+app.use("/proxyNRM", function(req,res){
+    var url = "https://sos2324-14.appspot.com/api/v2/ufc-events-data";
+    console.log("piped: " + req.url);
+    req.pipe(request(url)).pipe(res);
+});
+
+//Proxy EGO
+app.use("/proxyEGO", function(req,res){
+    var url = "https://sos2324-14.appspot.com/api/v2/movies-dataset";
+    console.log("piped: " + req.url);
+    req.pipe(request(url)).pipe(res);
+});
 
 app.use(bodyParser.json());
 
