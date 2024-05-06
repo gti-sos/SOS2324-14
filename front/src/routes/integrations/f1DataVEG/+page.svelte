@@ -32,7 +32,6 @@
 	});
 
 	function renderChart() {
-		// Verificar si el elemento #chart está presente en el DOM
 		const chartElement = document.querySelector('#chart');
 		if (!chartElement) {
 			console.error('Elemento #chart no encontrado en el DOM.');
