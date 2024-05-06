@@ -3,7 +3,7 @@
     import { onMount } from 'svelte';
     import { Container, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
 
-    // Definir las opciones para la primera llamada a la API
+    //Para los detalles de un canal
     const options1 = {
         method: 'GET',
         url: 'https://youtube-data8.p.rapidapi.com/channel/details/',
@@ -29,7 +29,7 @@
         }
     };
 
-    // Definir las opciones para la segunda llamada a la API
+    //Para la playlist
     const options2 = {
         method: 'GET',
         url: 'https://youtube-data8.p.rapidapi.com/playlist/videos/',
@@ -57,7 +57,6 @@
         }
     };
 
-    // Llamar a ambas funciones para obtener los datos cuando el componente se monte
     onMount(() => {
         fetchChannelDetails();
         fetchPlaylistVideos();
