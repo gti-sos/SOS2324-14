@@ -1,7 +1,7 @@
 <script>
 	import axios from 'axios';
 	import { onMount } from 'svelte';
-	import { Container, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
+	import { Container } from '@sveltestrap/sveltestrap';
 
 	let pilotData = [];
 
@@ -69,7 +69,7 @@
 </svelte:head>
 
 <Container>
-    <h1>Integración API Externa 2(F1 Live Motorsport Data)</h1>
+    <h1>Uso Widget API Externa 2(F1 Live Motorsport Data): sin proxy</h1>
     <h5>Clasificación mundial de pilotos por temporada (2024)</h5>
 	<div id="chart"></div>
 

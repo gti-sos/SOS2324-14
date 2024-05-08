@@ -64,7 +64,7 @@
 </script>
 
 <Container>
-    <h1>Uso API Externa 1 (YouTube Data)</h1>
+    <h1>Uso Textual API Externa 1 (YouTube Data): sin proxy</h1>
     <h5>Detalles de un canal</h5>
     {#if channelDetails}
         <ListGroup>
