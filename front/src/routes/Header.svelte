@@ -32,6 +32,11 @@
         <NavLink href="/analytics">Analytics</NavLink>
       </NavItem>
       </Col>
+      <Col xs=1>
+        <NavItem>
+          <NavLink href="/integrations">Integrations</NavLink>
+        </NavItem>
+        </Col>
     </Nav>
   </Row>
 </Container>

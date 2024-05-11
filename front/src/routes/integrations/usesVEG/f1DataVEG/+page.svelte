@@ -9,7 +9,7 @@
 		method: 'GET',
 		url: 'https://f1-live-motorsport-data.p.rapidapi.com/drivers/standings/2024',
 		headers: {
-			'X-RapidAPI-Key': 'c4dcccf12bmshb28d319bf18afe1p17ebd3jsn3d5ff8dfec68',
+			'X-RapidAPI-Key': 'c4dcccf12bmshb28d319bf18afe1p17ebd3jsn3d5ff8dfec68',    //CLAVE
 			'X-RapidAPI-Host': 'f1-live-motorsport-data.p.rapidapi.com'
 		}
 	};
