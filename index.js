@@ -8,6 +8,7 @@ import cors from "cors";
 import {api_EGO} from './backEGO/indexAPI-EGOv1.js';
 import {api_EGO_v2} from './backEGO/indexAPI-EGOv2.js';
 import {api_VEG} from './backVEG/api-VEG-v1.js';
+import {api_VEG_v2} from './backVEG/api-VEG-v2.js';
 import {api_NRM} from './BackNRM/index-api-v2.js';
 
 //para el proxy
@@ -22,23 +23,6 @@ let app = express();
 const PORT = (process.env.PORT || 10002);
 
 app.use(cors());
-
-
-//Proxy BasketVEG
-app.use("/proxyBasketVEG", function(req, res) {
-    var url = "https://basketapi1.p.rapidapi.com/api/basketball/search/kevin"; // URL de la API de baloncesto
-    console.log("Proxying to: " + url);
-    
-    // Realizar la solicitud a la API de baloncesto
-    request({
-        url: url,
-        qs: req.query, // Pasar los parámetros de la solicitud
-        headers: {
-            'X-RapidAPI-Key': 'c4dcccf12bmshb28d319bf18afe1p17ebd3jsn3d5ff8dfec68',
-            'X-RapidAPI-Host': 'basketapi1.p.rapidapi.com'
-        }
-    }).pipe(res); // Enviar la respuesta de la API de baloncesto de vuelta al cliente
-});
 
 
 //Proxy NRM
@@ -77,5 +61,6 @@ api_EGO_v2(app, dbMovies);
 // Víctor Escalera García
 // API v1
 api_VEG(app, db);
+api_VEG_v2(app, db);
 
 app.use(handler);

@@ -1,0 +1,1088 @@
+{
+	"info": {
+		"_postman_id": "f2f7a7ab-ca53-4ed4-a33c-a9b2a886a1de",
+		"name": "VEG Api Testing V2",
+		"description": "Documentación API v2 youtube-trends desarrollada por Víctor Escalera García",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33038536"
+	},
+	"item": [
+		{
+			"name": "GET youtube-trends",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"The list of objects should be empty before loading initial data\", function () {\r",
+							"    var jsonData = pm.response.json(); \r",
+							"    pm.expect(jsonData.length).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					]
+				},
+				"description": "Obtener la lista de objetos  \nTest: La lista debe estar inicialmente vacía"
+			},
+			"response": []
+		},
+		{
+			"name": "GET youtube-trends loadInitialData",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends/loadInitialData",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends",
+						"loadInitialData"
+					]
+				},
+				"description": "Cargar datos iniciales"
+			},
+			"response": []
+		},
+		{
+			"name": "GET youtube-trends paginación",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Must be show 8 objects\", function () {\r",
+							"\t\t\t\t\t\t\t    var jsonData = pm.response.json();\r",
+							"\t\t\t\t\t\t\t    pm.expect(jsonData.length).to.eql(8);\r",
+							"\t\t\t\t\t\t\t});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends?offset=0&limit=8",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "8"
+						}
+					]
+				},
+				"description": "Obtener datos por paginación  \nTests: La lista debe devolver 8 objetos"
+			},
+			"response": []
+		},
+		{
+			"name": "GET title, channel_title y published_at(recurso)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// Verificar que la respuesta sea un objeto\r",
+							"pm.test(\"Must be show an object\", function () {\r",
+							"    // Convertir el cuerpo de la respuesta JSON a un objeto\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    // Verificar si el cuerpo de la respuesta es un objeto\r",
+							"    pm.expect(jsonData).to.be.an('object');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends/DON XHONI - KATILE/DON XHONI/2022-07-07",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends",
+						"DON XHONI - KATILE",
+						"DON XHONI",
+						"2022-07-07"
+					]
+				},
+				"description": "Obtener un recurso dado un ID por 3 propiedades  \nTests: Debe devolver un recurso"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT title, channel_title y published_at(recurso)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"view_count\": 1000000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends/España campeona del mundo/SEFutbol/2010-07-11",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends",
+						"España campeona del mundo",
+						"SEFutbol",
+						"2010-07-11"
+					]
+				},
+				"description": "PUT un recurso dado un ID por 3 propiedades"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE title, channel_title y published_at(recurso)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends/MatoLale x Jongmen KOKAINA/MATOLALE/2022-07-05",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends",
+						"MatoLale x Jongmen KOKAINA",
+						"MATOLALE",
+						"2022-07-05"
+					]
+				},
+				"description": "Borrar un recurso dado un ID por 3 propiedades"
+			},
+			"response": []
+		},
+		{
+			"name": "GET recurso ranking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Verificar que la respuesta sea un objeto\r",
+							"pm.test(\"Must be show an object\", function () {\r",
+							"    // Convertir el cuerpo de la respuesta JSON a un objeto\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    // Verificar si el cuerpo de la respuesta es un objeto\r",
+							"    pm.expect(jsonData).to.be.an('object');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends/9",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends",
+						"9"
+					]
+				},
+				"description": "Obtener un recurso por ranking  \nTests: Debe devolver un recurso"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Error 404 Recurso inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/datos-youtube",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"datos-youtube"
+					]
+				},
+				"description": "Prueba de get con error 404(no existe el recurso especificado)"
+			},
+			"response": []
+		},
+		{
+			"name": "GET colección country",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends?country=Albania",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "Albania"
+						}
+					]
+				},
+				"description": "Prueba de get por el campo country"
+			},
+			"response": []
+		},
+		{
+			"name": "GET colección published-at",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends?published_at=2010-07-11",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "published_at",
+							"value": "2010-07-11"
+						}
+					]
+				},
+				"description": "Prueba de get por el campo published-at"
+			},
+			"response": []
+		},
+		{
+			"name": "GET colección channel_title",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends?channel_title=SEFutbol",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "channel_title",
+							"value": "SEFutbol"
+						}
+					]
+				},
+				"description": "Prueba de get por el campo channel_title"
+			},
+			"response": []
+		},
+		{
+			"name": "GET colección category_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends?category_id=2",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "2"
+						}
+					]
+				},
+				"description": "Prueba de get por el campo category_id"
+			},
+			"response": []
+		},
+		{
+			"name": "GET colección trending_date",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends?trending_date=10.07.11",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "trending_date",
+							"value": "10.07.11"
+						}
+					]
+				},
+				"description": "Prueba de get por el campo trending_date"
+			},
+			"response": []
+		},
+		{
+			"name": "GET colección view_count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends?view_count=514000",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "view_count",
+							"value": "514000"
+						}
+					]
+				},
+				"description": "Prueba de get por el campo view_count"
+			},
+			"response": []
+		},
+		{
+			"name": "GET coleccion comment_count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends?comment_count=3651",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					],
+					"query": [
+						{
+							"key": "comment_count",
+							"value": "3651"
+						}
+					]
+				},
+				"description": "Prueba de get por el campo comment_count"
+			},
+			"response": []
+		},
+		{
+			"name": "POST Error 400 Bad Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        //\"ranking\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-11\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					]
+				},
+				"description": "Prueba de post error 400(Obligatorio el campo id)"
+			},
+			"response": []
+		},
+		{
+			"name": "POST Error 400 Bad Request(estructura esperada)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"ranking\":11,\r\n        \"title\": \"España campeona del mundo\",\r\n        \"country\": \"España\",\r\n        \"published_at\": \"2010-07-11\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					]
+				},
+				"description": "Prueba de post error 400(Los campos deben estar ordenados en el body)"
+			},
+			"response": []
+		},
+		{
+			"name": "POST crear nuevo dato",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"// Verificar si se recibe un cuerpo de respuesta no vacío\r",
+							"pm.test(\"Response body is not empty\", function () {\r",
+							"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"ranking\":10,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo 2\",\r\n        \"published_at\": \"2010-07-11\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					]
+				},
+				"description": "Prueba de post con éxito\n\nTests: El body no puede estar vacío"
+			},
+			"response": []
+		},
+		{
+			"name": "POST Error 409 Conflict",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 409\", function () {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"ranking\":1,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-11\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					]
+				},
+				"description": "Prueba de post error 409(El ID ya existe en la base de datos)"
+			},
+			"response": []
+		},
+		{
+			"name": "POST Error 405 método no permitido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"ranking\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo\",\r\n        \"published_at\": \"2010-07-11\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends/channel_title",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends",
+						"channel_title"
+					]
+				},
+				"description": "Prueba de post error 405(Formato de post incorrecto)"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Error 400 Bad Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": 11,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo 2\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends/9",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends",
+						"9"
+					]
+				},
+				"description": "Prueba de put error 400(No se puede cambiar el ranking de un objeto)"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT dato por ranking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"ranking\":10,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends/10",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends",
+						"10"
+					]
+				},
+				"description": "Prueba de put con éxito"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Error 404 objeto con ranking no existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"ranking\":12,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put 2)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends/12",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends",
+						"12"
+					]
+				},
+				"description": "Prueba de put error 404(No existe el objeto a actualizar)"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Error 405 método no permitido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"ranking\":9,\r\n        \"country\": \"España\",\r\n        \"title\": \"España campeona del mundo (put)\",\r\n        \"published_at\": \"2010-07-011T22:00:12Z\",\r\n        \"channel_title\": \"SEFutbol\",\r\n        \"category_id\": 2,\r\n        \"trending_date\": \"10.07.11\",\r\n        \"view_count\": 514000,\r\n        \"comment_count\": 3651\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					]
+				},
+				"description": "Prueba de put error 405(Formato de put incorrecto)"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE dato por ranking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends/10",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends",
+						"10"
+					]
+				},
+				"description": "Prueba borrado de objeto por ranking"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE recurso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{gcloud}}/api/v2/youtube-trends",
+					"host": [
+						"{{gcloud}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"youtube-trends"
+					]
+				},
+				"description": "Borrar todo"
+			},
+			"response": []
+		}
+	]
+}

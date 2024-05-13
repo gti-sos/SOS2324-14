@@ -3,7 +3,7 @@
 	import { dev } from '$app/environment';
 	import { Container } from '@sveltestrap/sveltestrap';
 
-	let API = '/api/v1/youtube-trends';
+	let API = '/api/v2/youtube-trends';
 
 	if (dev) API = 'http://localhost:10002' + API;
 

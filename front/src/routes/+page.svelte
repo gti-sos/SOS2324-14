@@ -33,7 +33,8 @@
                 <li><NavLink href="/api/v2/movies-dataset">movies-dataset-v2</NavLink></li>
                 <li><NavLink href="/api/v1/ufc-events-data">ufc-events-data</NavLink></li>
                 <li><NavLink href="/api/v2/ufc-events-data">ufc-events-data</NavLink></li>
-                <li><NavLink href="/api/v1/youtube-trends">youtube-trends</NavLink></li>
+                <li><NavLink href="/api/v1/youtube-trends">youtube-trends-v1</NavLink></li>
+                <li><NavLink href="/api/v2/youtube-trends">youtube-trends-v2</NavLink></li>
             </ul>
         </Col>
     </Row>
@@ -50,6 +51,7 @@
                 <li><NavLink href="https://documenter.getpostman.com/view/32992444/2sA2xh3tEg">/api/v1/ufc-events-data/docs (developed by Nicolás Redondo Moreno)</NavLink></li>
                 <li><NavLink href="https://documenter.getpostman.com/view/32992444/2sA35LWzXn">/api/v2/ufc-events-data/docs (developed by Nicolás Redondo Moreno)</NavLink></li>
                 <li><NavLink href="{BASE}/api/v1/youtube-trends/docs">/api/v1/youtube-trends/docs (developed by Víctor Escalera García)</NavLink></li>
+                <li><NavLink href="{BASE}/api/v2/youtube-trends/docs">/api/v2/youtube-trends/docs (developed by Víctor Escalera García)</NavLink></li>
             </ul>
         </Col>
     </Row>

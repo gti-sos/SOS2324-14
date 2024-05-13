@@ -12,39 +12,44 @@
 
     onMount(async () => {
         try {
-            let API = 'https://sos2324-14.appspot.com'; 
-            if (dev) API = 'http://localhost:10002'; 
+            let API = 'https://sos2324-14.appspot.com/api/v2'; 
+            if (dev) API = 'http://localhost:10002/api/v2'; 
 
-            const response = await axios.get(`${API}/proxyBasketVEG`);
-            players = response.data.results;
+            const response = await axios.get(`${API}/youtube-trends/proxyBasketVEG`);
+            
+            if (response.data && response.data.results) {
+                players = response.data.results;
 
-            if (players.length > 0) {
-                const chartData = {
-                    labels: players.map(player => player.entity.name),
-                    series: players.map(player => player.score)
-                };
+                if (players.length > 0) {
+                    const chartData = {
+                        labels: players.map(player => player.entity.name),
+                        series: players.map(player => player.score)
+                    };
 
-                const options = {
-                    chart: {
-                        type: 'pie',
-                        height: 400
-                    },
-                    labels: chartData.labels,
-                    series: chartData.series,
-                    responsive: [{
-                        breakpoint: 480,
-                        options: {
-                            chart: {
-                                width: 200
-                            },
-                            legend: {
-                                position: 'bottom'
+                    const options = {
+                        chart: {
+                            type: 'pie',
+                            height: 400
+                        },
+                        labels: chartData.labels,
+                        series: chartData.series,
+                        responsive: [{
+                            breakpoint: 480,
+                            options: {
+                                chart: {
+                                    width: 200
+                                },
+                                legend: {
+                                    position: 'bottom'
+                                }
                             }
-                        }
-                    }]
-                };
+                        }]
+                    };
 
-                new ApexCharts(document.querySelector('#chart'), options).render();
+                    new ApexCharts(document.querySelector('#chart'), options).render();
+                }
+            } else {
+                console.error('No se recibieron datos válidos de la API.');
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -80,6 +85,7 @@
         height: 400px;
     }
 </style>
+
 
 
 

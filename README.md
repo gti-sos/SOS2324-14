@@ -19,6 +19,7 @@
 - [/v1/ufc-events-data/docs](http://sos2324-14.appspot.com/api/v1/ufc-events-data/docs)
 - [/v2/ufc-events-data/docs](http://sos2324-14.appspot.com/api/v2/ufc-events-data/docs) (developed by Nicolás Redondo Moreno)
 - [/v1/youtube-trends/docs](https://sos2324-14.appspot.com/api/v1/youtube-trends/docs) (developed by Víctor Escalera García)
+- [/v2/youtube-trends/docs](https://sos2324-14.appspot.com/api/v2/youtube-trends/docs) (developed by Víctor Escalera García)
 
 **FrontEnds:**
 - [movies-dataset](https://sos2324-14.appspot.com/movies-dataset) (developed by Enrique García Olivares)
