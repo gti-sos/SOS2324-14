@@ -40,15 +40,6 @@ app.listen(PORT,()=>{
     console.log(`Server listening on port ${PORT}.`);
 });
 
-
-
-//Middleware para el proxy de la API VEG (para hacer pruebas)
-app.use("/proxyVEG", function(req, res) {
-    var url = "https://sos2324-14.appspot.com/api/v1/youtube-trends" + req.url;
-    console.log("Proxying to: " + url);
-    req.pipe(request(url)).pipe(res);
-});
-
 // Nicolas Redondo Moreno
 // API v1
 api_NRM(app, dbUfc);
