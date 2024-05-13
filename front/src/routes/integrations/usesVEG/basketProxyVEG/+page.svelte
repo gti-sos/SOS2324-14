@@ -4,7 +4,6 @@
 
 <script>
     import { onMount } from 'svelte';
-    import axios from 'axios';
     import { dev } from '$app/environment';
     import { Container, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
 
@@ -15,10 +14,11 @@
             let API = 'https://sos2324-14.appspot.com/api/v2'; 
             if (dev) API = 'http://localhost:10002/api/v2'; 
 
-            const response = await axios.get(`${API}/youtube-trends/proxyBasketVEG`);
+            const response = await fetch(`${API}/youtube-trends/proxyBasketVEG`);
+            const data = await response.json();
             
-            if (response.data && response.data.results) {
-                players = response.data.results;
+            if (data && data.results) {
+                players = data.results;
 
                 if (players.length > 0) {
                     const chartData = {

@@ -4,7 +4,6 @@
 
 <script>
     import { onMount } from 'svelte';
-    import axios from 'axios';
     import { Container } from '@sveltestrap/sveltestrap';
 
     let youtubeData = [];
@@ -13,27 +12,31 @@
     onMount(async () => {
         try {
             // Obtener datos de la API de Youtube Trends
-            const youtubeResponse = await axios.get('https://sos2324-14.appspot.com/api/v1/youtube-trends');
-            youtubeData = youtubeResponse.data;
-            console.log('YouTube Response:', youtubeResponse.data);
+            const youtubeResponse = await fetch('https://sos2324-14.appspot.com/api/v1/youtube-trends');
+            youtubeData = await youtubeResponse.json();
+            console.log('YouTube Response:', youtubeData);
 
             // Obtener datos de la API de Spotify
             const spotifyOptions = {
                 method: 'GET',
-                url: 'https://spotify-statistics-and-stream-count.p.rapidapi.com/album/57MtV6axHjkNZxMPHjI2Oz',
                 headers: {
                     'X-RapidAPI-Key': 'c4dcccf12bmshb28d319bf18afe1p17ebd3jsn3d5ff8dfec68',
                     'X-RapidAPI-Host': 'spotify-statistics-and-stream-count.p.rapidapi.com'
                 }
             };
-            const spotifyResponse = await axios.request(spotifyOptions);
-            console.log('Spotify Response:', spotifyResponse.data); // Imprimir la respuesta de la API de Spotify
+            const spotifyResponse = await fetch('https://spotify-statistics-and-stream-count.p.rapidapi.com/album/57MtV6axHjkNZxMPHjI2Oz', spotifyOptions);
+            const spotifyDataRaw = await spotifyResponse.json();
+            console.log('Spotify Response:', spotifyDataRaw); // Imprimir la respuesta de la API de Spotify
 
             // Verificar y manejar la estructura de la respuesta de la API de Spotify
-            spotifyData = spotifyResponse.data.tracks.map(track => ({
-                title: track.name,
-                view_count: track.streamCount
-            }));
+            if (spotifyDataRaw.tracks) {
+                spotifyData = spotifyDataRaw.tracks.map(track => ({
+                    title: track.name,
+                    view_count: track.streamCount
+                }));
+            } else {
+                console.error('Error: No se encontraron datos de pistas en la respuesta de la API de Spotify.');
+            }
 
             // Llamar a la función renderChart después de obtener datos de ambas API
             renderChart();
@@ -103,3 +106,4 @@
         height: 400px;
     }
 </style>
+
