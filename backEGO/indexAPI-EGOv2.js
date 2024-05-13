@@ -1,4 +1,5 @@
 import {movies_data} from "./data-EGO.js";
+import request from 'request';
 
 const API_BASE = "/api/v2";
 
@@ -38,6 +39,49 @@ function api_EGO_v2(app, dbMovies) {
     // GET Para la documentación en postman
     app.get(API_BASE+"/movies-dataset/docs", (req, res) => {
         res.redirect(302, 'https://documenter.getpostman.com/view/33038669/2sA3BobXoX');
+    })
+
+    // Proxy Streaming Availability
+    app.get(API_BASE+'/movies-dataset/proxyData/:title/:country', (req, res) => {
+        // Recibe titulo y pais porque quiero acceder a una en concreto(la api devuelve cualquier coincidencia con titulo, no solo que este en el titulo)
+        let titulo = req.params.title;
+        let pais = req.params.country;
+        // Variable para almacenar los datos
+        let apiData;
+        // Obtener los datos de la api mediante la llamada
+        const options = {
+          method: 'GET',
+          url: 'https://streaming-availability.p.rapidapi.com/shows/search/title',
+          qs: {
+            country: pais,
+            title: titulo,
+            output_language: 'en',
+            show_type: 'movie',
+          },
+          headers: {
+            'X-RapidAPI-Key': '9dab7c46cbmsh14d004cd352a478p1b0f8ajsne380b7845c81',
+            'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
+          }
+        };
+        // Realizar proxy y personalización de los datos solicitados
+        request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+            // Almacenar los datos recibidos, convirtienodolos aa json, ya que devuelve una cadena
+            apiData = JSON.parse(body)
+            // Cogemos solo el primer elemento de la lista recibida, ya que es el que queremos
+            apiData = apiData[0]
+            // Creamos un json para almacenar los datos que queremos devolver
+            let pelicula = {}
+            let avatarKeys = Object.keys(apiData)
+            avatarKeys.forEach(campo => {
+                // Los campos que nos interesan son el titulo y el rating para 
+                if(campo === 'title' || campo === 'rating') {
+                    pelicula[campo] = apiData[campo]
+                }
+            })
+            console.log(pelicula);
+            res.send(JSON.stringify(pelicula))
+        })
     })
 
     // GET Base
@@ -341,6 +385,8 @@ function api_EGO_v2(app, dbMovies) {
             }
         });
     });
+
+    
 }
 
 export { api_EGO_v2 };
