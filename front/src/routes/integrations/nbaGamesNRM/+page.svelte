@@ -1,5 +1,4 @@
 <script>
-    import axios from 'axios';
     import { Container, Button, Input, ListGroup, ListGroupItem, Row, Col} from '@sveltestrap/sveltestrap';
 
     let inputSeason;
@@ -7,16 +6,15 @@
     let games = [];
 
     async function fetchNBAGamesData() {
-        
-       
+        const params = new URLSearchParams({
+            season: inputSeason,
+            team: inputTeam
+        });
+
+        const url = `https://api-nba-v1.p.rapidapi.com/games?${params}`;
 
         const options = {
             method: 'GET',
-            url: 'https://api-nba-v1.p.rapidapi.com/games',
-            params: {
-                season: inputSeason,
-                team: inputTeam
-            },
             headers: {
                 'X-RapidAPI-Key': '88a523cd96msh3544e0ee37800ebp1845b1jsnf31a7971dadb',
                 'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
@@ -24,13 +22,18 @@
         };
 
         try {
-	        const response = await axios.request(options);
-	        console.log(response.data);
-            games = response.data.response;
-            console.log(response.data.response);
-            console.log(games.length);
+            const response = await fetch(url, options);
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                games = data.response;
+                console.log(games);
+                console.log(games.length);
+            } else {
+                throw new Error('Error al obtener los datos');
+            }
         } catch (error) {
-        	console.error(error);
+            console.error(error);
         }
     }
 
