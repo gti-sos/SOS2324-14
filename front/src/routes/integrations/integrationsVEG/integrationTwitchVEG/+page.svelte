@@ -121,7 +121,7 @@
 </script>
 
 <Container>
-    <h1>Integración 1: Datos YouTube-Trends y API de Twitch</h1>
+    <h1>Integración 1: Datos YouTube-Trends y API de Twitch(Highcharts)</h1>
     <div id="chart"></div>
 </Container>
 
