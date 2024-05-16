@@ -19,7 +19,7 @@
             const twitchOptions = {
                 method: 'GET',
                 headers: {
-                    'X-RapidAPI-Key': 'c4dcccf12bmshb28d319bf18afe1p17ebd3jsn3d5ff8dfec68',     //CLAVE
+                    'X-RapidAPI-Key': '4ad194731fmsh0bfac21b82a5fd3p1c6490jsndd3f42f6728a',     //CLAVE
                     'X-RapidAPI-Host': 'twitch-api8.p.rapidapi.com'
                 }
             };
