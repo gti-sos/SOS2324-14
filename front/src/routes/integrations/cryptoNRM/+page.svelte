@@ -5,6 +5,7 @@
 <script>
   import { onMount } from "svelte";
   import { Container } from "@sveltestrap/sveltestrap";
+  import { dev } from "$app/environment";
 
   async function fetchCryptoData() {
     try {
@@ -22,6 +23,7 @@
       return null;
     }
   }
+	import { format } from "path";
 
   const symbols = [];
   const prices = [];
