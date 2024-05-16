@@ -1,6 +1,6 @@
 <svelte:head>
     <script src="https://code.highcharts.com/highcharts.js"></script>
-    <!-- <script src="https://code.highcharts.com/stock/highstock.js"></script> -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </svelte:head>
 <script>
 	import { onMount } from "svelte";
@@ -21,30 +21,18 @@
             console.log(`fetched data: ${dataJSON}`)
             fillChart(dataJSON);
             fillPieChart(dataJSON);
+            fillChartGoogle(dataJSON);
+            fillPieChartGoogle(dataJSON);
         } catch (error) {
             console.log(`error => ${error}`)
         }
     }
-    // async function getDataPie(){
-    //     try {
-    //         const res = await fetch(DATAAPI);
-    //         const dataJSON = await res.json();
-    //         console.log(`fetched data: ${dataJSON}`)
-    //         fillPieChart(dataJSON);
-    //     } catch (error) {
-    //         console.error('Error al obtener datos para el gráfico de tarta:', error);
-    //     }
-    // }
+   
 
     async function fillChart(dt) {
         
         const weights = [...new Set(dt.map(item => item.weight_class))];
         const methods =[...new Set(dt.map(item => item.method))];
-
-        // console.log(`weights -> ${weights}`)
-        // console.log(`methods -> ${methods}`)
-        // Matriz de datos
-        
 
         const seriesData = methods.map(method => ({
             name: method,
@@ -105,6 +93,39 @@
             series: seriesData
         });
         console.log('Fin fill charts')
+    }
+
+    async function fillChartGoogle(dt) {
+        const weights = [...new Set(dt.map(item => item.weight_class))];
+        const methods = [...new Set(dt.map(item => item.method))];
+
+        const seriesData = methods.map(method => [
+            method,
+            ...weights.map(weight => dt.filter(item => item.method === method && item.weight_class === weight).length)
+        ]);
+
+        const data = [
+            ['Method', ...weights],
+            ...seriesData
+        ];
+
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            const dataTable = google.visualization.arrayToDataTable(data);
+
+            const options = {
+                title: 'Victorias de Método x peso',
+                hAxis: { title: 'Pesos' },
+                vAxis: { title: 'Cantidad de Victorias' },
+                backgroundColor: '#D3D3D3',
+                isStacked: true
+            };
+
+            const chart = new google.visualization.BarChart(document.getElementById('container-google'));
+            chart.draw(dataTable, options);
+        }
     }
 
     async function fillPieChart(dt) {
@@ -182,10 +203,55 @@
         });
     }
 
+    async function fillPieChartGoogle(dt) {
+        const durationMap = new Map();
+        dt.forEach(item => {
+            const min = item.time.split(':')[0];
+            let interval;
+            if (min < 1) {
+                interval = '-1 min';
+            } else if (min >= 1 && min < 2) {
+                interval = '1-2 min';
+            } else if (min >= 2 && min < 3) {
+                interval = '2-3 min';
+            } else if (min >= 3 && min < 4) {
+                interval = '3-4 min';
+            } else {
+                interval = '+4 min';
+            }
+            durationMap.set(interval, (durationMap.get(interval) || 0) + 1);
+        });
+
+        const dataPie = [['Interval', 'Fights']];
+        durationMap.forEach((value, key) => {
+            dataPie.push([key, value]);
+        });
+
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawPieChart);
+
+        function drawPieChart() {
+            if (dataPie.length < 2) {
+                console.error('No data available for pie chart');
+                return;
+            }
+
+            const dataTable = google.visualization.arrayToDataTable(dataPie);
+
+            const options = {
+                title: 'Distribución de Peleas x Duración',
+                backgroundColor: '#D3D3D3',
+            };
+
+            const chart = new google.visualization.PieChart(document.getElementById('pie-container-google'));
+            chart.draw(dataTable, options);
+        }
+    }
+
     onMount(() => {
 
         getData();
-        // getDataPie();
+        
 
     })
 </script>
@@ -193,6 +259,8 @@
 <Row class="justify-content-center">
     <div id="container" style="width:100%; height:400px;"></div>
     <div id="pie-container" style="width:100%; height:400px;"></div>
+    <div id="container-google" style="width:100%; height:400px;"></div>
+    <div id="pie-container-google" style="width:100%; height:400px;"></div>
     <Col xs="auto">Volver -> <Button href="/ufc-events-data" outline size="sm" color="danger">Volver</Button></Col>
 </Row>
 </Container>

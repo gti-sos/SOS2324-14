@@ -12,7 +12,7 @@
     let torneosJugados = [];
 
     async function fetchTopPlayersData() {
-        const url = '/proxyTennis'; // Usando el proxy
+        
         try {
             let API = 'https://sos2324-14.appspot.com/api/v2'; 
             if (dev) API = 'http://localhost:10002/api/v2'; 

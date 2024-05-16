@@ -23,7 +23,6 @@
       return null;
     }
   }
-	import { format } from "path";
 
   const symbols = [];
   const prices = [];
