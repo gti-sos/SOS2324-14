@@ -32,22 +32,30 @@ const puntos = [];
 const torneosJugados = [];
 
 onMount(async () => {
-    const teamIds = [23581, 14882, 163504, 275923]; // Lista de IDs de los equipos que deseas obtener
-    const data = await fetchTeamData(teamIds);
-    if (data) {
-      // Procesar los datos obtenidos
-      console.log(data);
-      data.forEach(item => {
-        console.log(item[0])
-        item.rankings.forEach(ranking => {
-          nombres.push(ranking.rowName);
-          puntos.push(ranking.points);
-          torneosJugados.push(ranking.tournamentsPlayed);
-          console.log(nombres)
-          console.log(puntos)
-          console.log(torneosJugados)
+  const teamIds = [23581, 14882, 163504, 275923]; // Lista de IDs de los equipos que deseas obtener
+  const data = await fetchTeamData(teamIds);
+  if (data) {
+    // Procesar los datos obtenidos
+    console.log(data);
+    data.forEach(item => {
+      // Recorrer el primer array interno
+      if (item.data) {
+        item.data.forEach(itemData => {
+          // Recorrer el segundo array interno (que contiene rankings)
+          if (itemData.rankings) {
+            itemData.rankings.forEach(ranking => {
+              nombres.push(ranking.rowName);
+              puntos.push(ranking.points);
+              torneosJugados.push(ranking.tournamentsPlayed);
+            });
+          } else {
+            console.error("No se encontraron rankings para el elemento:", itemData);
+          }
         });
-      });
+      } else {
+        console.error("No se encontró data para el elemento:", item);
+      }
+    });
 
       crearGrafica();
 

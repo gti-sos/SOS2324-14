@@ -1,7 +1,6 @@
 <script>
-    import axios from 'axios';
     import { Container, Button, Row, ListGroup, ListGroupItem, Col} from '@sveltestrap/sveltestrap';
-	import { each } from 'highcharts';
+	
   
 
     let question;
@@ -82,7 +81,7 @@
      
 
     .response {
-        font-size: 15px; /* Adjust font size as needed */
+        font-size: 18px; /* Ajusta el tamaño de la letra */
         text-align: center;
         border-radius: 6px;
         background-color: aliceblue;
@@ -90,6 +89,9 @@
         margin: auto;
         opacity: 1;
         transition: opacity 1s ease-in-out; /* Center text */
+        padding: 10px; /* Añade espacio interno */
+        margin-bottom: 10px; /* Añade espacio en la parte inferior */
+        border: solid 3px rgba(0, 0, 0, 0.5);
     }
     
 </style>
