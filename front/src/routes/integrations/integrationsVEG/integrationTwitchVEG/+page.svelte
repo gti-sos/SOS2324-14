@@ -1,13 +1,14 @@
 <svelte:head>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </svelte:head>
 
 <script>
-    import { onMount } from 'svelte';
+    import { onMount, afterUpdate } from 'svelte';
     import { Container } from '@sveltestrap/sveltestrap';
 
     let youtubeData = [];
     let twitchData = [];
+    let chart;
 
     onMount(async () => {
         try {
@@ -49,68 +50,92 @@
         }
     });
 
+    afterUpdate(() => {
+        if (chart) {
+            // Actualizar el gráfico después de cada actualización de datos
+            updateChart();
+        }
+    });
+
     function renderChart() {
-        if (youtubeData.length === 0 || twitchData.length === 0) {
+        if ((!youtubeData || !youtubeData.length) || (!twitchData || !twitchData.length)) {
             console.error('No data available.');
             return;
         }
 
+        console.log('Rendering chart...');
+
         // Combinar los datos de YouTube y Twitch
         const combinedChartData = [...youtubeData, ...twitchData];
+        console.log('Combined Chart Data:', combinedChartData);
 
-        // Crear la serie de datos para la gráfica
-        const seriesData = combinedChartData.map(data => data.view_count);
+        // Verificar si hay datos
+        if (!combinedChartData.length) {
+            console.error('No combined chart data available.');
+            return;
+        }
 
         // Crear las etiquetas para la gráfica
         const labels = combinedChartData.map(data => data.title);
+        console.log('Labels:', labels);
 
         // Crear una serie de colores para las barras
         const colors = combinedChartData.map(data => data.source === 'YouTube' ? '#FF0000' : '#800080');
+        console.log('Colors:', colors);
 
-        // Configurar opciones de la gráfica
-        const options = {
-            series: [{
-                data: seriesData
-            }],
-            chart: {
-                type: 'bar',
-                height: 400
+        // Crear un arreglo de datos para las barras
+        const data = combinedChartData.map(data => data.view_count);
+        console.log('Data:', data);
+
+        // Configurar el contexto del gráfico
+        const ctx = document.getElementById('chart').getContext('2d');
+
+        // Configurar la gráfica
+        chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'View Count',
+                    data: data,
+                    backgroundColor: colors
+                }]
             },
-            plotOptions: {
-                bar: {
-                    horizontal: true,
-                    borderRadius: 4,
-                    borderRadiusApplication: 'end',
-                    colors: colors
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            xaxis: {
-                categories: labels
-            },
-            yaxis: {
-                title: {
-                    text: 'View Count'
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'View Count'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Video Title'
+                        }
+                    }
                 }
             }
-        };
+        });
+    }
 
-        // Renderizar la gráfica con ApexCharts
-        const chart = new ApexCharts(document.querySelector('#chart'), options);
-        chart.render();
+    function updateChart() {
+        // Actualizar la serie de datos del gráfico
+        chart.data.datasets[0].data = combinedChartData.map(data => data.view_count);
+        chart.update();
     }
 </script>
 
 <Container>
     <h1>Integración 1: Datos YouTube-Trends y API de Twitch</h1>
-    <div id="chart"></div>
+    <canvas id="chart" width="400" height="400"></canvas>
 </Container>
 
 <style>
-    #chart {
+    canvas {
         width: 100%;
-        height: 400px;
+        height: auto;
     }
 </style>
