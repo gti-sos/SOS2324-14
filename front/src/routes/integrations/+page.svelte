@@ -14,4 +14,15 @@
 		<li><a href="integrations/integrationsVEG/integrationTwitchVEG">Integración 1: Datos YouTube-Trends y API de Twitch</a></li>
 		<li><a href="integrations/integrationsVEG/integrationSpotifyVEG">Integración 2: Datos YouTube-Trends y API de Spotify</a></li>
 	</ul>
+
+	<h6>Usos/Integraciones Nico</h6>
+
+	<ul>
+		<li><a href="integrations/chatbotNRM">Uso chatbot API: sin proxy</a></li>
+		<li><a href="integrations/nbaGamesNRM">NBA partidos por temporada y equipo: sin proxy</a></li>
+		<li><a href="integrations/changeNRM">Money exchange API: sin proxy</a></li>
+		<li><a href="integrations/tennisRankingsNRM">Tennis Rankings API(Visualización on proxy)</a></li>
+		<li><a href="integrations/cryptoNRM">Top 20 cryptos por precio (Visualización con proxy)</a></li>
+
+	</ul>
 </Container>
