@@ -1,105 +1,130 @@
 <svelte:head>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </svelte:head>
 
 <script>
-	import { onMount } from "svelte";
-  import { Container } from "@sveltestrap/sveltestrap";
+    import { onMount } from "svelte";
+    import { dev } from '$app/environment';
+    import { Container } from "@sveltestrap/sveltestrap";
 
-async function fetchTeamData(teamIds) {
-  try {
-    const promises = teamIds.map(async teamId => {
-      const response = await fetch(`/proxyTennis?teamIds=${teamId}`);
-      if (response.ok) {
-        return response.json();
-      } else {
-        console.error(`Error al obtener datos para el equipo con ID ${teamId}: ${response.statusText}`);
-        return null;
-      }
-    });
+    let nombres = [];
+    let puntos = [];
+    let torneosJugados = [];
 
-    const data = await Promise.all(promises);
-    return data.filter(item => item !== null); // Filtrar los elementos nulos por si hubo algún error en alguna solicitud
-  } catch (error) {
-    console.error('Error al obtener datos:', error);
-    return null;
-  }
-}
-const nombres = [];
-const puntos = [];
-const torneosJugados = [];
+    async function fetchTopPlayersData() {
+        const url = '/proxyTennis'; // Usando el proxy
+        try {
+            // let API = 'https://sos2324-14.appspot.com/api/v2'; 
+            // if (dev) API = 'http://localhost:10002/api/v2'; 
 
-onMount(async () => {
-  const teamIds = [23581, 14882, 163504, 275923]; // Lista de IDs de los equipos que deseas obtener
-  const data = await fetchTeamData(teamIds);
-  if (data) {
-    // Procesar los datos obtenidos
-    console.log(data);
-    data.forEach(item => {
-      // Recorrer el primer array interno
-      if (item.data) {
-        item.data.forEach(itemData => {
-          // Recorrer el segundo array interno (que contiene rankings)
-          if (itemData.rankings) {
-            itemData.rankings.forEach(ranking => {
-              nombres.push(ranking.rowName);
-              puntos.push(ranking.points);
-              torneosJugados.push(ranking.tournamentsPlayed);
-            });
-          } else {
-            console.error("No se encontraron rankings para el elemento:", itemData);
-          }
-        });
-      } else {
-        console.error("No se encontró data para el elemento:", item);
-      }
-    });
+            const response = await fetch(`/proxyTennis`);
 
-      crearGrafica();
-
-    } else {
-      console.error('No se pudieron obtener los datos de los equipos.');
+            if (response.ok) {
+                const data = await response.json();
+                // console.log(data);
+                const rankings = data.rankings;
+                // console.log('Rankings ->'+rankings);  
+                return rankings.slice(0, 15); // Obtener los primeros 10 jugadores
+                
+            } else {
+                console.error('Error al obtener los datos de los jugadores:', response.statusText);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error al obtener datos de la API:', error);
+            return null;
+        }
     }
-  });
 
-  function crearGrafica() {
+    onMount(async () => {
+        const topPlayersData = await fetchTopPlayersData();
+        if (topPlayersData) {
+            // Procesar los datos obtenidos
+            // console.log(topPlayersData);
+            topPlayersData.forEach(player => {
+                nombres.push(player.rowName);
+                puntos.push(player.points);
+                torneosJugados.push(player.tournamentsPlayed);
+            });
+
+            crearGrafica();
+        } else {
+            console.error('No se pudieron obtener los datos de los jugadores.');
+        }
+    });
+
+    function crearGrafica() {
     const ctx = document.getElementById('graficaPuntos').getContext('2d');
     new Chart(ctx, {
-      type: 'scatter',
-      data: {
-        labels: nombres,
-        datasets: [{
-          label: 'Puntos vs Torneos Jugados',
-          data: puntos.map((punto, index) => ({ x: punto, y: torneosJugados[index] })),
-          backgroundColor: 'blue' // Color de los puntos
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          x: {
-            type: 'linear',
-            position: 'bottom',
-            title: {
-              display: true,
-              text: 'Puntos'
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Torneos Jugados vs Puntos',
+                data: puntos.map((punto, index) => ({ x: punto, y: torneosJugados[index], label: nombres[index] })),
+                backgroundColor: 'red' // Color de los puntos
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Puntos'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Torneos Jugados'
+                    }
+                }
+            },
+            plugins: {
+              title: {
+                    display: true,
+                    text: 'Top 20 ATP Players',
+                    font: {
+                        size: 24,
+                        weight: 'bold'
+                    }
+                },
+                subtitle: {
+                    display: true,
+                    text: 'Puntos x Torneos Jugados',
+                    font: {
+                        size: 16
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Puntos'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Torneos Jugados'
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const dataPoint = context.dataset.data[context.dataIndex];
+                            const playerName = dataPoint.label;
+                            return playerName ? playerName : '';
+                        }
+                    }
+                }
             }
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Torneos Jugados'
-            }
-          }
         }
-      }
     });
-  }
+}
 </script>
 
 <Container>
-<canvas id="graficaPuntos" width="400" height="400"></canvas>
-
+    <canvas id="graficaPuntos" width="970px" height="420px"></canvas>
 </Container>

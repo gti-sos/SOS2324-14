@@ -49,33 +49,31 @@ function api_NRM(app, dbUfc) {
         });
     });   
      
-    // Proxy tenis
-    app.get('/proxyTennis', async (req, res) => {
-        try {
-            const { teamIds } = req.query; // Obtener los IDs de los equipos de los parámetros de consulta
-            if (!teamIds) {
-                return res.status(400).json({ error: 'Falta el parámetro teamIds' });
+   // Proxy tenis
+app.get('/proxyTennis', async (req, res) => {
+    try {
+        // Endpoint de la API para obtener los 500 mejores jugadores de la ATP
+        const url = 'https://tennisapi1.p.rapidapi.com/api/tennis/rankings/atp';
+
+        const response = await fetch(url, {
+            headers: {
+                // Agregar cualquier cabecera necesaria para la API (por ejemplo, claves de autenticación)
+                'X-RapidAPI-Key': '88a523cd96msh3544e0ee37800ebp1845b1jsnf31a7971dadb'
             }
-    
-            const teamIdsArray = teamIds.split(','); // Convertir la cadena de IDs de equipo en un array
-            const promises = teamIdsArray.map(async (teamId) => {
-                const url = `https://tennisapi1.p.rapidapi.com/api/tennis/team/${teamId}/rankings`; // Reemplazar esto con la URL de la API que deseas acceder
-                const response = await fetch(url, {
-                    headers: {
-                        // Agregar cualquier cabecera necesaria para la API (por ejemplo, claves de autenticación)
-                        'X-RapidAPI-Key': '88a523cd96msh3544e0ee37800ebp1845b1jsnf31a7971dadb'
-                    }
-                });
-                return response.json();
-            });
-    
-            const data = await Promise.all(promises);
-            res.json(data);
-        } catch (error) {
-            console.error('Error al obtener datos desde la API:', error);
-            res.status(500).json({ error: 'Hubo un error al obtener los datos desde la API' });
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error al obtener los datos de la API: ${response.statusText}`);
         }
-    });  
+
+        const data = await response.json();
+        console.log(data);
+        res.json(data);
+    } catch (error) {
+        console.error('Error en el proxy al obtener datos desde la API:', error);
+        res.status(500).json({ error: 'Hubo un error al obtener los datos desde la API' });
+    }
+}); 
 
     // Proxy Crypto
 
