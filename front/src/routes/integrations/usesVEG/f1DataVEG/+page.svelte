@@ -7,7 +7,7 @@
     const options = {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': 'c4dcccf12bmshb28d319bf18afe1p17ebd3jsn3d5ff8dfec68',    // CLAVE
+            'X-RapidAPI-Key': '4ad194731fmsh0bfac21b82a5fd3p1c6490jsndd3f42f6728a',    // CLAVE
             'X-RapidAPI-Host': 'f1-live-motorsport-data.p.rapidapi.com'
         }
     };
@@ -68,7 +68,7 @@
 </svelte:head>
 
 <Container>
-    <h1>Uso Widget API Externa 2(F1 Live Motorsport Data): sin proxy</h1>
+    <h1>Uso Widget API Externa 2(F1 Live Motorsport Data): sin proxy(ApexCharts)</h1>
     <h5>Clasificación mundial de pilotos por temporada (2024)</h5>
     <div id="chart"></div>
 

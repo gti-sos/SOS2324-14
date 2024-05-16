@@ -1,13 +1,14 @@
 <svelte:head>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 </svelte:head>
 
 <script>
-    import { onMount } from 'svelte';
+    import { onMount, afterUpdate } from 'svelte';
     import { Container } from '@sveltestrap/sveltestrap';
 
     let youtubeData = [];
     let twitchData = [];
+    let chart;
 
     onMount(async () => {
         try {
@@ -19,7 +20,7 @@
             const twitchOptions = {
                 method: 'GET',
                 headers: {
-                    'X-RapidAPI-Key': 'c4dcccf12bmshb28d319bf18afe1p17ebd3jsn3d5ff8dfec68',     //CLAVE
+                    'X-RapidAPI-Key': '4ad194731fmsh0bfac21b82a5fd3p1c6490jsndd3f42f6728a',     //CLAVE
                     'X-RapidAPI-Host': 'twitch-api8.p.rapidapi.com'
                 }
             };
@@ -49,68 +50,85 @@
         }
     });
 
+    afterUpdate(() => {
+        if (chart) {
+            // Actualizar el gráfico después de cada actualización de datos
+            updateChart();
+        }
+    });
+
     function renderChart() {
-        if (youtubeData.length === 0 || twitchData.length === 0) {
+        if ((!youtubeData || !youtubeData.length) || (!twitchData || !twitchData.length)) {
             console.error('No data available.');
             return;
         }
 
+        console.log('Rendering chart...');
+
         // Combinar los datos de YouTube y Twitch
         const combinedChartData = [...youtubeData, ...twitchData];
+        console.log('Combined Chart Data:', combinedChartData);
 
-        // Crear la serie de datos para la gráfica
-        const seriesData = combinedChartData.map(data => data.view_count);
+        // Verificar si hay datos
+        if (!combinedChartData.length) {
+            console.error('No combined chart data available.');
+            return;
+        }
 
         // Crear las etiquetas para la gráfica
         const labels = combinedChartData.map(data => data.title);
+        console.log('Labels:', labels);
 
         // Crear una serie de colores para las barras
         const colors = combinedChartData.map(data => data.source === 'YouTube' ? '#FF0000' : '#800080');
+        console.log('Colors:', colors);
 
-        // Configurar opciones de la gráfica
-        const options = {
-            series: [{
-                data: seriesData
-            }],
+        // Crear un arreglo de datos para las barras
+        const data = combinedChartData.map(data => data.view_count);
+        console.log('Data:', data);
+
+        // Configurar la gráfica de Highcharts
+        chart = Highcharts.chart('chart', {
             chart: {
-                type: 'bar',
-                height: 400
+                type: 'bar'
             },
-            plotOptions: {
-                bar: {
-                    horizontal: true,
-                    borderRadius: 4,
-                    borderRadiusApplication: 'end',
-                    colors: colors
+            title: {
+                text: 'View Count by Video Title'
+            },
+            xAxis: {
+                categories: labels,
+                title: {
+                    text: 'Video Title'
                 }
             },
-            dataLabels: {
-                enabled: false
-            },
-            xaxis: {
-                categories: labels
-            },
-            yaxis: {
+            yAxis: {
                 title: {
                     text: 'View Count'
                 }
-            }
-        };
+            },
+            series: [{
+                name: 'View Count',
+                data: data,
+                color: '#800080' // Color de las barras
+            }]
+        });
+    }
 
-        // Renderizar la gráfica con ApexCharts
-        const chart = new ApexCharts(document.querySelector('#chart'), options);
-        chart.render();
+    function updateChart() {
+        // Actualizar la serie de datos del gráfico de Highcharts
+        chart.series[0].setData(combinedChartData.map(data => data.view_count));
     }
 </script>
 
 <Container>
-    <h1>Integración 1: Datos YouTube-Trends y API de Twitch</h1>
+    <h1>Integración 1: Datos YouTube-Trends y API de Twitch(Highcharts)</h1>
     <div id="chart"></div>
 </Container>
 
 <style>
     #chart {
         width: 100%;
-        height: 400px;
+        height: auto;
     }
 </style>
+
