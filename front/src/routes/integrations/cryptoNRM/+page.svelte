@@ -8,7 +8,9 @@
 
   async function fetchCryptoData() {
     try {
-      const response = await fetch('/proxyCrypto');
+      let API = 'https://sos2324-14.appspot.com/api/v2'; 
+            if (dev) API = 'http://localhost:10002/api/v2'; 
+      const response = await fetch(`${API}/proxyCrypto`);
       if (response.ok) {
         return response.json();
       } else {
@@ -124,7 +126,7 @@
     
 
 
-        <canvas id="graficaPrecios" width="600" height="400"></canvas> <!-- Ajustar dimensiones del canvas -->
+        <canvas id="graficaPrecios" width="970px" height="420px"></canvas> 
     
-  <!-- <canvas id="graficaSparkline" width="600" height="400"></canvas> Ajustar dimensiones del canvas -->
+  
 </Container>

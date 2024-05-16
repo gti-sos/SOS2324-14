@@ -50,7 +50,7 @@ function api_NRM(app, dbUfc) {
     });   
      
    // Proxy tenis
-app.get('/proxyTennis', async (req, res) => {
+app.get(API_BASE+'/proxyTennis', async (req, res) => {
     try {
         // Endpoint de la API para obtener los 500 mejores jugadores de la ATP
         const url = 'https://tennisapi1.p.rapidapi.com/api/tennis/rankings/atp';
@@ -77,7 +77,7 @@ app.get('/proxyTennis', async (req, res) => {
 
     // Proxy Crypto
 
-    app.get('/proxyCrypto', async (req, res) => {
+    app.get(API_BASE+'/proxyCrypto', async (req, res) => {
         try {
             const url = 'https://coinranking1.p.rapidapi.com/coins?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h&tiers%5B0%5D=1&orderBy=marketCap&orderDirection=desc&limit=50&offset=0';
             const options = {

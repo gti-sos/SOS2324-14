@@ -14,17 +14,17 @@
     async function fetchTopPlayersData() {
         const url = '/proxyTennis'; // Usando el proxy
         try {
-            // let API = 'https://sos2324-14.appspot.com/api/v2'; 
-            // if (dev) API = 'http://localhost:10002/api/v2'; 
+            let API = 'https://sos2324-14.appspot.com/api/v2'; 
+            if (dev) API = 'http://localhost:10002/api/v2'; 
 
-            const response = await fetch(`/proxyTennis`);
+            const response = await fetch(`${API}/proxyTennis`);
 
             if (response.ok) {
                 const data = await response.json();
                 // console.log(data);
                 const rankings = data.rankings;
                 // console.log('Rankings ->'+rankings);  
-                return rankings.slice(0, 15); // Obtener los primeros 10 jugadores
+                return rankings.slice(0, 20); // Obtener los primeros 10 jugadores
                 
             } else {
                 console.error('Error al obtener los datos de los jugadores:', response.statusText);
