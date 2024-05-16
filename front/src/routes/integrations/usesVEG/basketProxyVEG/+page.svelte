@@ -58,7 +58,7 @@
 </script>
 
 <Container>
-    <h1>Uso Textual/Widget API Externa 3 (Basket API): con proxy</h1>
+    <h1>Uso Widget API Externa 3 (Basket API): con proxy</h1>
     <h5>Detalles de jugadores con nombre "Kevin"</h5>
     {#if players.length > 0}
         <ListGroup>
