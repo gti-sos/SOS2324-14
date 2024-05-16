@@ -1,5 +1,5 @@
 <svelte:head>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 </svelte:head>
 
 <script>
@@ -87,55 +87,48 @@
         const data = combinedChartData.map(data => data.view_count);
         console.log('Data:', data);
 
-        // Configurar el contexto del gráfico
-        const ctx = document.getElementById('chart').getContext('2d');
-
-        // Configurar la gráfica
-        chart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'View Count',
-                    data: data,
-                    backgroundColor: colors
-                }]
+        // Configurar la gráfica de Highcharts
+        chart = Highcharts.chart('chart', {
+            chart: {
+                type: 'bar'
             },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'View Count'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Video Title'
-                        }
-                    }
+            title: {
+                text: 'View Count by Video Title'
+            },
+            xAxis: {
+                categories: labels,
+                title: {
+                    text: 'Video Title'
                 }
-            }
+            },
+            yAxis: {
+                title: {
+                    text: 'View Count'
+                }
+            },
+            series: [{
+                name: 'View Count',
+                data: data,
+                color: '#800080' // Color de las barras
+            }]
         });
     }
 
     function updateChart() {
-        // Actualizar la serie de datos del gráfico
-        chart.data.datasets[0].data = combinedChartData.map(data => data.view_count);
-        chart.update();
+        // Actualizar la serie de datos del gráfico de Highcharts
+        chart.series[0].setData(combinedChartData.map(data => data.view_count));
     }
 </script>
 
 <Container>
     <h1>Integración 1: Datos YouTube-Trends y API de Twitch</h1>
-    <canvas id="chart" width="400" height="400"></canvas>
+    <div id="chart"></div>
 </Container>
 
 <style>
-    canvas {
+    #chart {
         width: 100%;
         height: auto;
     }
 </style>
+
