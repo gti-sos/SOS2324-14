@@ -20,6 +20,7 @@
 			const dataWord = await res.json();
 			console.log(`Data received for WordCloud: ${JSON.stringify(dataWord, null, 2)}`);
 			fillWordCloud(dataWord);
+			crearBubbleBillboard(dataWord);
 			const resL = await    fetch(rutaAPI+"/dataLollipop", {
                                         method: "GET"
                                     });
@@ -111,12 +112,44 @@
 		});
 	}
 
+	function crearBubbleBillboard(datos) {
+		let budgets = ['budget'];
+		let titles = [];
+		
+		datos.forEach(pelicula => {
+			titles.push(pelicula.original_title);
+			budgets.push(pelicula.budget);
+		});
+
+		// Preparar datos para el gráfico
+		var chart = bb.generate({
+			data: {
+			columns: [budgets],
+			type: "line", // for ESM specify as: line()
+			},
+			axis: {
+				x: {
+					type: 'category',
+					categories: titles,
+					tick: {
+						multiline: false,
+						rotate:-25
+						}
+					}
+			},
+			bindto: "#lineChart"
+		});
+	}
+
 	onMount(() => {
 		getData();
 	});
 </script>
 
 <svelte:head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/billboard.js/dist/billboard.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/billboard.js/dist/billboard.min.js"></script>
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 	<script src="https://code.highcharts.com/modules/wordcloud.js"></script>
 	<script src="https://code.highcharts.com/highcharts.js"></script>
@@ -134,3 +167,5 @@
 <div id="container-word" style="width:100%; height:400px;"></div>
 <hr>
 <div id="container-lollipop" style="width:100%; height:400px;"></div>
+<hr>
+<div id="lineChart" style="width:100%; height:400px;"></div>
