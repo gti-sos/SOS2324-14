@@ -59,28 +59,55 @@ function api_EGO_v2(app, dbMovies) {
             show_type: 'movie',
           },
           headers: {
-            'X-RapidAPI-Key': '9dab7c46cbmsh14d004cd352a478p1b0f8ajsne380b7845c81',
-            'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
+            // Cuenta principal -> '9dab7c46cbmsh14d004cd352a478p1b0f8ajsne380b7845c81'
+            // Cuenta secundaria 1 -> 'X-RapidAPI-Key': '2e4d5b2831mshbb891bdf16ada77p130f6fjsna74180befe42',
+            // Cuenta secundaria 2 -> 'X-RapidAPI-Key': 'd182dcafd0msh9aa8277c06dc3aap152ecbjsn8a887219a4d8'
+            'X-RapidAPI-Key': '9dab7c46cbmsh14d004cd352a478p1b0f8ajsne380b7845c81', 
+            'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com',
+            'Content-Type': 'application/json'
           }
         };
         // Realizar proxy y personalización de los datos solicitados
         request(options, function (error, response, body) {
             if (error) throw new Error(error);
             // Almacenar los datos recibidos, convirtienodolos aa json, ya que devuelve una cadena
+            console.log(body)
             apiData = JSON.parse(body)
+            console.log(apiData)
             // Cogemos solo el primer elemento de la lista recibida, ya que es el que queremos
-            apiData = apiData[0]
-            // Creamos un json para almacenar los datos que queremos devolver
             let pelicula = {}
-            let avatarKeys = Object.keys(apiData)
-            avatarKeys.forEach(campo => {
-                // Los campos que nos interesan son el titulo y el rating para 
-                if(campo === 'title' || campo === 'rating') {
-                    pelicula[campo] = apiData[campo]
-                }
+            apiData.forEach(movie => {
+                if (movie.title === titulo) 
+                    pelicula = { title: movie.title, rating: movie.rating/10 }
             })
-            console.log(pelicula);
+            console.log(pelicula)
             res.send(JSON.stringify(pelicula))
+        })
+    })
+
+    // Proxy Marvel Snap
+    app.get(API_BASE+'/movies-dataset/MarvelSnapData', (req, res) => {
+        const options = {
+            method:'GET',
+            url:'https://marvelsnapzone.com/getinfo',
+            qs:{
+                searchtype:'cards',
+                searchcardstype:'true'
+            }, 
+            headers:{
+                'Content-Type':'application/json'
+            }
+        };
+        request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+            // Cogemos los datos almacenados en response
+            const rese = JSON.parse(response.body)
+            const listaCartas = rese.success.cards
+            let resCartas = [];
+            listaCartas.forEach(carta => {
+                resCartas.push({name:carta.name, numVariants:carta.variants.length})
+            })
+            res.send(resCartas);
         })
     })
 

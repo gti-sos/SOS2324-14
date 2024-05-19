@@ -25,4 +25,13 @@
 		<li><a href="integrations/cryptoNRM">Top 20 cryptos por precio (Visualización con proxy)</a></li>
 
 	</ul>
+
+	<h6>Usos/Integraciones Enrique</h6>
+
+	<ul>
+		<li><a href="movies-dataset/integracion">Integración con Proxy: Stream Availability API</a></li>
+		<li><a href="movies-dataset/usos/MarvelSnapData">Uso con proxy: Cartas con más variantes Marvel Snap</a></li>
+		<li><a href="movies-dataset/usos/VideogamesData">Uso: Videogames Database</a></li>
+		<li><a href="movies-dataset/usos/EpicStoreGames">Uso: Analisis precios EpicStore</a></li>
+	</ul>
 </Container>
