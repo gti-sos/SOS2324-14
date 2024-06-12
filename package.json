@@ -22,7 +22,7 @@
     "cool-ascii-faces": "^1.3.4",
     "cors": "^2.8.5",
     "express": "^4.18.3",
-    "highcharts": "^11.4.1",
+    "highcharts": "^11.4.3",
     "highcharts-stock": "^0.1.7",
     "nedb": "^1.8.0",
     "request": "^2.88.2",
